@@ -1,0 +1,34 @@
+.editor_layout {
+    font-family: sans-serif;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    > .topbar {
+        display: flex;
+        flex-direction: row;
+    }
+    > .content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        > .left_tabs {
+            display: flex;
+            flex-direction: column;
+        }
+        > .main_editors {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        > .right_tabs {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    > .bottombar {
+        display: flex;
+        flex-direction: row;
+    }
+}

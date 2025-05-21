@@ -1,0 +1,12 @@
+{
+    "workspaces": [
+        "/example",
+        "/src"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MrGazdag/game-editor-layout.git"
+    },
+    "author": "MrGazdag, dbeny",
+    "license": "MIT"
+}

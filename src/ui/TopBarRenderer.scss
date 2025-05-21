@@ -1,0 +1,28 @@
+.editor_layout > .top_bar {
+    display: flex;
+    flex-direction: row;
+    user-select: none;
+
+    padding: .2em;
+    align-items: center;
+
+    background-color: var(--primary-darker);
+    color: var(--text);
+
+    ._icon {
+        height: 1rem;
+        width:  1.4rem;
+        padding: 0 0.2rem;
+    }
+
+    ._entry {
+        padding: 2px 5px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        &:hover, &._open {
+            background-color: var(--light-bubble);
+            border: 1px solid var(--light-bubble-border);
+            border-radius: 2px;
+        }
+    }
+}
