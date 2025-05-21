@@ -24,10 +24,14 @@ export default class ContextMenuRenderer extends Component<Props, any> {
     }
 
     recalculatePos() {
+        if (!this.ref.current) return;
+
         let menu = this.props.menu;
         let x = menu.getPosX();
         let y = menu.getPosY();
-        if (!this.ref.current) return;
+
+        // Reset height clipping (for top bar)
+        this.ref.current!.style.maxHeight = "none";
         let clip = this.ref.current.getBoundingClientRect();
         let w = clip.width;
         let h = clip.height;

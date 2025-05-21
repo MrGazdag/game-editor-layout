@@ -10,7 +10,7 @@ export default class EditorAction {
         this.#keybinds = [];
     }
     public refreshKeybinds() {
-        this.#keybinds = this.#action.getManager().getKeybindsFor(this.getId());
+        this.#keybinds = this.#action.getManager().getKeybindsFor(this.getId())!;
     }
     public getId() {
         return this.#action.getId();
