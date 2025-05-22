@@ -77,7 +77,9 @@ export default class ContextMenuRenderer extends Component<Props, any> {
                     }}>
                         {icon ? <Icon className="_icon" icon={icon}/> : <span className="_icon"/>}
                         <span className="_name">{action.getName()}</span>
-                        <span className="_binds">{action.getKeybinds().join(", ")}</span>
+                        <span className="_binds">{action.getKeybinds().map((e,i)=>{
+                            return <span className={e.isUnsafe() ? "_unsafe" : ""} key={i}>{e.toString()}</span>
+                        })}</span>
                     </div>;
                 })
             }

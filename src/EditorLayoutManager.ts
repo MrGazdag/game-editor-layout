@@ -2,15 +2,16 @@ import ActionController, {ActionOptions} from "./action/ActionController";
 import ActionSource from "./action/ActionSource";
 import EditorAction from "./action/EditorAction";
 import TopBarEntry from "./top/TopBarEntry";
+import KeybindManager from "./keybinds/KeybindManager";
 
 export default class EditorLayoutManager {
     private readonly actions: Map<string, EditorAction>;
     private readonly topBarEntries: TopBarEntry[];
-    private readonly keybinds: Map<string, string[]>;
+    private readonly keybindManager: KeybindManager;
     constructor() {
         this.actions = new Map();
         this.topBarEntries = [];
-        this.keybinds = new Map<string, string[]>();
+        this.keybindManager = new KeybindManager(this);
     }
 
     createAction(controller: ActionController): EditorAction;
@@ -41,17 +42,8 @@ export default class EditorLayoutManager {
         return this.topBarEntries.find(e => e.getId() == id);
     }
 
-    addKeybind(actionId: string, keybind: string) {
-        let action = this.actions.get(actionId);
-        if (!action) return;
-
-        let binds = this.keybinds.get(actionId);
-        if (!binds) {
-            binds = [];
-            this.keybinds.set(actionId, binds);
-        }
-        binds.push(keybind);
-        action.refreshKeybinds();
+    getKeybindManager() {
+        return this.keybindManager;
     }
 
     addContextMenuAction(action: ActionController) {
@@ -61,9 +53,5 @@ export default class EditorLayoutManager {
 
     getTopBarEntries() {
         return this.topBarEntries;
-    }
-
-    getKeybindsFor(actionId: string) {
-        return this.keybinds.get(actionId);
     }
 }

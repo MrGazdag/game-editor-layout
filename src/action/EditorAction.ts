@@ -1,16 +1,17 @@
 import ActionController from "./ActionController";
 import ActionSource from "./ActionSource";
+import Keybind from "../keybinds/Keybind";
 
 export default class EditorAction {
     #action: ActionController;
-    #keybinds: string[];
+    #keybinds: Keybind[];
 
     constructor(action: ActionController) {
         this.#action = action;
         this.#keybinds = [];
     }
     public refreshKeybinds() {
-        this.#keybinds = this.#action.getManager().getKeybindsFor(this.getId())!;
+        this.#keybinds = this.#action.getManager().getKeybindManager().getKeybindsFor(this.getId()) ?? [];
     }
     public getId() {
         return this.#action.getId();
