@@ -41,7 +41,7 @@ export default class SidebarRenderer extends Component<Props, State> {
 				<div key={"_close"} className={"_close"}>X</div>
 			</div>
 			<div className={`_content ${(tab.isOpen() ? "" : " _closed")}`}>
-				CONTENT
+				{tab.render()}
 			</div>
 		</div>;
 	}

@@ -47,4 +47,8 @@ export default class SidebarTabEntry {
 	getPosition() {
 		return this.position;
 	}
+
+	render() {
+		return this.#controller.render();
+	}
 }

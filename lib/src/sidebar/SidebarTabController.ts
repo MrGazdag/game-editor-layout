@@ -1,9 +1,11 @@
 import Controller from "../controller/Controller";
 import {SidebarTabPosition} from "./SidebarTabPosition";
+import React from "react";
 
 export default class SidebarTabController extends Controller<SidebarTabData> {
     private readonly id: string;
     private readonly preferredPosition: SidebarTabPosition;
+    private readonly renderer: ()=>React.ReactNode;
 
     constructor(options: SidebarInitData) {
         super(DefaultSidebarTabData, {
@@ -13,6 +15,7 @@ export default class SidebarTabController extends Controller<SidebarTabData> {
         });
         this.id = options.id;
         this.preferredPosition = options?.preferredPosition ?? SidebarTabPosition.LEFT;
+        this.renderer = options.renderer;
     }
 
     getId() {
@@ -34,6 +37,10 @@ export default class SidebarTabController extends Controller<SidebarTabData> {
     getIcon() {
         return this.data.icon;
     }
+
+    render() {
+        return this.renderer();
+    }
 }
 const DefaultSidebarTabData: SidebarTabData = {
     name: "Sidebar Tab",
@@ -48,4 +55,5 @@ export interface SidebarTabData {
 export interface SidebarInitData extends Partial<SidebarTabData> {
     id: string,
     preferredPosition?: SidebarTabPosition;
+    renderer: ()=>React.ReactNode;
 }
