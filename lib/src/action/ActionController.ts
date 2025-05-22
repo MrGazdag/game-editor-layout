@@ -3,17 +3,17 @@ import ActionSource from "./ActionSource";
 import Controller from "../controller/Controller";
 
 export default class ActionController extends Controller<ActionData> {
-    private readonly id: string | null;
-    private callback: (source: ActionSource) => void | Promise<void>;
+    private readonly id: string | undefined;
+    private callback: ActionHandle;
 
-    constructor(id: string | null, options: Partial<ActionData> | undefined, action: (source: ActionSource) => void | Promise<void>) {
+    constructor(options: ActionInitData) {
         super(DefaultActionData, {
             // The name defaults to the ID
-            ...{name: id !== null ? id : "Inline Action"},
+            ...{name: options.id !== null ? options.id : "Inline Action"},
             ...options
         });
-        this.id = id;
-        this.callback = action;
+        this.id = options.id;
+        this.callback = options.action;
     }
 
     getId() {
@@ -49,3 +49,8 @@ export interface ActionData {
     description: string,
     icon: string | null
 }
+export interface ActionInitData extends Partial<ActionData> {
+    id?: string,
+    action: ActionHandle
+}
+export type ActionHandle = (source: ActionSource)=>void|Promise<void>;

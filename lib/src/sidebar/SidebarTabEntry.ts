@@ -1,22 +1,21 @@
 import EditorAction from "../action/EditorAction";
 import {SidebarTabPosition} from "./SidebarTabPosition";
+import EditorLayoutManager from "../EditorLayoutManager";
+import SidebarTabController from "./SidebarTabController";
 
 export default class SidebarTabEntry {
-	private readonly id: string;
-	private readonly name: string;
-	private readonly position: SidebarTabPosition;
-	private readonly openIcon: string | null;
-	private readonly closedIcon: string | null;
+	#manager: EditorLayoutManager;
+	#controller: SidebarTabController;
+	private position: SidebarTabPosition;
 	private open: boolean;
 	private stateCallback: (open: boolean) => void;
 
-	constructor(id: string, name: string, options?: Partial<SideBarTabEntryOptions>) {
-		this.id = id;
-		this.name = name;
-		this.position = options?.position ?? SidebarTabPosition.LEFT;
-		this.open = options?.openByDefault ?? false;
-		this.openIcon = options?.icons?.open ?? null;
-		this.closedIcon = options?.icons?.closed ?? null;
+	constructor(manager: EditorLayoutManager, controller: SidebarTabController) {
+		this.#manager = manager;
+		this.#controller = controller;
+
+		this.position = this.#controller.getPreferredPosition();
+		this.open = false;
 		this.stateCallback = ()=>{};
 	}
 
@@ -29,40 +28,23 @@ export default class SidebarTabEntry {
 		this.stateCallback(state);
 	}
 
-	getActiveIcon() {
-		return (this.isOpen() ? this.getOpenIcon() : this.getClosedIcon());
-	}
-
 	isOpen() {
 		return this.open;
 	}
 
-	getOpenIcon() {
-		return this.openIcon ?? "";
-	}
-
-	getClosedIcon() {
-		return this.closedIcon ?? "";
+	getIcon() {
+		return this.#controller.getIcon();
 	}
 
 	getId() {
-		return this.id;
+		return this.#controller.getId();
 	}
 
 	getName() {
-		return this.name;
+		return this.#controller.getName();
 	}
 
 	getPosition() {
 		return this.position;
-	}
-}
-
-export interface SideBarTabEntryOptions {
-	position: SidebarTabPosition,
-	openByDefault: boolean,
-	icons: {
-		open: string,
-		closed: string
 	}
 }

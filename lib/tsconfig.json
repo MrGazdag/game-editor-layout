@@ -10,5 +10,6 @@
     "jsx": "react",
     "outDir": "./dist"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/defaultIcons.ts","src/defaultStyle.ts","src/defaultTheme.ts"],
 }

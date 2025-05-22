@@ -2,26 +2,33 @@ import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
 import { SidebarTabPosition } from "game-editor-layout/sidebar/SidebarTabPosition";
 
 export function registerLeftSideTabs(manager: EditorLayoutManager) {
-	manager.createSideBarTabEntry("tools", "Tools", {
-		position: SidebarTabPosition.LEFT,
-		openByDefault: true,
-		icons: {open: "arrow-up", closed: "arrow-down"}
+	manager.createSidebarTabEntry({
+		id: "tools",
+		name: "Tools",
+		icon: "screwdriver-wrench-solid",
+		preferredPosition: SidebarTabPosition.LEFT,
 	});
-	manager.createSideBarTabEntry("settings", "Settings", {
-		position: SidebarTabPosition.LEFT,
-		openByDefault: false,
-		icons: {open: "arrow-up", closed: "arrow-down"}
+	manager.createSidebarTabEntry({
+		id: "settings",
+		name: "Settings",
+		preferredPosition: SidebarTabPosition.LEFT
 	});
 }
 
 export function registerRightSideTabs(manager: EditorLayoutManager) {
-	manager.createSideBarTabEntry("testing", "Testing", {
-		position: SidebarTabPosition.RIGHT,
+	manager.createSidebarTabEntry({
+		id: "testing",
+		name: "Testing",
+		preferredPosition: SidebarTabPosition.RIGHT
 	});
-	manager.createSideBarTabEntry("colors", "Colors", {
-		position: SidebarTabPosition.RIGHT,
+	manager.createSidebarTabEntry({
+		id: "colors",
+		name: "Colors",
+		preferredPosition: SidebarTabPosition.RIGHT,
 	});
-	manager.createSideBarTabEntry("clipboard", "Clipboard", {
-		position: SidebarTabPosition.RIGHT,
+	manager.createSidebarTabEntry({
+		id: "clipboard",
+		name: "Clipboard",
+		preferredPosition: SidebarTabPosition.RIGHT,
 	});
 }

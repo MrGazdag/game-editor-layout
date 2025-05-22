@@ -1,10 +1,11 @@
-import ActionController, {ActionData} from "./action/ActionController";
+import ActionController, {ActionData, ActionHandle, ActionInitData} from "./action/ActionController";
 import ActionSource from "./action/ActionSource";
 import EditorAction from "./action/EditorAction";
 import TopBarEntry from "./top/TopBarEntry";
 import KeybindManager from "./keybinds/KeybindManager";
-import SidebarTabEntry, {SideBarTabEntryOptions} from "./sidebar/SidebarTabEntry";
+import SidebarTabEntry from "./sidebar/SidebarTabEntry";
 import {SidebarTabPosition} from "./sidebar/SidebarTabPosition";
+import SidebarTabController, {SidebarInitData} from "./sidebar/SidebarTabController";
 
 export default class EditorLayoutManager {
     private readonly actions: Map<string, EditorAction>;
@@ -19,24 +20,19 @@ export default class EditorLayoutManager {
     }
 
     createAction(controller: ActionController): EditorAction;
-    createAction(action: (source: ActionSource) => void | Promise<void>, options?: Partial<ActionData>): EditorAction;
-    createAction(action: (source: ActionSource) => void | Promise<void>, id: string|null, options?: Partial<ActionData>): EditorAction;
-    createAction(actionOrController: ActionController | ((source: ActionSource) => void | Promise<void>), idOrOptions?: string|null|Partial<ActionData>|undefined, options?: Partial<ActionData> | undefined): EditorAction {
+    createAction(action: ActionHandle): EditorAction;
+    createAction(options: ActionInitData): EditorAction;
+    createAction(param: ActionController | ActionHandle | ActionInitData): EditorAction {
         // This method is very cursed, but having to support differently overloaded methods is pain
         let controller: ActionController;
-        if (actionOrController instanceof ActionController) {
-            controller = actionOrController;
+        if (param instanceof ActionController) {
+            controller = param;
+        } else if (typeof param == "function") {
+            controller = new ActionController({
+                action: param,
+            });
         } else {
-            let id: string | null;
-            let optionsValue: Partial<ActionData> | undefined = undefined;
-            if (idOrOptions === null || typeof idOrOptions === "string") {
-                id = idOrOptions;
-                if (options) optionsValue = options;
-            } else {
-                id = null;
-                if (idOrOptions) optionsValue = idOrOptions;
-            }
-            controller = new ActionController(id, optionsValue, actionOrController);
+            controller = new ActionController(param);
         }
 
         let editorAction = new EditorAction(this, controller);
@@ -70,8 +66,16 @@ export default class EditorLayoutManager {
         return this.topBarEntries;
     }
 
-    createSideBarTabEntry(id: string, name: string, options: Partial<SideBarTabEntryOptions>) {
-        let entry = new SidebarTabEntry(id, name, options);
+    createSidebarTabEntry(controller: SidebarTabController): SidebarTabEntry;
+    createSidebarTabEntry(options: SidebarInitData): SidebarTabEntry;
+    createSidebarTabEntry(param: SidebarTabController | SidebarInitData) {
+        let controller: SidebarTabController;
+        if (param instanceof SidebarTabController) {
+            controller = param;
+        } else {
+            controller = new SidebarTabController(param);
+        }
+        let entry = new SidebarTabEntry(this, controller);
         this.sideBarTabEntries.push(entry);
         return entry;
     }

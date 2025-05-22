@@ -3,6 +3,7 @@ import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
 import {StrictMode} from "react";
 import "game-editor-layout/defaultStyle";
 import "game-editor-layout/defaultTheme";
+import "game-editor-layout/defaultIcons";
 import EditorLayout from "game-editor-layout/ui/EditorLayout";
 import "./index.scss";
 import {registerActions, registerTopBar} from "./topBarActions";

@@ -1,20 +1,26 @@
-import EditorLayoutManager from "../EditorLayoutManager";
 import Controller from "../controller/Controller";
+import {SidebarTabPosition} from "./SidebarTabPosition";
 
 export default class SidebarTabController extends Controller<SidebarTabData> {
-    private readonly id: string | null;
+    private readonly id: string;
+    private readonly preferredPosition: SidebarTabPosition;
 
-    constructor(id: string | null, options: Partial<SidebarTabData> | undefined) {
+    constructor(options: SidebarInitData) {
         super(DefaultSidebarTabData, {
             // The name defaults to the ID
-            ...(id !== null ? {name: id}: null),
+            ...(options.id !== null ? {name: options.id}: null),
             ...options
         });
-        this.id = id;
+        this.id = options.id;
+        this.preferredPosition = options?.preferredPosition ?? SidebarTabPosition.LEFT;
     }
 
     getId() {
         return this.id;
+    }
+
+    getPreferredPosition() {
+        return this.preferredPosition;
     }
 
     getName() {
@@ -38,4 +44,8 @@ export interface SidebarTabData {
     name: string,
     description: string,
     icon: string | null
+}
+export interface SidebarInitData extends Partial<SidebarTabData> {
+    id: string,
+    preferredPosition?: SidebarTabPosition;
 }

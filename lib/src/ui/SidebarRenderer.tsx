@@ -25,11 +25,18 @@ export default class SidebarRenderer extends Component<Props, State> {
 	render() {
 		let tab = this.props.tab;
 		return <div className={`sidebar_entry`}>
-			<div className={"_control_bar"}>
-				<Icon icon={tab.getActiveIcon()}/>
-				<div key={"_name"} className={"_name"} onClick={() => {
+			<div className={"_control_bar_row"}>
+				<div className={"_icon"} onClick={() => {
 					tab.setTabState(!tab.isOpen());
-				}}>{tab.getName()}</div>
+				}}>
+					<Icon icon={tab.isOpen() ? "chevron-down-solid" : "chevron-right-solid"} />
+				</div>
+				<div className={"_control_bar"} onClick={() => {
+					tab.setTabState(!tab.isOpen());
+				}}>
+					{tab.getIcon() ? <Icon icon={tab.getIcon()!}/> : null}
+					<div key={"_name"} className={"_name"}>{tab.getName()}</div>
+				</div>
 				<div key={"_separator"} className={"_separator"}></div>
 				<div key={"_close"} className={"_close"}>X</div>
 			</div>

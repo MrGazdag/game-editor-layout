@@ -9,26 +9,62 @@ export function registerTopBar(manager: EditorLayoutManager) {
 
 export function registerActions(manager: EditorLayoutManager) {
     let fileBar = manager.getTopBarEntry("file")!;
-    fileBar.addAction(manager.createAction(() => {
-        alert("New File Dialog");
-    }, "new", {name:"New", description: "What is this?"}));
-    fileBar.addAction(manager.createAction(() => {
-        alert("Open File Dialog");
-    }, "open", {name:"Open", description: "What is this?"}));
-    fileBar.addAction(manager.createAction(() => {
-        alert("Save File Dialog");
-    }, "save", {name:"Save", description: "What is this?"}));
+    fileBar.addAction(manager.createAction({
+        id: "new",
+        name:"New",
+        description: "What is this?",
+        action: () => {
+            alert("New File Dialog");
+        }
+    }));
+    fileBar.addAction(manager.createAction({
+        id: "open",
+        name: "Open",
+        description: "What is this?",
+        action: () => {
+            alert("Open File Dialog");
+        }
+    }));
+
+    fileBar.addAction(manager.createAction({
+        id: "save",
+        name: "Save",
+        description: "What is this?",
+        action: () => {
+            alert("Save File Dialog");
+        }
+    }));
 
     let editBar = manager.getTopBarEntry("edit")!;
-    editBar.addAction(manager.createAction(() => {
-        alert("Cut Action");
-    }, "cut", {name:"Cut", description: "What is this?", icon: "scissors-solid"}));
-    editBar.addAction(manager.createAction(() => {
-        alert("Copy Action");
-    }, "copy", {name:"Copy", description: "What is this?", icon: "copy-regular"}));
-    editBar.addAction(manager.createAction(() => {
-        alert("Paste Action");
-    }, "paste", {name:"Paste", description: "What is this?", icon: "clipboard-regular"}));
+    editBar.addAction(manager.createAction({
+        id: "cut",
+        name: "Cut",
+        description: "What is this?",
+        icon: "scissors-solid",
+        action: () => {
+            alert("Cut Action");
+        }
+    }));
+
+    editBar.addAction(manager.createAction({
+        id: "copy",
+        name: "Copy",
+        description: "What is this?",
+        icon: "copy-regular",
+        action: () => {
+            alert("Copy Action");
+        }
+    }));
+
+    editBar.addAction(manager.createAction({
+        id: "paste",
+        name: "Paste",
+        description: "What is this?",
+        icon: "clipboard-regular",
+        action: () => {
+            alert("Paste Action");
+        }
+    }));
     manager.getKeybindManager().addBind(new Keybind("KeyN", "new", true));
     manager.getKeybindManager().addBind(new Keybind("KeyO", "open", true));
     manager.getKeybindManager().addBind(new Keybind("KeyS", "save", true));
@@ -38,9 +74,14 @@ export function registerActions(manager: EditorLayoutManager) {
     manager.getKeybindManager().addBind(new Keybind("KeyV", "paste", true));
 
     let viewBar = manager.getTopBarEntry("view")!;
-    viewBar.addAction(manager.createAction(() => {
-        alert("szis");
-    }, "nothing", {name: "Nothing here", description: ""}))
+    viewBar.addAction(manager.createAction({
+        id: "nothing",
+        name: "Nothing here",
+        description: "",
+        action: () => {
+            alert("szis");
+        }
+    }));
     manager.getKeybindManager().addBind(new Keybind("KeyG", "nothing", true, true, true, true));
     //testBar.addAction(testAction);
 }

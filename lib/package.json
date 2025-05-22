@@ -11,7 +11,7 @@
         "./*": {
             "import": "./dist/*.js",
             "require": "./dist/*.js",
-            "types":   "./dist/*.d.ts"
+            "types": "./dist/*.d.ts"
         }
     },
     "scripts": {
@@ -47,6 +47,7 @@
         "sass": "^1.85.0",
         "sass-loader": "^16.0.5",
         "style-loader": "^4.0.0",
+        "svg-spritesheet-plugin": "^1.0.4",
         "typescript": "^5.0.0",
         "webpack": "^5.90.3",
         "webpack-cli": "^5.1.4",

@@ -1,7 +1,7 @@
 import path from 'path';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import SvgSpriteSheetPlugin from "svg-spritesheet-plugin"
+import SvgSpriteSheetPlugin from "svg-spritesheet-plugin";
 
 export default {
     mode: "production",

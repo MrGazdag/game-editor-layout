@@ -52,10 +52,11 @@ export default class EditorLayout extends Component<Props, State> {
                                     height: "100px"
                                 }}>
                                     <ContextMenuInitiator menuProvider={(e) => {
-                                        let innerAction = this.props.manager.createAction(() => {
-                                            alert("helo belső");
-                                        }, {
-                                            name: "Belső Action"
+                                        let innerAction = this.props.manager.createAction({
+                                            name: "Inner Action",
+                                            action: () => {
+                                                alert("hello inner");
+                                            }
                                         });
                                         return [innerAction];
                                     }}/>

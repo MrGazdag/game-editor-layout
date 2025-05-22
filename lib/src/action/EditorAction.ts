@@ -15,7 +15,7 @@ export default class EditorAction {
     }
     public refreshKeybinds() {
         let id = this.getId();
-        if (id) {
+        if (id !== undefined) {
             this.#keybinds = this.#manager.getKeybindManager().getKeybindsFor(id) ?? [];
         }
     }
