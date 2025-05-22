@@ -6,7 +6,7 @@ export default class Icon extends Component<IconProperties, IconProperties> {
     }
 
     render() {
-        return <div className={"icon " + this.props.className}>
+        return <div key={this.props.icon} className={"icon " + this.props.className}>
             <svg>
                 <use xlinkHref={"#" + this.state.icon}></use>
             </svg>
