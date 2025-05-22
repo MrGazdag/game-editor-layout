@@ -9,7 +9,7 @@ export default class ActionController extends Controller<ActionData> {
     constructor(options: ActionInitData) {
         super(DefaultActionData, {
             // The name defaults to the ID
-            ...{name: options.id !== null ? options.id : "Inline Action"},
+            ...{name: options.id ?? "Inline Action"},
             ...options
         });
         this.id = options.id;

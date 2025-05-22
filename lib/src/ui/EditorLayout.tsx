@@ -36,7 +36,6 @@ export default class EditorLayout extends Component<Props, State> {
                         <SidebarContainerRenderer manager={this.props.manager} position={SidebarTabPosition.LEFT}/>
                         <div className="main_editors">
                             <ContextMenuInitiator menuProvider={(e) => {
-                                console.log("Main Content Click");
                                 let entry = this.props.manager.getTopBarEntry("edit")!;
                                 let inlineAction = this.props.manager.createAction(() => {
                                     alert("helo inline action");
