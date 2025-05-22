@@ -65,11 +65,11 @@ export default class ContextMenuRenderer extends Component<Props, any> {
         });
         return <div ref={this.ref} className={className} style={{top: menu.getPosY(), left: menu.getPosX()}}>
             {
-                menu.getActions().map(action=>{
+                menu.getActions().map((action,i)=>{
                     let className = "_action";
                     // TODO enabled, submenus, etc
                     let icon = action.getIcon();
-                    return <div className={className} key={action.getId()} onClick={async e => {
+                    return <div className={className} key={i} onClick={async e => {
                         e.preventDefault();
                         e.stopPropagation();
                         this.props.renderer.showContextMenu(undefined);

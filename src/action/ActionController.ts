@@ -1,20 +1,18 @@
 import EditorLayoutManager from "../EditorLayoutManager";
 import ActionSource from "./ActionSource";
+import Controller from "../controller/Controller";
 
-export default class ActionController {
-    private readonly manager: EditorLayoutManager;
-    private readonly id: string;
-    private name: string;
-    private description: string;
-    private icon: string | null;
+export default class ActionController extends Controller<ActionData> {
+    private readonly id: string | null;
     private callback: (source: ActionSource) => void | Promise<void>;
 
-    constructor(manager: EditorLayoutManager, id: string, options: Partial<ActionOptions> | undefined, action: (source: ActionSource) => void | Promise<void>) {
-        this.manager = manager;
+    constructor(id: string | null, options: Partial<ActionData> | undefined, action: (source: ActionSource) => void | Promise<void>) {
+        super(DefaultActionData, {
+            // The name defaults to the ID
+            ...{name: id !== null ? id : "Inline Action"},
+            ...options
+        });
         this.id = id;
-        this.name = options?.name ?? id;
-        this.description = options?.description ?? "";
-        this.icon = options?.icon ?? null;
         this.callback = action;
     }
 
@@ -23,15 +21,15 @@ export default class ActionController {
     }
 
     getName() {
-        return this.name;
+        return this.data.name;
     }
 
     getDescription() {
-        return this.description;
+        return this.data.description;
     }
 
     getIcon() {
-        return this.icon;
+        return this.data.icon;
     }
 
     runAction(source: ActionSource): Promise<void> {
@@ -40,12 +38,13 @@ export default class ActionController {
         if (p === undefined) return Promise.resolve();
         return p;
     }
-
-    getManager() {
-        return this.manager;
-    }
 }
-export interface ActionOptions {
+const DefaultActionData: ActionData = {
+    name: "Action",
+    description: "",
+    icon: null
+}
+export interface ActionData {
     name: string,
     description: string,
     icon: string | null

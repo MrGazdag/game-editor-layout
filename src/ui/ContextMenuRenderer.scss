@@ -25,6 +25,7 @@
         > ._icon {
             height: 1rem;
             width: 1rem;
+            min-width: 1rem;
             margin-right: 0.5rem;
         }
         > ._name {
@@ -40,6 +41,8 @@
             font-size: 0.8rem;
             display: flex;
             align-items: center;
+            min-width: max-content;
+
             opacity: 70%;
             > span {
                 &._unsafe {

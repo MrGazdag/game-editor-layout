@@ -1,14 +1,14 @@
 import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
-import {SideBarTabPosition} from "game-editor-layout/sidebar/SideBarTabPosition";
+import { SidebarTabPosition } from "game-editor-layout/sidebar/SidebarTabPosition";
 
 export function registerLeftSideTabs(manager: EditorLayoutManager) {
 	manager.createSideBarTabEntry("tools", "Tools", {
-		position: SideBarTabPosition.LEFT,
+		position: SidebarTabPosition.LEFT,
 		openByDefault: true,
 		icons: {open: "arrow-up", closed: "arrow-down"}
 	});
 	manager.createSideBarTabEntry("settings", "Settings", {
-		position: SideBarTabPosition.LEFT,
+		position: SidebarTabPosition.LEFT,
 		openByDefault: false,
 		icons: {open: "arrow-up", closed: "arrow-down"}
 	});
@@ -16,12 +16,12 @@ export function registerLeftSideTabs(manager: EditorLayoutManager) {
 
 export function registerRightSideTabs(manager: EditorLayoutManager) {
 	manager.createSideBarTabEntry("testing", "Testing", {
-		position: SideBarTabPosition.RIGHT,
+		position: SidebarTabPosition.RIGHT,
 	});
 	manager.createSideBarTabEntry("colors", "Colors", {
-		position: SideBarTabPosition.RIGHT,
+		position: SidebarTabPosition.RIGHT,
 	});
 	manager.createSideBarTabEntry("clipboard", "Clipboard", {
-		position: SideBarTabPosition.RIGHT,
+		position: SidebarTabPosition.RIGHT,
 	});
 }

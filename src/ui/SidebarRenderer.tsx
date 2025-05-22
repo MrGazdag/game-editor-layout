@@ -1,14 +1,14 @@
 import {Component} from "react";
 import EditorLayoutManager from "../EditorLayoutManager";
 import React from "react";
-import SideBarTabEntry from "../sidebar/SideBarTabEntry";
-import {SideBarTabPosition} from "../sidebar/SideBarTabPosition";
+import SidebarTabEntry from "../sidebar/SidebarTabEntry";
+import {SidebarTabPosition} from "../sidebar/SidebarTabPosition";
 import Icon from "./Icon";
 import ContextMenuInitiator from "./ContextMenuInitiator";
 import ContextMenu from "../context/ContextMenu";
 import ActionSource from "../action/ActionSource";
 
-export default class SideBarRenderer extends Component<Props, State> {
+export default class SidebarRenderer extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
@@ -41,7 +41,7 @@ export default class SideBarRenderer extends Component<Props, State> {
 }
 
 interface Props {
-	tab: SideBarTabEntry
+	tab: SidebarTabEntry
 }
 
 interface State {

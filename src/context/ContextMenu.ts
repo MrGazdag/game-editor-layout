@@ -13,7 +13,7 @@ export default class ContextMenu {
         this.name = name;
         this.posX = posX;
         this.posY = posY;
-        this.actions = actions;
+        this.actions = [...actions];
         this.source = source;
         this.open = false;
     }
@@ -44,5 +44,9 @@ export default class ContextMenu {
 
     setOpen(open: boolean) {
         this.open = open;
+    }
+
+    appendChild(childMenu: ContextMenu) {
+        this.actions.splice(0, 0, ...childMenu.actions);
     }
 }

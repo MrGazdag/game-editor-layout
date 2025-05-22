@@ -1,10 +1,10 @@
 import EditorAction from "../action/EditorAction";
-import {SideBarTabPosition} from "./SideBarTabPosition";
+import {SidebarTabPosition} from "./SidebarTabPosition";
 
-export default class SideBarTabEntry {
+export default class SidebarTabEntry {
 	private readonly id: string;
 	private readonly name: string;
-	private readonly position: SideBarTabPosition;
+	private readonly position: SidebarTabPosition;
 	private readonly openIcon: string | null;
 	private readonly closedIcon: string | null;
 	private open: boolean;
@@ -13,7 +13,7 @@ export default class SideBarTabEntry {
 	constructor(id: string, name: string, options?: Partial<SideBarTabEntryOptions>) {
 		this.id = id;
 		this.name = name;
-		this.position = options?.position ?? SideBarTabPosition.LEFT;
+		this.position = options?.position ?? SidebarTabPosition.LEFT;
 		this.open = options?.openByDefault ?? false;
 		this.openIcon = options?.icons?.open ?? null;
 		this.closedIcon = options?.icons?.closed ?? null;
@@ -59,7 +59,7 @@ export default class SideBarTabEntry {
 }
 
 export interface SideBarTabEntryOptions {
-	position: SideBarTabPosition,
+	position: SidebarTabPosition,
 	openByDefault: boolean,
 	icons: {
 		open: string,

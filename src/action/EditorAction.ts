@@ -1,17 +1,23 @@
 import ActionController from "./ActionController";
 import ActionSource from "./ActionSource";
 import Keybind from "../keybinds/Keybind";
+import EditorLayoutManager from "../EditorLayoutManager";
 
 export default class EditorAction {
+    #manager: EditorLayoutManager;
     #action: ActionController;
     #keybinds: Keybind[];
 
-    constructor(action: ActionController) {
+    constructor(manager: EditorLayoutManager, action: ActionController) {
+        this.#manager = manager;
         this.#action = action;
         this.#keybinds = [];
     }
     public refreshKeybinds() {
-        this.#keybinds = this.#action.getManager().getKeybindManager().getKeybindsFor(this.getId()) ?? [];
+        let id = this.getId();
+        if (id) {
+            this.#keybinds = this.#manager.getKeybindManager().getKeybindsFor(id) ?? [];
+        }
     }
     public getId() {
         return this.#action.getId();
@@ -25,7 +31,7 @@ export default class EditorAction {
         return this.#action.getDescription();
     }
 
-    getIcon() {
+    public getIcon() {
         return this.#action.getIcon();
     }
 
@@ -35,5 +41,8 @@ export default class EditorAction {
 
     public getKeybinds() {
         return this.#keybinds;
+    }
+    public getManager() {
+        return this.#manager;
     }
 }
