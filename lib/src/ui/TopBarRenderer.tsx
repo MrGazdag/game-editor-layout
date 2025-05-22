@@ -7,6 +7,7 @@ import Icon from "./Icon";
 import TopBarEntry from "../top/TopBarEntry";
 
 export default class TopBarRenderer extends Component<Props, State> {
+
     constructor(props: Props) {
         super(props);
         this.state = {};
@@ -25,8 +26,8 @@ export default class TopBarRenderer extends Component<Props, State> {
             }
         });
     }
-    private closeMenu() {
-        this.props.renderer.showContextMenu(undefined);
+    public closeMenu(onlyUpdate?: boolean) {
+        if (!onlyUpdate) this.props.renderer.showContextMenu(undefined);
         this.setState({
             ...this.state,
             open: undefined

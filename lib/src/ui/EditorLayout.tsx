@@ -5,18 +5,19 @@ import ContextMenu from "../context/ContextMenu";
 import TopBarRenderer from "./TopBarRenderer";
 import ContextMenuInitiator from "./ContextMenuInitiator";
 import ActionSource from "../action/ActionSource";
-import SidebarRenderer from "./SidebarRenderer";
 import {SidebarTabPosition} from "../sidebar/SidebarTabPosition";
 import SidebarContainerRenderer from "./SidebarContainerRenderer";
 
 export default class EditorLayout extends Component<Props, State> {
     private contextMenuClickHandler: (e: MouseEvent)=>void;
+    private topBarRef: React.RefObject<TopBarRenderer>;
     constructor(props: Props) {
         super(props);
         this.state = {};
         this.contextMenuClickHandler = (e)=>{
             this.showContextMenu(undefined);
         };
+        this.topBarRef = React.createRef();
     }
 
     componentDidMount() {
@@ -31,7 +32,7 @@ export default class EditorLayout extends Component<Props, State> {
         return <div className="editor_layout">
             <SharedEditorLayout.Provider value={this}>
                 <SharedEditorLayoutManager.Provider value={this.props.manager}>
-                    <TopBarRenderer manager={this.props.manager} renderer={this} icon={this.props.editorIcon ?? ""}/>
+                    <TopBarRenderer ref={this.topBarRef} manager={this.props.manager} renderer={this} icon={this.props.editorIcon ?? ""}/>
                     <div className="content">
                         <SidebarContainerRenderer manager={this.props.manager} position={SidebarTabPosition.LEFT}/>
                         <div className="main_editors">
@@ -75,6 +76,9 @@ export default class EditorLayout extends Component<Props, State> {
     showContextMenu(contextMenu: ContextMenu | undefined) {
         if (this.state.contextMenu) {
             this.state.contextMenu.setOpen(false);
+            if (this.state.contextMenu.getSource() == ActionSource.TOP_BAR) {
+                this.topBarRef.current!.closeMenu(true);
+            }
         }
 
         contextMenu?.setOpen(true);
