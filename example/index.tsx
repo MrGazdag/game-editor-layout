@@ -7,12 +7,17 @@ import EditorLayout from "game-editor-layout/ui/EditorLayout";
 import "./index.scss";
 import {registerActions, registerTopBar} from "./topBarActions";
 import {loadSvgIcons} from "./IconTypes";
+import {registerLeftSideTabs, registerRightSideTabs} from "./leftSideTabs";
 
 let manager = new EditorLayoutManager();
 
 loadSvgIcons();
+//top
 registerTopBar(manager);
 registerActions(manager);
+//left
+registerLeftSideTabs(manager);
+registerRightSideTabs(manager);
 
 const root = createRoot(document.getElementById("root")!);
 root.render(

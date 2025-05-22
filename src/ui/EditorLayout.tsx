@@ -5,6 +5,8 @@ import ContextMenu from "../context/ContextMenu";
 import TopBarRenderer from "./TopBarRenderer";
 import ContextMenuInitiator from "./ContextMenuInitiator";
 import ActionSource from "../action/ActionSource";
+import SideBarRenderer from "./SideBarRenderer";
+import {SideBarTabPosition} from "../sidebar/SideBarTabPosition";
 
 export default class EditorLayout extends Component<Props, State> {
     private contextMenuClickHandler: (e: MouseEvent)=>void;
@@ -30,14 +32,14 @@ export default class EditorLayout extends Component<Props, State> {
                 <SharedEditorLayoutManager.Provider value={this.props.manager}>
                     <TopBarRenderer manager={this.props.manager} renderer={this}/>
                     <div className="content">
-                        <div className="left_tabs"></div>
+                        <SideBarRenderer manager={this.props.manager} position={SideBarTabPosition.LEFT}/>
                         <div className="main_editors">
-                            <ContextMenuInitiator menuProvider={(e)=>{
+                            <ContextMenuInitiator menuProvider={(e) => {
                                 let entry = this.props.manager.getTopBarEntry("edit")!;
                                 return new ContextMenu("Context Menu", e.clientX, e.clientY, entry.getActions(), ActionSource.CONTEXT_MENU);
                             }}/>
                         </div>
-                        <div className="right_tabs"></div>
+                        <SideBarRenderer manager={this.props.manager} position={SideBarTabPosition.RIGHT}/>
                     </div>
                     <div className="bottombar"></div>
                     {this.state.contextMenu ? <ContextMenuRenderer renderer={this} menu={this.state.contextMenu}/> : null}

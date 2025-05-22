@@ -1,0 +1,71 @@
+.editor_layout > .content > .side_bar {
+	background-color: var(--primary-darker);
+	color: var(--text);
+	padding-right: 0.2em;
+
+	justify-content: flex-start;
+
+	> ._entry {
+		display: flex;
+		flex-direction: column;
+
+		width: 100%;
+		height: 30%;
+
+		> ._control_bar {
+			display: flex;
+			flex-direction: row;
+			height: 1.2em;
+			width: 100%;
+
+			* {box-sizing: border-box}
+
+			> ._state {
+				width: 1.2em;
+				height: 1.2em;
+				//it will be an svg icon so temp
+				display: flex;
+				justify-content: center;
+				text-align: center;
+				align-items: baseline;
+				color: white;
+				font-weight: bolder;
+			}
+
+			> ._name {
+				border-radius: 5px 5px 0 0;
+				background-color: var(--red);
+				padding: 0.2em;
+				width: fit-content;
+
+				&:hover {
+					background-color: var(--dark-red);
+				}
+			}
+
+			> ._separator {flex-grow: 1;}
+
+			> ._close {
+				width: 1.3em;
+				height: 1.3em;
+				//it will be an svg icon so temp
+				display: flex;
+				justify-content: center;
+				text-align: center;
+				align-items: baseline;
+
+				&:hover {
+					cursor: pointer;
+				}
+			}
+		}
+
+		> ._content {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			height: fit-content;
+			background-color: var(--light-bubble);
+		}
+	}
+}

@@ -3,14 +3,18 @@ import ActionSource from "./action/ActionSource";
 import EditorAction from "./action/EditorAction";
 import TopBarEntry from "./top/TopBarEntry";
 import KeybindManager from "./keybinds/KeybindManager";
+import SideBarTabEntry from "./sidebar/SideBarTabEntry";
+import {SideBarTabPosition} from "./sidebar/SideBarTabPosition";
 
 export default class EditorLayoutManager {
     private readonly actions: Map<string, EditorAction>;
     private readonly topBarEntries: TopBarEntry[];
+    private readonly sideBarTabEntries: SideBarTabEntry[];
     private readonly keybindManager: KeybindManager;
     constructor() {
         this.actions = new Map();
         this.topBarEntries = [];
+        this.sideBarTabEntries = [];
         this.keybindManager = new KeybindManager(this);
     }
 
@@ -50,8 +54,21 @@ export default class EditorLayoutManager {
 
     }
 
-
     getTopBarEntries() {
         return this.topBarEntries;
+    }
+
+    createSideBarTabEntry(id: string, name: string, position: SideBarTabPosition) {
+        let entry = new SideBarTabEntry(id, name, position);
+        this.sideBarTabEntries.push(entry);
+        return entry;
+    }
+
+    getSideBarTabEntry(id: string): SideBarTabEntry | undefined {
+        return this.sideBarTabEntries.find(e => e.getId() == id);
+    }
+
+    getSideBarTabEntries(position: SideBarTabPosition) {
+        return this.sideBarTabEntries.filter(e => e.getPosition() == position);
     }
 }
