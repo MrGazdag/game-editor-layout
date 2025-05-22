@@ -35,7 +35,7 @@ export default class TopBarRenderer extends Component<Props, State> {
 
     render() {
         return <div className="top_bar">
-            <Icon icon={""} className={"_icon"}/>
+            <Icon icon={this.props.icon} className={"_icon"}/>
             {this.props.manager.getTopBarEntries().map(t=>{
                 let className = "_entry";
                 if (this.state.open?.entry == t) className += " _open";
@@ -56,6 +56,7 @@ export default class TopBarRenderer extends Component<Props, State> {
 interface Props {
     manager: EditorLayoutManager,
     renderer: EditorLayout,
+    icon: string
 }
 interface State {
     open?: {

@@ -22,6 +22,6 @@ registerRightSideTabs(manager);
 const root = createRoot(document.getElementById("root")!);
 root.render(
     <StrictMode>
-        <EditorLayout manager={manager}/>
+        <EditorLayout manager={manager} editorIcon={"test-logo"}/>
     </StrictMode>
 );

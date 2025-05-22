@@ -3,7 +3,7 @@ import ActionSource from "./action/ActionSource";
 import EditorAction from "./action/EditorAction";
 import TopBarEntry from "./top/TopBarEntry";
 import KeybindManager from "./keybinds/KeybindManager";
-import SideBarTabEntry from "./sidebar/SideBarTabEntry";
+import SideBarTabEntry, {SideBarTabEntryOptions} from "./sidebar/SideBarTabEntry";
 import {SideBarTabPosition} from "./sidebar/SideBarTabPosition";
 
 export default class EditorLayoutManager {
@@ -58,8 +58,8 @@ export default class EditorLayoutManager {
         return this.topBarEntries;
     }
 
-    createSideBarTabEntry(id: string, name: string, position: SideBarTabPosition) {
-        let entry = new SideBarTabEntry(id, name, position);
+    createSideBarTabEntry(id: string, name: string, options: Partial<SideBarTabEntryOptions>) {
+        let entry = new SideBarTabEntry(id, name, options);
         this.sideBarTabEntries.push(entry);
         return entry;
     }

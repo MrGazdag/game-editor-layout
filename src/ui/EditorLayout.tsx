@@ -7,6 +7,7 @@ import ContextMenuInitiator from "./ContextMenuInitiator";
 import ActionSource from "../action/ActionSource";
 import SideBarRenderer from "./SideBarRenderer";
 import {SideBarTabPosition} from "../sidebar/SideBarTabPosition";
+import SideBarContainerRenderer from "./SideBarContainerRenderer";
 
 export default class EditorLayout extends Component<Props, State> {
     private contextMenuClickHandler: (e: MouseEvent)=>void;
@@ -30,16 +31,16 @@ export default class EditorLayout extends Component<Props, State> {
         return <div className="editor_layout">
             <SharedEditorLayout.Provider value={this}>
                 <SharedEditorLayoutManager.Provider value={this.props.manager}>
-                    <TopBarRenderer manager={this.props.manager} renderer={this}/>
+                    <TopBarRenderer manager={this.props.manager} renderer={this} icon={this.props.editorIcon ?? ""}/>
                     <div className="content">
-                        <SideBarRenderer manager={this.props.manager} position={SideBarTabPosition.LEFT}/>
+                        <SideBarContainerRenderer manager={this.props.manager} position={SideBarTabPosition.LEFT}/>
                         <div className="main_editors">
                             <ContextMenuInitiator menuProvider={(e) => {
                                 let entry = this.props.manager.getTopBarEntry("edit")!;
                                 return new ContextMenu("Context Menu", e.clientX, e.clientY, entry.getActions(), ActionSource.CONTEXT_MENU);
                             }}/>
                         </div>
-                        <SideBarRenderer manager={this.props.manager} position={SideBarTabPosition.RIGHT}/>
+                        <SideBarContainerRenderer manager={this.props.manager} position={SideBarTabPosition.RIGHT}/>
                     </div>
                     <div className="bottombar"></div>
                     {this.state.contextMenu ? <ContextMenuRenderer renderer={this} menu={this.state.contextMenu}/> : null}
@@ -62,7 +63,8 @@ export default class EditorLayout extends Component<Props, State> {
 }
 
 interface Props {
-    manager: EditorLayoutManager
+    manager: EditorLayoutManager,
+    editorIcon?: string
 }
 
 interface State {

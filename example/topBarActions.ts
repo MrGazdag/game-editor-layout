@@ -1,5 +1,6 @@
 import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
 import Keybind from "game-editor-layout/keybinds/Keybind";
+import {describe} from "node:test";
 
 export function registerTopBar(manager: EditorLayoutManager) {
     manager.createTopBarEntry("file", "File");
@@ -38,6 +39,6 @@ export function registerActions(manager: EditorLayoutManager) {
     manager.getKeybindManager().addBind(new Keybind("KeyV", "paste", true));
 
     let viewBar = manager.getTopBarEntry("view");
-
+    viewBar.addAction(manager.createAction("nothing", {name: "Nothing here", description: ""}, () => {}))
     //testBar.addAction(testAction);
 }

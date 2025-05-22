@@ -1,14 +1,13 @@
 import React, {Component} from "react";
-export default class Icon extends Component<IconProperties, IconProperties> {
+export default class Icon extends Component<IconProperties> {
     constructor(props: IconProperties) {
         super(props);
-        this.state = {...props};
     }
 
     render() {
-        return <div key={this.props.icon} className={"icon " + this.props.className}>
+        return <div className={"icon " + this.props.className}>
             <svg>
-                <use xlinkHref={"#" + this.state.icon}></use>
+                <use xlinkHref={"#" + this.props.icon}></use>
             </svg>
         </div>;
     }
