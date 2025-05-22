@@ -1,4 +1,9 @@
-/example/dist/
-/node_modules/
-/src/dist/
+# IDE
 /.idea/
+
+# Dependencies
+/node_modules/
+
+# Compiled Files
+/example/dist/
+/lib/dist/

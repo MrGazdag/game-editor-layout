@@ -10,5 +10,5 @@
     "jsx": "react",
     "outDir": "./dist"
   },
-  "exclude": ["defaultStyle.ts", "defaultTheme.ts", "dist"]
+  "include": ["src"]
 }

@@ -1,6 +1,5 @@
 import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
 import Keybind from "game-editor-layout/keybinds/Keybind";
-import {describe} from "node:test";
 
 export function registerTopBar(manager: EditorLayoutManager) {
     manager.createTopBarEntry("file", "File");
@@ -9,7 +8,7 @@ export function registerTopBar(manager: EditorLayoutManager) {
 }
 
 export function registerActions(manager: EditorLayoutManager) {
-    let fileBar = manager.getTopBarEntry("file");
+    let fileBar = manager.getTopBarEntry("file")!;
     fileBar.addAction(manager.createAction(() => {
         alert("New File Dialog");
     }, "new", {name:"New", description: "What is this?"}));
@@ -20,7 +19,7 @@ export function registerActions(manager: EditorLayoutManager) {
         alert("Save File Dialog");
     }, "save", {name:"Save", description: "What is this?"}));
 
-    let editBar = manager.getTopBarEntry("edit");
+    let editBar = manager.getTopBarEntry("edit")!;
     editBar.addAction(manager.createAction(() => {
         alert("Cut Action");
     }, "cut", {name:"Cut", description: "What is this?", icon: "scissors-solid"}));
@@ -38,8 +37,7 @@ export function registerActions(manager: EditorLayoutManager) {
     manager.getKeybindManager().addBind(new Keybind("KeyC", "copy", true));
     manager.getKeybindManager().addBind(new Keybind("KeyV", "paste", true));
 
-    let viewBar = manager.getTopBarEntry("view");
-
+    let viewBar = manager.getTopBarEntry("view")!;
     viewBar.addAction(manager.createAction(() => {
         alert("szis");
     }, "nothing", {name: "Nothing here", description: ""}))

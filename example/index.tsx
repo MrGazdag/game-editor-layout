@@ -8,6 +8,7 @@ import "./index.scss";
 import {registerActions, registerTopBar} from "./topBarActions";
 import {loadSvgIcons} from "./IconTypes";
 import {registerLeftSideTabs, registerRightSideTabs} from "./leftSideTabs";
+import React from "react";
 
 let manager = new EditorLayoutManager();
 

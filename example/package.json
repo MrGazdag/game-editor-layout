@@ -53,6 +53,6 @@
         "wrangler": "^3.109.1"
     },
     "dependencies": {
-        "game-editor-layout": "../src"
+        "game-editor-layout": "../lib"
     }
 }
