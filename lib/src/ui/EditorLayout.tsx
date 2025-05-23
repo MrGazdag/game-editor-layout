@@ -5,7 +5,7 @@ import ContextMenu from "../context/ContextMenu";
 import TopBarRenderer from "./TopBarRenderer";
 import ContextMenuInitiator from "./ContextMenuInitiator";
 import ActionSource from "../action/ActionSource";
-import {SidebarTabPosition} from "../sidebar/SidebarTabPosition";
+import {SidebarTabPosition} from "../tab/SidebarTabPosition";
 import SidebarContainerRenderer from "./SidebarContainerRenderer";
 import EditorAction from "../action/EditorAction";
 

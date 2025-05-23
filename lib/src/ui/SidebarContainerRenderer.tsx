@@ -1,8 +1,8 @@
 import {Component} from "react";
 import EditorLayoutManager from "../EditorLayoutManager";
 import React from "react";
-import SidebarTabEntry from "../sidebar/SidebarTabEntry";
-import {SidebarTabPosition} from "../sidebar/SidebarTabPosition";
+import SidebarTabEntry from "../tab/SidebarTabEntry";
+import {SidebarTabPosition} from "../tab/SidebarTabPosition";
 import Icon from "./Icon";
 import SidebarRenderer from "./SidebarRenderer";
 

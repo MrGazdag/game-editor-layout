@@ -1,9 +1,9 @@
 import ActionController from "./action/ActionController";
 import TopBarEntry from "./top/TopBarEntry";
 import KeybindManager from "./keybinds/KeybindManager";
-import SidebarTabEntry from "./sidebar/SidebarTabEntry";
-import {SidebarTabPosition} from "./sidebar/SidebarTabPosition";
-import SidebarTabController, {SidebarInitData} from "./sidebar/SidebarTabController";
+import SidebarTabEntry from "./tab/SidebarTabEntry";
+import {SidebarTabPosition} from "./tab/SidebarTabPosition";
+import SidebarTabController, {SidebarInitData} from "./tab/SidebarTabController";
 import ActionManager from "./action/ActionManager";
 
 export default class EditorLayoutManager {
