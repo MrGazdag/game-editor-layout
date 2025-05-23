@@ -4,15 +4,15 @@ import Controller from "../controller/Controller";
 
 export default class ActionController extends Controller<ActionData> {
     private readonly id: string | undefined;
-    private callback: ActionHandle;
+    private readonly callback: ActionHandle;
 
-    constructor(options: ActionInitData) {
+    constructor(options: ActionInitData | InlineActionInitData) {
         super(DefaultActionData, {
             // The name defaults to the ID
-            ...{name: options.id ?? "Inline Action"},
+            ...{name: "id" in options ? options.id : "Inline Action"},
             ...options
         });
-        this.id = options.id;
+        this.id = "id" in options ? options.id : undefined;
         this.callback = options.action;
     }
 
@@ -49,8 +49,10 @@ export interface ActionData {
     description: string,
     icon: string | null
 }
-export interface ActionInitData extends Partial<ActionData> {
-    id?: string,
+export interface ActionInitData extends InlineActionInitData {
+    id: string,
+}
+export interface InlineActionInitData extends Partial<ActionData> {
     action: ActionHandle
 }
 export type ActionHandle = (source: ActionSource)=>void|Promise<void>;

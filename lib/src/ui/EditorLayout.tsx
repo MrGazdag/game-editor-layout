@@ -7,6 +7,7 @@ import ContextMenuInitiator from "./ContextMenuInitiator";
 import ActionSource from "../action/ActionSource";
 import {SidebarTabPosition} from "../sidebar/SidebarTabPosition";
 import SidebarContainerRenderer from "./SidebarContainerRenderer";
+import EditorAction from "../action/EditorAction";
 
 export default class EditorLayout extends Component<Props, State> {
     private contextMenuClickHandler: (e: MouseEvent)=>void;
@@ -38,7 +39,7 @@ export default class EditorLayout extends Component<Props, State> {
                         <div className="main_editors">
                             <ContextMenuInitiator menuProvider={(e) => {
                                 let entry = this.props.manager.getTopBarEntry("edit")!;
-                                let inlineAction = this.props.manager.createAction(() => {
+                                let inlineAction = EditorAction.inline(() => {
                                     alert("helo inline action");
                                 });
                                 return [...entry.getActions(), inlineAction];
@@ -52,11 +53,8 @@ export default class EditorLayout extends Component<Props, State> {
                                     height: "100px"
                                 }}>
                                     <ContextMenuInitiator menuProvider={(e) => {
-                                        let innerAction = this.props.manager.createAction({
-                                            name: "Inner Action",
-                                            action: () => {
-                                                alert("hello inner");
-                                            }
+                                        let innerAction = EditorAction.inline("Inner Action", () => {
+                                            alert("hello inner");
                                         });
                                         return [innerAction];
                                     }}/>

@@ -8,8 +8,9 @@ export function registerTopBar(manager: EditorLayoutManager) {
 }
 
 export function registerActions(manager: EditorLayoutManager) {
+    let actions = manager.getActionManager();
     let fileBar = manager.getTopBarEntry("file")!;
-    fileBar.addAction(manager.createAction({
+    fileBar.addAction(actions.createAction({
         id: "new",
         name:"New",
         description: "What is this?",
@@ -17,7 +18,7 @@ export function registerActions(manager: EditorLayoutManager) {
             alert("New File Dialog");
         }
     }));
-    fileBar.addAction(manager.createAction({
+    fileBar.addAction(actions.createAction({
         id: "open",
         name: "Open",
         description: "What is this?",
@@ -26,7 +27,7 @@ export function registerActions(manager: EditorLayoutManager) {
         }
     }));
 
-    fileBar.addAction(manager.createAction({
+    fileBar.addAction(actions.createAction({
         id: "save",
         name: "Save",
         description: "What is this?",
@@ -36,7 +37,7 @@ export function registerActions(manager: EditorLayoutManager) {
     }));
 
     let editBar = manager.getTopBarEntry("edit")!;
-    editBar.addAction(manager.createAction({
+    editBar.addAction(actions.createAction({
         id: "cut",
         name: "Cut",
         description: "What is this?",
@@ -46,7 +47,7 @@ export function registerActions(manager: EditorLayoutManager) {
         }
     }));
 
-    editBar.addAction(manager.createAction({
+    editBar.addAction(actions.createAction({
         id: "copy",
         name: "Copy",
         description: "What is this?",
@@ -56,7 +57,7 @@ export function registerActions(manager: EditorLayoutManager) {
         }
     }));
 
-    editBar.addAction(manager.createAction({
+    editBar.addAction(actions.createAction({
         id: "paste",
         name: "Paste",
         description: "What is this?",
@@ -65,16 +66,17 @@ export function registerActions(manager: EditorLayoutManager) {
             alert("Paste Action");
         }
     }));
-    manager.getKeybindManager().addBind(new Keybind("KeyN", "new", true));
-    manager.getKeybindManager().addBind(new Keybind("KeyO", "open", true));
-    manager.getKeybindManager().addBind(new Keybind("KeyS", "save", true));
+    let keybinds = manager.getKeybindManager();
+    keybinds.addBind(new Keybind("KeyN", "new", true));
+    keybinds.addBind(new Keybind("KeyO", "open", true));
+    keybinds.addBind(new Keybind("KeyS", "save", true));
 
-    manager.getKeybindManager().addBind(new Keybind("KeyX", "cut", true));
-    manager.getKeybindManager().addBind(new Keybind("KeyC", "copy", true));
-    manager.getKeybindManager().addBind(new Keybind("KeyV", "paste", true));
+    keybinds.addBind(new Keybind("KeyX", "cut", true));
+    keybinds.addBind(new Keybind("KeyC", "copy", true));
+    keybinds.addBind(new Keybind("KeyV", "paste", true));
 
     let viewBar = manager.getTopBarEntry("view")!;
-    viewBar.addAction(manager.createAction({
+    viewBar.addAction(actions.createAction({
         id: "nothing",
         name: "Nothing here",
         description: "",
@@ -82,6 +84,6 @@ export function registerActions(manager: EditorLayoutManager) {
             alert("szis");
         }
     }));
-    manager.getKeybindManager().addBind(new Keybind("KeyG", "nothing", true, true, true, true));
+    keybinds.addBind(new Keybind("KeyG", "nothing", true, true, true, true));
     //testBar.addAction(testAction);
 }

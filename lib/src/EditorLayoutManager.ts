@@ -1,48 +1,22 @@
-import ActionController, {ActionData, ActionHandle, ActionInitData} from "./action/ActionController";
-import ActionSource from "./action/ActionSource";
-import EditorAction from "./action/EditorAction";
+import ActionController from "./action/ActionController";
 import TopBarEntry from "./top/TopBarEntry";
 import KeybindManager from "./keybinds/KeybindManager";
 import SidebarTabEntry from "./sidebar/SidebarTabEntry";
 import {SidebarTabPosition} from "./sidebar/SidebarTabPosition";
 import SidebarTabController, {SidebarInitData} from "./sidebar/SidebarTabController";
+import ActionManager from "./action/ActionManager";
 
 export default class EditorLayoutManager {
-    private readonly actions: Map<string, EditorAction>;
     private readonly topBarEntries: TopBarEntry[];
     private readonly sideBarTabEntries: SidebarTabEntry[];
+
+    private readonly actionManager: ActionManager;
     private readonly keybindManager: KeybindManager;
     constructor() {
-        this.actions = new Map();
         this.topBarEntries = [];
         this.sideBarTabEntries = [];
+        this.actionManager = new ActionManager(this);
         this.keybindManager = new KeybindManager(this);
-    }
-
-    createAction(controller: ActionController): EditorAction;
-    createAction(action: ActionHandle): EditorAction;
-    createAction(options: ActionInitData): EditorAction;
-    createAction(param: ActionController | ActionHandle | ActionInitData): EditorAction {
-        // This method is very cursed, but having to support differently overloaded methods is pain
-        let controller: ActionController;
-        if (param instanceof ActionController) {
-            controller = param;
-        } else if (typeof param == "function") {
-            controller = new ActionController({
-                action: param,
-            });
-        } else {
-            controller = new ActionController(param);
-        }
-
-        let editorAction = new EditorAction(this, controller);
-        let idValue = editorAction.getId();
-        if (idValue) this.actions.set(idValue, editorAction);
-        return editorAction;
-    }
-
-    getAction(id: string) {
-        return this.actions.get(id);
     }
 
     createTopBarEntry(id: string, name: string) {
@@ -86,5 +60,9 @@ export default class EditorLayoutManager {
 
     getSideBarTabEntries(position: SidebarTabPosition) {
         return this.sideBarTabEntries.filter(e => e.getPosition() == position);
+    }
+
+    getActionManager() {
+        return this.actionManager;
     }
 }
