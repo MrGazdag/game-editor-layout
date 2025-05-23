@@ -1,6 +1,8 @@
 import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
 import { SidebarTabPosition } from "game-editor-layout/sidebar/SidebarTabPosition";
 import React from "react";
+import TextInput from "./customComponents/TextInput";
+import AllIconRenderer from "./customComponents/AllIconRenderer";
 
 export function registerLeftSideTabs(manager: EditorLayoutManager) {
 	manager.createSidebarTabEntry({
@@ -8,8 +10,10 @@ export function registerLeftSideTabs(manager: EditorLayoutManager) {
 		name: "Tools",
 		icon: "screwdriver-wrench-solid",
 		preferredPosition: SidebarTabPosition.LEFT,
-		renderer: ()=>{
-			return <div>tyű de sok túl</div>;
+		renderer: () => {
+			return <TextInput placeholder={"írjá valamit"} onChange={(e) => {
+				console.log(e.target.value);
+			}}/>
 		}
 	});
 	manager.createSidebarTabEntry({
@@ -24,13 +28,15 @@ export function registerLeftSideTabs(manager: EditorLayoutManager) {
 
 export function registerRightSideTabs(manager: EditorLayoutManager) {
 	manager.createSidebarTabEntry({
-		id: "testing",
-		name: "Testing",
+		id: "all_icons",
+		name: "All Icons",
 		preferredPosition: SidebarTabPosition.RIGHT,
+
 		renderer: ()=>{
-			return <div>teszting e he?</div>;
+			return <AllIconRenderer/>;
 		}
-	});
+		//because blud removed openByDefault
+	}).setTabState(true);
 	manager.createSidebarTabEntry({
 		id: "colors",
 		name: "Colors",
@@ -47,11 +53,15 @@ export function registerRightSideTabs(manager: EditorLayoutManager) {
 		}
 	});
 	manager.createSidebarTabEntry({
-		id: "clipboard",
-		name: "Clipboard",
+		id: "video_player",
+		name: "Video Player",
 		preferredPosition: SidebarTabPosition.RIGHT,
-		renderer: ()=>{
-			return <div>klippentyű</div>
+		renderer: ()=> {
+			return <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dEQOo5lpb0M?si=3KtTdIhO9n7I4Qy3"
+			               title="YouTube video player"
+			               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+			               referrerPolicy="strict-origin-when-cross-origin"
+			               allowFullScreen></iframe>
 		}
 	});
 }

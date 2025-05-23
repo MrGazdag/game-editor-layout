@@ -14,3 +14,26 @@ html, body {
     width: 100%;
     height: 100%;
 }
+
+._all_icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+    width: 100%;
+    gap: .2rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: .25em;
+
+    > ._entry {
+        background-color: black;
+        color: white;
+        width: 2rem;
+        height: 2rem;
+        padding: 0.3em;
+
+        &:hover {
+            color: #87251e;
+            background-color: white;
+        }
+    }
+}
