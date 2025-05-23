@@ -34,7 +34,7 @@ export default class KeybindManager {
         }
         key.push(bind);
 
-        let editorAction = this.parent.getAction(bind.getAction());
+        let editorAction = this.parent.getActionManager().getAction(bind.getAction());
         if (editorAction) {
             editorAction.refreshKeybinds();
         }
@@ -74,7 +74,7 @@ export default class KeybindManager {
                     && alt == bind.isAlt()
                     && meta == bind.isMeta()
                     && key == bind.getCode()) {
-                    let action = this.parent.getAction(bind.getAction());
+                    let action = this.parent.getActionManager().getAction(bind.getAction());
                     if (action) {
                         action.runAction(ActionSource.KEYBIND);
                         success = true;
