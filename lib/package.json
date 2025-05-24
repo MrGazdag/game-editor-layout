@@ -1,6 +1,6 @@
 {
     "name": "game-editor-layout",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "A layout manager for managing an editor-like layout.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
