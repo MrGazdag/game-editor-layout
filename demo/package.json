@@ -1,8 +1,8 @@
 {
-    "name": "game-editor-layout-example",
+    "name": "game-editor-layout-demo",
     "private": true,
     "version": "1.0.0",
-    "description": "An example usage of game-editor-layout.",
+    "description": "A demo of game-editor-layout.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
