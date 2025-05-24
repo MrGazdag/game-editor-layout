@@ -1,5 +1,5 @@
 import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
-import { SidebarTabPosition } from "game-editor-layout/sidebar/SidebarTabPosition";
+import { SidebarTabPosition } from "game-editor-layout/tab/SidebarTabPosition";
 import React from "react";
 import TextInput from "./customComponents/TextInput";
 import AllIconRenderer from "./customComponents/AllIconRenderer";
