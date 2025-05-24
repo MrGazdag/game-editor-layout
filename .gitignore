@@ -8,3 +8,5 @@
 /demo/dist/
 /lib/dist/
 /site/build/
+
+/site/.docusaurus
