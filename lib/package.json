@@ -1,6 +1,6 @@
 {
     "name": "game-editor-layout",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "A layout manager for managing an editor-like layout.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -15,9 +15,11 @@
         }
     },
     "scripts": {
-        "build": "tsc -p tsconfig.json",
+        "build": "concurrently \"npm:build:ts\" \"npm:build:webpack\"",
+        "build:ts": "tsc",
+        "build:webpack": "webpack",
         "watch:ts": "tsc --watch",
-        "watch:webpack": "webpack --watch",
+        "watch:webpack": "webpack --watch --mode=development",
         "watch": "concurrently \"npm:watch:ts\" \"npm:watch:webpack\""
     },
     "repository": {
