@@ -3,16 +3,24 @@ import ActionSource from "./ActionSource";
 import Keybind from "../keybinds/Keybind";
 import EditorLayoutManager from "../EditorLayoutManager";
 import ActionManager from "./ActionManager";
+import ChangeHandler, {ChangeHandlerFunction} from "../utils/ChangeHandler";
 
 export default class EditorAction {
     readonly #manager: ActionManager;
     readonly #action: ActionController;
     #keybinds: Keybind[];
 
+    private readonly changeHandler: ChangeHandler<EditorAction>;
+
     constructor(manager: ActionManager, action: ActionController) {
         this.#manager = manager;
         this.#action = action;
         this.#keybinds = [];
+        this.changeHandler = new ChangeHandler();
+    }
+
+    getChangeHandler() {
+        return this.changeHandler;
     }
     public refreshKeybinds() {
         let id = this.getId();

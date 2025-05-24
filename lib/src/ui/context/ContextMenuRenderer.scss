@@ -16,51 +16,5 @@
     display: flex;
     flex-direction: column;
 
-    > ._action {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
 
-        > ._icon {
-            height: 1rem;
-            width: 1rem;
-            min-width: 1rem;
-            margin-right: 0.5rem;
-        }
-        > ._name {
-            font-size: 1rem;
-
-            display: flex;
-            align-items: center;
-            flex-grow: 1;
-            padding-right: 0.5rem;
-            min-width: 8rem;
-        }
-        > ._binds {
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            min-width: max-content;
-
-            opacity: 70%;
-            > span {
-                &._unsafe {
-                    color: var(--text-invalid);
-                }
-                &:not(:first-child):before {
-                    content: ', ';
-                    color: var(--text);
-                }
-            }
-        }
-        padding: 0.5em;
-        font-size: 1rem;
-
-        &:hover {
-            cursor: pointer;
-            background-color: var(--light-bubble);
-            border-radius: 2px;
-        }
-    }
 }

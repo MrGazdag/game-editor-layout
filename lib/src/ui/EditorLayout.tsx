@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import EditorLayoutManager from "../EditorLayoutManager";
 import ContextMenuRenderer from "./context/ContextMenuRenderer";
 import ContextMenu from "../context/ContextMenu";
-import MenuBarRenderer from "./MenuBarRenderer";
+import MenuBarRenderer from "./menu/MenuBarRenderer";
 import ContextMenuInitiator from "./context/ContextMenuInitiator";
 import ActionSource from "../action/ActionSource";
 import EditorAction from "../action/EditorAction";

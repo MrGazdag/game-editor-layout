@@ -1,8 +1,9 @@
 import React, {Component, RefObject} from "react";
 import ContextMenu from "../../context/ContextMenu";
 import EditorLayout from "../EditorLayout";
-import Icon from "../Icon";
+import Icon from "../common/Icon";
 import ActionSource from "../../action/ActionSource";
+import EditorActionRenderer from "./EditorActionRenderer";
 
 export default class ContextMenuRenderer extends Component<Props, any> {
     private resizeHandler: (e: Event)=>void;
@@ -66,21 +67,7 @@ export default class ContextMenuRenderer extends Component<Props, any> {
         return <div ref={this.ref} className={className} style={{top: menu.getPosY(), left: menu.getPosX()}}>
             {
                 menu.getActions().map((action,i)=>{
-                    let className = "_action";
-                    // TODO enabled, submenus, etc
-                    let icon = action.getIcon();
-                    return <div className={className} key={i} onClick={async e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        this.props.renderer.showContextMenu(undefined);
-                        await action.runAction(menu.getSource());
-                    }}>
-                        {icon ? <Icon className="_icon" icon={icon}/> : <span className="_icon"/>}
-                        <span className="_name">{action.getName()}</span>
-                        <span className="_binds">{action.getKeybinds().map((e,i)=>{
-                            return <span className={e.isUnsafe() ? "_unsafe" : ""} key={i}>{e.toString()}</span>
-                        })}</span>
-                    </div>;
+                    return <EditorActionRenderer key={i} action={action} menu={menu}/>;
                 })
             }
         </div>;

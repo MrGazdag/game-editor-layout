@@ -1,5 +1,5 @@
 import React from "react";
-import Controller from "../controller/Controller";
+import Controller from "../utils/Controller";
 
 export default abstract class TabController extends Controller<TabData> {
     private readonly renderer: ()=>React.ReactNode;

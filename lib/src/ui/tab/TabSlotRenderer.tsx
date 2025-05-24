@@ -1,26 +1,16 @@
-import React, {Component} from "react";
+import React from "react";
 import TabSlot from "../../tab/TabSlot";
-import Icon from "../Icon";
-import ContextMenuRenderer from "../context/ContextMenuRenderer";
+import Icon from "../common/Icon";
 import ContextMenuInitiator from "../context/ContextMenuInitiator";
 import EditorAction from "../../action/EditorAction";
+import DynamicComponent from "../common/DynamicComponent";
 
-export default class TabSlotRenderer extends Component<Props, State> {
+export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
     constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            renderCount: 0
-        };
-        props.slot.setChangeHandler(()=>{
-            this.setState({
-                renderCount: this.state.renderCount+1
-            });
-        });
+        super(props, "slot");
     }
 
-    render() {
-        let slot = this.props.slot;
+    renderData(slot: TabSlot) {
         let alwaysOpen = slot.getParent().isAlwaysOpen();
         let open = alwaysOpen || slot.isOpen();
         return <div className="tab_slot">
@@ -33,11 +23,11 @@ export default class TabSlotRenderer extends Component<Props, State> {
                     </div>
                 }
                 <div className="_entries">
-                    {slot.getTabs().map((tab, i) => {
+                    {slot.getTabs().map((tab) => {
                         let className = "_control_bar";
                         if (slot.getSelectedTab() == tab) className += " _selected";
 
-                        return <ContextMenuInitiator key={tab.getId()} menuProvider={e=>{
+                        return <ContextMenuInitiator key={tab.getId()} menuProvider={()=>{
                             return [EditorAction.inline("Close Tab", ()=>{
                                 tab.getSlot()!.removeTab(tab);
                             })];
@@ -69,8 +59,4 @@ export default class TabSlotRenderer extends Component<Props, State> {
 
 interface Props {
     slot: TabSlot,
-}
-
-interface State {
-    renderCount: number;
 }

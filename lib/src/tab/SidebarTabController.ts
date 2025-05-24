@@ -1,4 +1,4 @@
-import Controller from "../controller/Controller";
+import Controller from "../utils/Controller";
 import {SidebarTabPosition} from "./SidebarTabPosition";
 import React from "react";
 import TabController, {TabData, TabInitData} from "./TabController";

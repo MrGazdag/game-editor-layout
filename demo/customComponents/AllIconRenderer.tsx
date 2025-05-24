@@ -1,7 +1,7 @@
 import React from "react";
 import {Component} from "react";
 import IconTypes from "../IconTypes";
-import Icon from "game-editor-layout/ui/Icon";
+import Icon from "game-editor-layout/ui/common/Icon";
 
 export default class AllIconRenderer extends Component<any, any> {
 	private readonly icons: string[] = [

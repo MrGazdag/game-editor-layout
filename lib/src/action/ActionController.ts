@@ -1,6 +1,6 @@
 import EditorLayoutManager from "../EditorLayoutManager";
 import ActionSource from "./ActionSource";
-import Controller from "../controller/Controller";
+import Controller from "../utils/Controller";
 
 export default class ActionController extends Controller<ActionData> {
     private readonly id: string | undefined;

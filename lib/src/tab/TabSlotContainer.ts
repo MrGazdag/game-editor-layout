@@ -1,18 +1,25 @@
 import TabSlot from "./TabSlot";
 import TabEntry from "./TabEntry";
+import ChangeHandler from "../utils/ChangeHandler";
 
 export default class TabSlotContainer {
     private static idCounter: number = 0;
     private readonly id: string;
     private readonly slots: TabSlot[];
     private readonly alwaysOpen: boolean;
-    private changeHandler: (slots: TabSlot[])=>void;
+    private open: boolean;
+    private changeHandler: ChangeHandler<TabSlotContainer>;
 
     constructor(id: string, alwaysOpen: boolean) {
         this.id = id;
         this.slots = [];
         this.alwaysOpen = alwaysOpen;
-        this.changeHandler = ()=>{};
+        this.open = alwaysOpen;
+        this.changeHandler = new ChangeHandler();
+    }
+
+    getChangeHandler() {
+        return this.changeHandler;
     }
 
     getId() {
@@ -23,10 +30,6 @@ export default class TabSlotContainer {
         return this.alwaysOpen;
     }
 
-    setChangeHandler(changeHandler: (slots: TabSlot[]) => void) {
-        this.changeHandler = changeHandler;
-    }
-
     createSlot(...tabs: TabEntry[]) {
         if (tabs.length == 0) return;
 
@@ -34,7 +37,7 @@ export default class TabSlotContainer {
         let slot = new TabSlot(this, id, tabs);
         this.slots.push(slot);
 
-        this.changeHandler([...this.slots]);
+        this.changeHandler.apply(this);
         return slot;
     }
 
@@ -42,12 +45,16 @@ export default class TabSlotContainer {
         return [...this.slots];
     }
 
+    isOpen() {
+
+    }
+
     removeSlot(slot: TabSlot) {
         let index = this.slots.indexOf(slot);
         if (index > -1) {
             this.slots.splice(index, 1);
             slot.closeAll();
-            this.changeHandler([...this.slots]);
+            this.changeHandler.apply(this);
         }
     }
 }

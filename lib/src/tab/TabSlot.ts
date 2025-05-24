@@ -1,5 +1,6 @@
 import TabEntry from "./TabEntry";
 import TabSlotContainer from "./TabSlotContainer";
+import ChangeHandler from "../utils/ChangeHandler";
 
 export default class TabSlot {
     private readonly parent: TabSlotContainer;
@@ -7,7 +8,7 @@ export default class TabSlot {
     private readonly tabs: TabEntry[];
     private selectedTab: TabEntry;
     private open: boolean;
-    private changeHandler: (slot: TabSlot) => void;
+    private changeHandler: ChangeHandler<TabSlot>;
 
     constructor(parent: TabSlotContainer, id: number, tabs: TabEntry[]) {
         this.parent = parent;
@@ -18,11 +19,11 @@ export default class TabSlot {
         }
         this.selectedTab = tabs[0];
         this.open = parent.isAlwaysOpen();
-        this.changeHandler = ()=>{};
+        this.changeHandler = new ChangeHandler();
     }
 
-    setChangeHandler(changeHandler: (slot: TabSlot) => void) {
-        this.changeHandler = changeHandler;
+    getChangeHandler() {
+        return this.changeHandler;
     }
 
     getParent() {
@@ -40,7 +41,7 @@ export default class TabSlot {
     setOpen(open: boolean) {
         if (this.parent.isAlwaysOpen()) return;
         this.open = open;
-        this.changeHandler(this);
+        this.changeHandler.apply(this);
     }
 
     getSelectedTab() {
@@ -51,7 +52,7 @@ export default class TabSlot {
         if (tab.getSlot() != this) return;
         this.selectedTab = tab;
         this.open = true;
-        this.changeHandler(this);
+        this.changeHandler.apply(this);
     }
 
     getTabs() {
@@ -63,7 +64,7 @@ export default class TabSlot {
 
         this.tabs.push(tab);
         tab.setSlot(this);
-        this.changeHandler(this);
+        this.changeHandler.apply(this);
     }
 
     hasTab(tab: TabEntry) {
@@ -82,7 +83,7 @@ export default class TabSlot {
             } else if (this.selectedTab == tab) {
                 this.selectedTab = this.tabs[index - 1];
             }
-            this.changeHandler(this);
+            this.changeHandler.apply(this);
         }
     }
 
