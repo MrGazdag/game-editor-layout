@@ -16,16 +16,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
 
       - name: Cache dependencies
         id: cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             - ./node_modules
@@ -40,7 +40,7 @@ jobs:
         run: npm run build --workspace=lib
 
       - name: Upload build artifacts for library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: lib-build-output
           path: ./lib/dist
@@ -50,16 +50,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
 
       - name: Cache dependencies
         id: cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             - ./node_modules
@@ -71,7 +71,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Download build artifacts for library
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: lib-build-output
 
@@ -84,15 +84,15 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')  # Only runs on a tag push
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Download build artifacts for library
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: lib-build-output
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
