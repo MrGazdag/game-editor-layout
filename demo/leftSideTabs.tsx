@@ -5,7 +5,7 @@ import TextInput from "./customComponents/TextInput";
 import AllIconRenderer from "./customComponents/AllIconRenderer";
 
 export function registerLeftSideTabs(manager: EditorLayoutManager) {
-	manager.createSidebarTabEntry({
+	let tools = manager.createSidebarTabEntry({
 		id: "tools",
 		name: "Tools",
 		icon: "screwdriver-wrench-solid",
@@ -16,7 +16,7 @@ export function registerLeftSideTabs(manager: EditorLayoutManager) {
 			}}/>
 		}
 	});
-	manager.createSidebarTabEntry({
+	let settings = manager.createSidebarTabEntry({
 		id: "settings",
 		name: "Settings",
 		preferredPosition: SidebarTabPosition.LEFT,
@@ -24,10 +24,13 @@ export function registerLeftSideTabs(manager: EditorLayoutManager) {
 			return <div>beállok mingyá</div>;
 		}
 	});
+	let container = manager.getLeftSideBar();
+	container.createSlot(tools);
+	container.createSlot(settings);
 }
 
 export function registerRightSideTabs(manager: EditorLayoutManager) {
-	manager.createSidebarTabEntry({
+	let allIcons = manager.createSidebarTabEntry({
 		id: "all_icons",
 		name: "All Icons",
 		preferredPosition: SidebarTabPosition.RIGHT,
@@ -35,9 +38,8 @@ export function registerRightSideTabs(manager: EditorLayoutManager) {
 		renderer: ()=>{
 			return <AllIconRenderer/>;
 		}
-		//because blud removed openByDefault
-	}).setTabState(true);
-	manager.createSidebarTabEntry({
+	});
+	let colors = manager.createSidebarTabEntry({
 		id: "colors",
 		name: "Colors",
 		preferredPosition: SidebarTabPosition.RIGHT,
@@ -52,7 +54,7 @@ export function registerRightSideTabs(manager: EditorLayoutManager) {
 			</div>;
 		}
 	});
-	manager.createSidebarTabEntry({
+	let videoPlayer = manager.createSidebarTabEntry({
 		id: "video_player",
 		name: "Video Player",
 		preferredPosition: SidebarTabPosition.RIGHT,
@@ -64,4 +66,10 @@ export function registerRightSideTabs(manager: EditorLayoutManager) {
 			               allowFullScreen></iframe>
 		}
 	});
+	let container = manager.getRightSideBar();
+	container.createSlot(allIcons);
+	//container.createSlot(allIcons);
+	//container.createSlot(colors);
+	container = manager.getCenterSideBar();
+	container.createSlot(colors, videoPlayer);
 }

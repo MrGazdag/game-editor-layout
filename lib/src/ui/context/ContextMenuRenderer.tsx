@@ -1,8 +1,8 @@
 import React, {Component, RefObject} from "react";
-import ContextMenu from "../context/ContextMenu";
-import EditorLayout from "./EditorLayout";
-import Icon from "./Icon";
-import ActionSource from "../action/ActionSource";
+import ContextMenu from "../../context/ContextMenu";
+import EditorLayout from "../EditorLayout";
+import Icon from "../Icon";
+import ActionSource from "../../action/ActionSource";
 
 export default class ContextMenuRenderer extends Component<Props, any> {
     private resizeHandler: (e: Event)=>void;

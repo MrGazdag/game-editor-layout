@@ -1,13 +1,12 @@
 import React, {Component} from "react";
 import EditorLayoutManager from "../EditorLayoutManager";
-import ContextMenuRenderer from "./ContextMenuRenderer";
+import ContextMenuRenderer from "./context/ContextMenuRenderer";
 import ContextMenu from "../context/ContextMenu";
 import TopBarRenderer from "./TopBarRenderer";
-import ContextMenuInitiator from "./ContextMenuInitiator";
+import ContextMenuInitiator from "./context/ContextMenuInitiator";
 import ActionSource from "../action/ActionSource";
-import {SidebarTabPosition} from "../tab/SidebarTabPosition";
-import SidebarContainerRenderer from "./SidebarContainerRenderer";
 import EditorAction from "../action/EditorAction";
+import TabSlotContainerRenderer from "./tab/TabSlotContainerRenderer";
 
 export default class EditorLayout extends Component<Props, State> {
     private contextMenuClickHandler: (e: MouseEvent)=>void;
@@ -35,8 +34,9 @@ export default class EditorLayout extends Component<Props, State> {
                 <SharedEditorLayoutManager.Provider value={this.props.manager}>
                     <TopBarRenderer ref={this.topBarRef} manager={this.props.manager} renderer={this} icon={this.props.editorIcon ?? ""}/>
                     <div className="content">
-                        <SidebarContainerRenderer manager={this.props.manager} position={SidebarTabPosition.LEFT}/>
+                        <TabSlotContainerRenderer tab={this.props.manager.getLeftSideBar()} />
                         <div className="main_editors">
+                            <TabSlotContainerRenderer tab={this.props.manager.getCenterSideBar()}/>
                             <ContextMenuInitiator menuProvider={(e) => {
                                 let entry = this.props.manager.getTopBarEntry("edit")!;
                                 let inlineAction = EditorAction.inline(() => {
@@ -61,7 +61,7 @@ export default class EditorLayout extends Component<Props, State> {
                                 </div>
                             </ContextMenuInitiator>
                         </div>
-                        <SidebarContainerRenderer manager={this.props.manager} position={SidebarTabPosition.RIGHT}/>
+                        <TabSlotContainerRenderer tab={this.props.manager.getRightSideBar()} />
                     </div>
                     <div className="bottombar"></div>
                     {this.state.contextMenu ?

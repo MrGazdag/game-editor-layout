@@ -1,7 +1,7 @@
 import "./ui/EditorLayout.scss";
-import "./ui/ContextMenuInitiator.scss";
-import "./ui/ContextMenuRenderer.scss";
+import "./ui/context/ContextMenuInitiator.scss";
+import "./ui/context/ContextMenuRenderer.scss";
 import "./ui/TopBarRenderer.scss";
-import "./ui/SidebarRenderer.scss";
+import "./ui/tab/TabSlotContainerRenderer.scss";
+import "./ui/tab/TabSlotRenderer.scss";
 import "./ui/Icon.scss";
-import "./ui/SidebarContainerRenderer.scss";

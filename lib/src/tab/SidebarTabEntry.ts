@@ -1,54 +1,21 @@
-import EditorAction from "../action/EditorAction";
 import {SidebarTabPosition} from "./SidebarTabPosition";
 import EditorLayoutManager from "../EditorLayoutManager";
 import SidebarTabController from "./SidebarTabController";
+import TabEntry from "./TabEntry";
 
-export default class SidebarTabEntry {
-	#manager: EditorLayoutManager;
-	#controller: SidebarTabController;
+export default class SidebarTabEntry extends TabEntry<SidebarTabController> {
 	private position: SidebarTabPosition;
-	private open: boolean;
-	private stateCallback: (open: boolean) => void;
 
 	constructor(manager: EditorLayoutManager, controller: SidebarTabController) {
-		this.#manager = manager;
-		this.#controller = controller;
-
-		this.position = this.#controller.getPreferredPosition();
-		this.open = false;
-		this.stateCallback = ()=>{};
-	}
-
-	setStateCallback(stateCallback: (open: boolean) => void) {
-		this.stateCallback = stateCallback;
-	}
-
-	setTabState(state: boolean) {
-		this.open = state;
-		this.stateCallback(state);
-	}
-
-	isOpen() {
-		return this.open;
-	}
-
-	getIcon() {
-		return this.#controller.getIcon();
+		super(manager, controller);
+		this.position = this.controller.getPreferredPosition();
 	}
 
 	getId() {
-		return this.#controller.getId();
-	}
-
-	getName() {
-		return this.#controller.getName();
+		return this.controller.getId();
 	}
 
 	getPosition() {
 		return this.position;
-	}
-
-	render() {
-		return this.#controller.render();
 	}
 }

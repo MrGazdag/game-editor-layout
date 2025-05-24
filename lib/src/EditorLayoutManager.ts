@@ -5,6 +5,7 @@ import SidebarTabEntry from "./tab/SidebarTabEntry";
 import {SidebarTabPosition} from "./tab/SidebarTabPosition";
 import SidebarTabController, {SidebarInitData} from "./tab/SidebarTabController";
 import ActionManager from "./action/ActionManager";
+import TabSlotContainer from "./tab/TabSlotContainer";
 
 export default class EditorLayoutManager {
     private readonly topBarEntries: TopBarEntry[];
@@ -12,11 +13,31 @@ export default class EditorLayoutManager {
 
     private readonly actionManager: ActionManager;
     private readonly keybindManager: KeybindManager;
+
+    private readonly leftSideBar: TabSlotContainer;
+    private readonly centerTabs: TabSlotContainer;
+    private readonly rightSideBar: TabSlotContainer;
     constructor() {
         this.topBarEntries = [];
         this.sideBarTabEntries = [];
         this.actionManager = new ActionManager(this);
         this.keybindManager = new KeybindManager(this);
+
+        this.leftSideBar = new TabSlotContainer("left", false);
+        this.centerTabs = new TabSlotContainer("center", true);
+        this.rightSideBar = new TabSlotContainer("right", false);
+    }
+
+    getLeftSideBar() {
+        return this.leftSideBar;
+    }
+
+    getCenterSideBar() {
+        return this.centerTabs;
+    }
+
+    getRightSideBar() {
+        return this.rightSideBar;
     }
 
     createTopBarEntry(id: string, name: string) {

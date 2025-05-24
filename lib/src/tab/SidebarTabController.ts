@@ -24,18 +24,6 @@ export default class SidebarTabController extends TabController {
     getPreferredPosition() {
         return this.preferredPosition;
     }
-
-    getName() {
-        return this.data.name;
-    }
-
-    getDescription() {
-        return this.data.description;
-    }
-
-    getIcon() {
-        return this.data.icon;
-    }
 }
 const DefaultSidebarTabData: TabData = {
     name: "Sidebar Tab",

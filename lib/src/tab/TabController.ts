@@ -8,6 +8,20 @@ export default abstract class TabController extends Controller<TabData> {
         this.renderer = data.renderer;
     }
 
+    public abstract getId(): string;
+
+    getName() {
+        return this.data.name;
+    }
+
+    getDescription() {
+        return this.data.description;
+    }
+
+    getIcon() {
+        return this.data.icon;
+    }
+
     render() {
         return this.renderer();
     }
