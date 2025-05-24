@@ -59,7 +59,8 @@ export default {
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: "static/index.html",
-            publicPath: "./"
+            publicPath: "./",
+            favicon: "static/favicon.ico"
         }),
         new SvgSpriteSheetPlugin({
             iconsDir: "./icons",

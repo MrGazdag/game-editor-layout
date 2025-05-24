@@ -2,7 +2,8 @@
     "private": true,
     "workspaces": [
         "/lib",
-        "/demo"
+        "/demo",
+        "/site"
     ],
     "repository": {
         "type": "git",
