@@ -37,29 +37,6 @@ export default class EditorLayout extends Component<Props, State> {
                         <TabSlotContainerRenderer tab={this.props.manager.getLeftSideBar()} />
                         <div className="main_editors">
                             <TabSlotContainerRenderer tab={this.props.manager.getCenterSideBar()}/>
-                            <ContextMenuInitiator menuProvider={(e) => {
-                                let entry = this.props.manager.getTopBarEntry("edit")!;
-                                let inlineAction = EditorAction.inline(() => {
-                                    alert("helo inline action");
-                                });
-                                return [...entry.getActions(), inlineAction];
-                            }}>
-                                <div style={{
-                                    backgroundColor: "red",
-                                    position: "relative",
-                                    top: "100px",
-                                    left: "150px",
-                                    width: "200px",
-                                    height: "100px"
-                                }}>
-                                    <ContextMenuInitiator menuProvider={(e) => {
-                                        let innerAction = EditorAction.inline("Inner Action", () => {
-                                            alert("hello inner");
-                                        });
-                                        return [innerAction];
-                                    }}/>
-                                </div>
-                            </ContextMenuInitiator>
                         </div>
                         <TabSlotContainerRenderer tab={this.props.manager.getRightSideBar()} />
                     </div>
