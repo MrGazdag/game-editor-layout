@@ -71,6 +71,11 @@ const config: Config = {
           position: 'left'
         },
         {
+          href: "https://npmjs.com/package/game-editor-layout",
+          label: "npm",
+          position: "left"
+        },
+        {
           href: 'https://github.com/MrGazdag/game-editor-layout',
           label: 'GitHub',
           position: 'right',
