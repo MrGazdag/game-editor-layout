@@ -1,15 +1,17 @@
 import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
 import Keybind from "game-editor-layout/keybinds/Keybind";
 
-export function registerTopBar(manager: EditorLayoutManager) {
-    manager.createTopBarEntry("file", "File");
-    manager.createTopBarEntry("edit", "Edit");
-    manager.createTopBarEntry("view", "View");
+export function registerMenuBar(manager: EditorLayoutManager) {
+    let menuBar = manager.getMenuBarManager();
+    menuBar.createMenuBarEntry("file", "File");
+    menuBar.createMenuBarEntry("edit", "Edit");
+    menuBar.createMenuBarEntry("view", "View");
 }
 
 export function registerActions(manager: EditorLayoutManager) {
     let actions = manager.getActionManager();
-    let fileBar = manager.getTopBarEntry("file")!;
+    let menuBar = manager.getMenuBarManager();
+    let fileBar = menuBar.getMenuBarEntry("file")!;
     fileBar.addAction(actions.createAction({
         id: "new",
         name:"New",
@@ -36,7 +38,7 @@ export function registerActions(manager: EditorLayoutManager) {
         }
     }));
 
-    let editBar = manager.getTopBarEntry("edit")!;
+    let editBar = menuBar.getMenuBarEntry("edit")!;
     editBar.addAction(actions.createAction({
         id: "cut",
         name: "Cut",
@@ -75,7 +77,7 @@ export function registerActions(manager: EditorLayoutManager) {
     keybinds.addBind(new Keybind("KeyC", "copy", true));
     keybinds.addBind(new Keybind("KeyV", "paste", true));
 
-    let viewBar = manager.getTopBarEntry("view")!;
+    let viewBar = menuBar.getMenuBarEntry("view")!;
     viewBar.addAction(actions.createAction({
         id: "nothing",
         name: "Nothing here",

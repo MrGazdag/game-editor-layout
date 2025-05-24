@@ -1,6 +1,6 @@
 import EditorAction from "../action/EditorAction";
 
-export default class TopBarEntry {
+export default class MenuBarEntry {
     private readonly id: string;
     private readonly name: string;
     private readonly actions: EditorAction[];

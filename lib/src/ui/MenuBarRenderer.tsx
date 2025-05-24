@@ -4,19 +4,18 @@ import EditorLayout from "./EditorLayout";
 import ContextMenu from "../context/ContextMenu";
 import ActionSource from "../action/ActionSource";
 import Icon from "./Icon";
-import TopBarEntry from "../top/TopBarEntry";
+import MenuBarEntry from "../menubar/MenuBarEntry";
 
-export default class TopBarRenderer extends Component<Props, State> {
-
+export default class MenuBarRenderer extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {};
     }
 
-    private openMenu(t: TopBarEntry, e: React.MouseEvent<HTMLDivElement>) {
+    private openMenu(t: MenuBarEntry, e: React.MouseEvent<HTMLDivElement>) {
         e.stopPropagation();
         let rect = e.currentTarget.getBoundingClientRect();
-        let contextMenu = new ContextMenu("Top Bar", rect.left, rect.bottom, t.getActions(), ActionSource.TOP_BAR);
+        let contextMenu = new ContextMenu("Menu Bar", rect.left, rect.bottom, t.getActions(), ActionSource.MENU_BAR);
         this.props.renderer.showContextMenu(contextMenu);
         this.setState({
             ...this.state,
@@ -35,9 +34,9 @@ export default class TopBarRenderer extends Component<Props, State> {
     }
 
     render() {
-        return <div className="top_bar">
+        return <div className="menu_bar">
             <Icon icon={this.props.icon} className={"_icon"}/>
-            {this.props.manager.getTopBarEntries().map(t=>{
+            {this.props.manager.getMenuBarManager().getMenuBarEntries().map(t=>{
                 let className = "_entry";
                 if (this.state.open?.entry == t) className += " _open";
                 return <div className={className} key={t.getId()} onMouseOver={e=>{
@@ -61,7 +60,7 @@ interface Props {
 }
 interface State {
     open?: {
-        entry: TopBarEntry;
+        entry: MenuBarEntry;
         menu: ContextMenu
     };
 }

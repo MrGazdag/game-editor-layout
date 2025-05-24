@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import EditorLayoutManager from "../EditorLayoutManager";
 import ContextMenuRenderer from "./context/ContextMenuRenderer";
 import ContextMenu from "../context/ContextMenu";
-import TopBarRenderer from "./TopBarRenderer";
+import MenuBarRenderer from "./MenuBarRenderer";
 import ContextMenuInitiator from "./context/ContextMenuInitiator";
 import ActionSource from "../action/ActionSource";
 import EditorAction from "../action/EditorAction";
@@ -10,7 +10,7 @@ import TabSlotContainerRenderer from "./tab/TabSlotContainerRenderer";
 
 export default class EditorLayout extends Component<Props, State> {
     private contextMenuClickHandler: (e: MouseEvent)=>void;
-    private topBarRef: React.RefObject<TopBarRenderer>;
+    private topBarRef: React.RefObject<MenuBarRenderer>;
     constructor(props: Props) {
         super(props);
         this.state = {};
@@ -32,7 +32,7 @@ export default class EditorLayout extends Component<Props, State> {
         return <div className="editor_layout">
             <SharedEditorLayout.Provider value={this}>
                 <SharedEditorLayoutManager.Provider value={this.props.manager}>
-                    <TopBarRenderer ref={this.topBarRef} manager={this.props.manager} renderer={this} icon={this.props.editorIcon ?? ""}/>
+                    <MenuBarRenderer ref={this.topBarRef} manager={this.props.manager} renderer={this} icon={this.props.editorIcon ?? ""}/>
                     <div className="content">
                         <TabSlotContainerRenderer tab={this.props.manager.getLeftSideBar()} />
                         <div className="main_editors">
@@ -74,7 +74,7 @@ export default class EditorLayout extends Component<Props, State> {
     showContextMenu(contextMenu: ContextMenu | undefined) {
         if (this.state.contextMenu) {
             this.state.contextMenu.setOpen(false);
-            if (this.state.contextMenu.getSource() == ActionSource.TOP_BAR) {
+            if (this.state.contextMenu.getSource() == ActionSource.MENU_BAR) {
                 this.topBarRef.current!.closeMenu(true);
             }
         }

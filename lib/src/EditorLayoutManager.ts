@@ -1,26 +1,27 @@
 import ActionController from "./action/ActionController";
-import TopBarEntry from "./top/TopBarEntry";
+import MenuBarEntry from "./menubar/MenuBarEntry";
 import KeybindManager from "./keybinds/KeybindManager";
 import SidebarTabEntry from "./tab/SidebarTabEntry";
 import {SidebarTabPosition} from "./tab/SidebarTabPosition";
 import SidebarTabController, {SidebarInitData} from "./tab/SidebarTabController";
 import ActionManager from "./action/ActionManager";
 import TabSlotContainer from "./tab/TabSlotContainer";
+import MenuBarManager from "./menubar/MenuBarManager";
 
 export default class EditorLayoutManager {
-    private readonly topBarEntries: TopBarEntry[];
     private readonly sideBarTabEntries: SidebarTabEntry[];
 
     private readonly actionManager: ActionManager;
+    private readonly menuBarManager: MenuBarManager;
     private readonly keybindManager: KeybindManager;
 
     private readonly leftSideBar: TabSlotContainer;
     private readonly centerTabs: TabSlotContainer;
     private readonly rightSideBar: TabSlotContainer;
     constructor() {
-        this.topBarEntries = [];
         this.sideBarTabEntries = [];
         this.actionManager = new ActionManager(this);
+        this.menuBarManager = new MenuBarManager(this);
         this.keybindManager = new KeybindManager(this);
 
         this.leftSideBar = new TabSlotContainer("left", false);
@@ -40,14 +41,6 @@ export default class EditorLayoutManager {
         return this.rightSideBar;
     }
 
-    createTopBarEntry(id: string, name: string) {
-        let entry = new TopBarEntry(id, name);
-        this.topBarEntries.push(entry);
-        return entry;
-    }
-    getTopBarEntry(id: string): TopBarEntry | undefined {
-        return this.topBarEntries.find(e => e.getId() == id);
-    }
 
     getKeybindManager() {
         return this.keybindManager;
@@ -57,9 +50,6 @@ export default class EditorLayoutManager {
 
     }
 
-    getTopBarEntries() {
-        return this.topBarEntries;
-    }
 
     createSidebarTabEntry(controller: SidebarTabController): SidebarTabEntry;
     createSidebarTabEntry(options: SidebarInitData): SidebarTabEntry;
@@ -81,6 +71,10 @@ export default class EditorLayoutManager {
 
     getSideBarTabEntries(position: SidebarTabPosition) {
         return this.sideBarTabEntries.filter(e => e.getPosition() == position);
+    }
+
+    getMenuBarManager() {
+        return this.menuBarManager;
     }
 
     getActionManager() {

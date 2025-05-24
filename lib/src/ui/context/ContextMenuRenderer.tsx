@@ -44,7 +44,7 @@ export default class ContextMenuRenderer extends Component<Props, any> {
             this.ref.current.style.left = x + "px";
         }
         if (y + h > ih) {
-            if (menu.getSource() == ActionSource.TOP_BAR) {
+            if (menu.getSource() == ActionSource.MENU_BAR) {
                 // Cannot move further up, limit height
                 this.ref.current.style.maxHeight = (ih - y) + "px";
             } else {
@@ -59,7 +59,7 @@ export default class ContextMenuRenderer extends Component<Props, any> {
         let menu = this.props.menu;
         if (!menu.isOpen()) return;
         if (menu.getSource() == ActionSource.CONTEXT_MENU) className += " _context";
-        if (menu.getSource() == ActionSource.TOP_BAR) className += " _top";
+        if (menu.getSource() == ActionSource.MENU_BAR) className += " _top";
         requestAnimationFrame(()=>{
             this.recalculatePos();
         });

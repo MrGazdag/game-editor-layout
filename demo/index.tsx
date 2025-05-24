@@ -6,7 +6,7 @@ import "game-editor-layout/defaultTheme";
 import "game-editor-layout/defaultIcons";
 import EditorLayout from "game-editor-layout/ui/EditorLayout";
 import "./index.scss";
-import {registerActions, registerTopBar} from "./topBarActions";
+import {registerActions, registerMenuBar} from "./menuBarActions";
 import {loadSvgIcons} from "./IconTypes";
 import {registerLeftSideTabs, registerRightSideTabs} from "./leftSideTabs";
 import React from "react";
@@ -15,7 +15,7 @@ let manager = new EditorLayoutManager();
 
 loadSvgIcons();
 //top
-registerTopBar(manager);
+registerMenuBar(manager);
 registerActions(manager);
 //left
 registerLeftSideTabs(manager);
