@@ -1,5 +1,6 @@
 import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
 import Keybind from "game-editor-layout/keybinds/Keybind";
+import ActuonController from "game-editor-layout/action/ActionController";
 
 export function registerMenuBar(manager: EditorLayoutManager) {
     let menuBar = manager.getMenuBarManager();
