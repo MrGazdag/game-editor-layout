@@ -22,5 +22,6 @@ export default class Controller<D> {
                 this.data[key] = data[key]!;
             }
         }
+        this.changeHandler.apply(this.data);
     }
 }
