@@ -1,12 +1,18 @@
-import {ChangeHandlerFunction} from "./ChangeHandler";
+import {ChangeHandler} from "./ChangeHandler";
 
 export default class Controller<D> {
     protected readonly data: D;
+    protected readonly changeHandler: ChangeHandler<D>;
     constructor(defaults: D, data?: Partial<D>) {
         this.data = {
             ...defaults,
             ...data
         };
+        this.changeHandler = new ChangeHandler();
+    }
+
+    public getChangeHandler() {
+        return this.changeHandler;
     }
 
     public updateData(data: Partial<D>) {
