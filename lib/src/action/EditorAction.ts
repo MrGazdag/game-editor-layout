@@ -17,6 +17,9 @@ export default class EditorAction {
         this.#action = action;
         this.#keybinds = [];
         this.changeHandler = new ChangeHandler();
+        action.getChangeHandler().add(()=>{
+            this.changeHandler.apply(this);
+        });
     }
 
     getChangeHandler() {
