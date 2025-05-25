@@ -1,4 +1,4 @@
-import {ChangeHandler} from "./ChangeHandler";
+import ChangeHandler from "./ChangeHandler";
 
 export default class Controller<D> {
     protected readonly data: D;
