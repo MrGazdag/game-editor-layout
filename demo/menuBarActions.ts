@@ -88,4 +88,26 @@ export function registerActions(manager: EditorLayoutManager) {
     }));
     keybinds.addBind(new Keybind("KeyG", "nothing", true, true, true, true));
     //testBar.addAction(testAction);
+    let controller = new ActionController({
+        id: "time",
+        name: "Dynamic Action - " + getTime(),
+        action: ()=>{
+            alert("The time is: " + getTime());
+        }
+    });
+    viewBar.addAction(actions.createAction(controller));
+    setInterval(()=>{
+        controller.updateData({
+            name: "Dynamic Action - " + getTime()
+        });
+    }, 1000);
+    
+}
+function getTime() {
+    let date = new Date();
+    return date.getHours().padStart(2, "0")
+         + ":"
+         date.getMinutes().padStart(2, "0")
+         + ":"
+         date.getSeconds().padStart(2, "0");
 }
