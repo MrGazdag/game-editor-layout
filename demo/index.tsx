@@ -11,6 +11,12 @@ import {loadSvgIcons} from "./IconTypes";
 import {registerLeftSideTabs, registerRightSideTabs} from "./leftSideTabs";
 import React from "react";
 
+window.onerror = function(message, source, lineno, colno, error) {
+    document.body.innerHTML += `<div style="position:fixed;bottom:0;left:0;background:red;color:white;padding:10px;z-index:9999">
+      ${message}<br>${source}:${lineno}:${colno}
+    </div>`;
+};
+
 let manager = new EditorLayoutManager();
 
 loadSvgIcons();
@@ -27,9 +33,3 @@ root.render(
         <EditorLayout manager={manager} editorIcon={"test-logo"}/>
     </StrictMode>
 );
-
-window.onerror = function(message, source, lineno, colno, error) {
-    document.body.innerHTML += `<div style="position:fixed;bottom:0;left:0;background:red;color:white;padding:10px;z-index:9999">
-      ${message}<br>${source}:${lineno}:${colno}
-    </div>`;
-};
