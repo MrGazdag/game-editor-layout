@@ -27,7 +27,6 @@ export default class ContextMenuRenderer extends Component<Props, any> {
 
     recalculatePos() {
         if (!this.ref.current) return;
-        console.log("recalculate");
 
         let menu = this.props.menu;
         let pos = menu.getPositionCandidates();
@@ -67,7 +66,6 @@ export default class ContextMenuRenderer extends Component<Props, any> {
             }
             this.ref.current.style.left = x + "px";
             this.ref.current.style.top = y + "px";
-            console.log("candidate " + i + " picked: ", candidate);
             break;
         }
     }
