@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import ContextMenu from "../../context/ContextMenu";
 import EditorLayout, {SharedEditorLayout} from "../EditorLayout";
 import ContextMenuMode from "../../context/ContextMenuMode";
-import EditorAction from "../../action/EditorAction";
+import EditorAction, {ActionEntryInput} from "../../action/EditorAction";
 import ActionSource from "../../action/ActionSource";
 
 export default class ContextMenuInitiator extends Component<Props,any> {
@@ -13,7 +13,7 @@ export default class ContextMenuInitiator extends Component<Props,any> {
         this.parent = null;
     }
 
-    openContextMenu(e: React.MouseEvent, childActions?: EditorAction[]) {
+    openContextMenu(e: React.MouseEvent, childActions?: ActionEntryInput[]) {
         let mode = this.props.mode ?? ContextMenuMode.ADDITIVE;
         let actions = this.props.menuProvider(e);
 
@@ -50,7 +50,7 @@ export default class ContextMenuInitiator extends Component<Props,any> {
 
 interface Props {
     mode?: ContextMenuMode;
-    menuProvider: (e: React.MouseEvent) => EditorAction[];
+    menuProvider: (e: React.MouseEvent) => ActionEntryInput[];
     children?: React.ReactNode;
 }
 const ParentContextMenu = React.createContext<ContextMenuInitiator|null>(null);

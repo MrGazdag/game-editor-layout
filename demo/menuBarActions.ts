@@ -14,7 +14,7 @@ export function registerActions(manager: EditorLayoutManager) {
     let actions = manager.getActionManager();
     let menuBar = manager.getMenuBarManager();
     let fileBar = menuBar.getMenuBarEntry("file")!;
-    fileBar.addAction(actions.createAction({
+    fileBar.addEntry(actions.createAction({
         id: "new",
         name:"New",
         description: "What is this?",
@@ -22,7 +22,7 @@ export function registerActions(manager: EditorLayoutManager) {
             alert("New File Dialog");
         }
     }));
-    fileBar.addAction(actions.createAction({
+    fileBar.addEntry(actions.createAction({
         id: "open",
         name: "Open",
         description: "What is this?",
@@ -31,7 +31,7 @@ export function registerActions(manager: EditorLayoutManager) {
         }
     }));
 
-    fileBar.addAction(actions.createAction({
+    fileBar.addEntry(actions.createAction({
         id: "save",
         name: "Save",
         description: "What is this?",
@@ -41,33 +41,53 @@ export function registerActions(manager: EditorLayoutManager) {
     }));
 
     let editBar = menuBar.getMenuBarEntry("edit")!;
-    editBar.addAction(actions.createAction({
-        id: "cut",
-        name: "Cut",
+    editBar.addEntry([
+        actions.createAction({
+            id: "cut",
+            name: "Cut",
+            description: "What is this?",
+            icon: "scissors-solid",
+            action: () => {
+                alert("Cut Action");
+            }
+        }),
+        actions.createAction({
+            id: "copy",
+            name: "Copy",
+            description: "What is this?",
+            icon: "copy-regular",
+            action: () => {
+                alert("Copy Action");
+            }
+        }),
+        actions.createAction({
+            id: "paste",
+            name: "Paste",
+            description: "What is this?",
+            icon: "clipboard-regular",
+            subMenu: [
+                actions.createAction({
+                    id: "paste-no-format",
+                    name: "Paste without formatting",
+                    description: "What is this?",
+                    icon: "clipboard-regular",
+                    action: () => {
+                        alert("Paste No Format Action");
+                    }
+                })
+            ],
+            action: () => {
+                alert("Paste Action");
+            }
+        })
+    ]);
+    editBar.addEntry(actions.createAction({
+        id: "delete",
+        name: "Delete",
         description: "What is this?",
-        icon: "scissors-solid",
+        icon: "x",
         action: () => {
-            alert("Cut Action");
-        }
-    }));
-
-    editBar.addAction(actions.createAction({
-        id: "copy",
-        name: "Copy",
-        description: "What is this?",
-        icon: "copy-regular",
-        action: () => {
-            alert("Copy Action");
-        }
-    }));
-
-    editBar.addAction(actions.createAction({
-        id: "paste",
-        name: "Paste",
-        description: "What is this?",
-        icon: "clipboard-regular",
-        action: () => {
-            alert("Paste Action");
+            alert("Delete Action");
         }
     }));
     let keybinds = manager.getKeybindManager();
@@ -78,9 +98,11 @@ export function registerActions(manager: EditorLayoutManager) {
     keybinds.addBind(new Keybind("KeyX", "cut", true));
     keybinds.addBind(new Keybind("KeyC", "copy", true));
     keybinds.addBind(new Keybind("KeyV", "paste", true));
+    keybinds.addBind(new Keybind("KeyV", "paste-no-format", true, true));
+    keybinds.addBind(new Keybind("Delete", "delete"));
 
     let viewBar = menuBar.getMenuBarEntry("view")!;
-    viewBar.addAction(actions.createAction({
+    viewBar.addEntry(actions.createAction({
         id: "nothing",
         name: "Nothing here",
         description: "",
@@ -97,19 +119,19 @@ export function registerActions(manager: EditorLayoutManager) {
             alert("The time is: " + getTime());
         }
     });
-    viewBar.addAction(actions.createAction(controller));
+    viewBar.addEntry(actions.createAction(controller));
     setInterval(()=>{
         controller.updateData({
             name: "Dynamic Action - " + getTime()
         });
     }, 1000);
 
-    viewBar.addAction(actions.createAction({
+    viewBar.addEntry(actions.createAction({
         id: "nothing",
         name: "Nothing action",
         icon: "arrow-up"
     }));
-    viewBar.addAction(actions.createAction({
+    viewBar.addEntry(actions.createAction({
         id: "submenu",
         name: "Sub Menu",
         icon: "arrow-down",

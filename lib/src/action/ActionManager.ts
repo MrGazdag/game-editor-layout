@@ -35,3 +35,6 @@ export default class ActionManager {
         return this.actions.get(id);
     }
 }
+interface ToggleActionInitData {
+
+}

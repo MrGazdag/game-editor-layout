@@ -9,7 +9,7 @@ An Editor Layout Manager for React
 - [x] Context Menus
 - [x] Keybinds
 - [x] Nested Context Menus
-- [ ] Context Menu Groups
+- [x] Context Menu Groups
 - [ ] Resizable Tabs
 - [ ] Splittable Tabs
 - [ ] Moving Tabs

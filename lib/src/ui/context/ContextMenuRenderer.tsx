@@ -4,6 +4,7 @@ import EditorLayout from "../EditorLayout";
 import Icon from "../common/Icon";
 import ActionSource from "../../action/ActionSource";
 import EditorActionRenderer from "./EditorActionRenderer";
+import ActionGroup from "../../action/ActionGroup";
 
 export default class ContextMenuRenderer extends Component<Props, any> {
     private resizeHandler: (e: Event)=>void;
@@ -66,12 +67,27 @@ export default class ContextMenuRenderer extends Component<Props, any> {
         requestAnimationFrame(()=>{
             this.recalculatePos();
         });
-        return <div ref={this.ref} className={className} style={{top: menu.getPosY(), left: menu.getPosX()}}>
-            {
-                menu.getActions().map((action,i)=>{
-                    return <EditorActionRenderer key={i} action={action} menu={menu}/>;
-                })
+
+        let content: React.ReactNode[] = [];
+        console.log(menu.getEntries());
+        for (let index = 0; index < menu.getEntries().length; index++){
+            let prev = index == 0 ? null : menu.getEntries()[index-1];
+            let entry = menu.getEntries()[index];
+            // Separator between groups, but not before the first (when prev is null)
+            if (prev !== null && (prev instanceof ActionGroup || entry instanceof ActionGroup)) {
+                content.push(<hr key={"hr_" + index}/>);
             }
+            if (entry instanceof ActionGroup) {
+                for (let childIndex = 0; childIndex < entry.getActions().length; childIndex++){
+                    let action = entry.getActions()[childIndex];
+                    content.push(<EditorActionRenderer key={index + "_" + childIndex} action={action} menu={menu}/>);
+                }
+            } else {
+                content.push(<EditorActionRenderer key={index} action={entry} menu={menu}/>);
+            }
+        }
+        return <div ref={this.ref} className={className} style={{top: menu.getPosY(), left: menu.getPosX()}}>
+            {content}
         </div>;
     }
 }

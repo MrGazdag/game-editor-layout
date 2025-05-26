@@ -1,24 +1,25 @@
-import EditorAction from "../action/EditorAction";
+import EditorAction, {ActionEntry, ActionEntryInput} from "../action/EditorAction";
 import ActionSource from "../action/ActionSource";
 import ChangeHandler from "../utils/ChangeHandler";
+import ActionGroup from "../action/ActionGroup";
 
 export default class ContextMenu {
     private readonly parent: ContextMenu | null;
     private readonly name: string;
     private readonly posX: number;
     private readonly posY: number;
-    private readonly actions: EditorAction[];
+    private readonly entries: ActionEntry[];
     private readonly source: ActionSource;
     private open: boolean;
     private subMenu: ContextMenu | null;
     private changeHandler: ChangeHandler<ContextMenu>;
 
-    constructor(parent: ContextMenu | null, name: string, posX: number, posY: number, actions: EditorAction[], source: ActionSource) {
+    constructor(parent: ContextMenu | null, name: string, posX: number, posY: number, entries: ActionEntryInput[], source: ActionSource) {
         this.parent = parent;
         this.name = name;
         this.posX = posX;
         this.posY = posY;
-        this.actions = [...actions];
+        this.entries = EditorAction.flattenGroups(entries);
         this.source = source;
         this.open = false;
         this.subMenu = null;
@@ -45,8 +46,8 @@ export default class ContextMenu {
         return this.posY;
     }
 
-    getActions() {
-        return this.actions;
+    getEntries() {
+        return this.entries;
     }
 
     getSource() {
@@ -73,7 +74,7 @@ export default class ContextMenu {
     }
 
     appendChild(childMenu: ContextMenu) {
-        this.actions.splice(0, 0, ...childMenu.actions);
+        this.entries.splice(0, 0, ...childMenu.entries);
         this.changeHandler.apply(this);
     }
 

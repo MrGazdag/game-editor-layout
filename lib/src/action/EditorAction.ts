@@ -1,9 +1,10 @@
-import ActionController, {ActionHandle, ActionInitData, InlineActionInitData} from "./ActionController";
+import ActionController, {ActionHandle, InlineActionInitData} from "./ActionController";
 import ActionSource from "./ActionSource";
 import Keybind from "../keybinds/Keybind";
-import EditorLayoutManager from "../EditorLayoutManager";
 import ActionManager from "./ActionManager";
-import ChangeHandler, {ChangeHandlerFunction} from "../utils/ChangeHandler";
+import ChangeHandler from "../utils/ChangeHandler";
+import ActionGroup from "./ActionGroup";
+import ActionGroupController from "./ActionGroupController";
 
 export default class EditorAction {
     readonly #manager: ActionManager;
@@ -95,4 +96,16 @@ export default class EditorAction {
         // no use of the manager on inline actions
         return new EditorAction(null as any, controller);
     }
+
+    public static flattenGroups(entries: ActionEntryInput[]): ActionEntry[] {
+        return entries.map(entry=>{
+            if (entry instanceof EditorAction || entry instanceof ActionGroup) {
+                return entry;
+            } else {
+                return new ActionGroup(new ActionGroupController(...entry));
+            }
+        });
+    }
 }
+export type ActionEntry = EditorAction | ActionGroup;
+export type ActionEntryInput = EditorAction | ActionGroup | EditorAction[];

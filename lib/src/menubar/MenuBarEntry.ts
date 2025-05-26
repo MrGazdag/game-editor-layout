@@ -1,23 +1,25 @@
-import EditorAction from "../action/EditorAction";
+import EditorAction, {ActionEntry, ActionEntryInput} from "../action/EditorAction";
 
 export default class MenuBarEntry {
     private readonly id: string;
     private readonly name: string;
-    private readonly actions: EditorAction[];
+    private readonly entries: ActionEntry[];
 
     constructor(id: string, name: string) {
         this.id = id;
         this.name = name;
-        this.actions = [];
+        this.entries = [];
     }
 
-    addAction(action: EditorAction) {
-        this.actions.push(action);
+    addEntry(...entries: ActionEntryInput[]) {
+        this.entries.push(...EditorAction.flattenGroups(entries));
     }
-    removeAction(action: EditorAction) {
-        let index = this.actions.indexOf(action);
-        if (index > -1) {
-            this.actions.splice(index, 1);
+    removeEntry(...entries: ActionEntry[]) {
+        for (let entry of entries) {
+            let index = this.entries.indexOf(entry);
+            if (index > -1) {
+                this.entries.splice(index, 1);
+            }
         }
     }
 
@@ -29,7 +31,7 @@ export default class MenuBarEntry {
         return this.name;
     }
 
-    getActions() {
-        return this.actions;
+    getEntries() {
+        return this.entries;
     }
 }
