@@ -2,18 +2,23 @@ import EditorLayoutManager from "../EditorLayoutManager";
 import TabController from "./TabController";
 import TabSlot from "./TabSlot";
 import ChangeHandler, {ChangeHandlerFunction} from "../utils/ChangeHandler";
+import TabManager from "./TabManager";
 
 export default class TabEntry<Controller extends TabController=any> {
-    #manager: EditorLayoutManager;
+    #manager: TabManager;
     protected readonly controller: Controller;
     private slot: TabSlot | null;
     private changeHandler: ChangeHandler<TabEntry<Controller>>;
 
-    constructor(manager: EditorLayoutManager, controller: Controller) {
+    constructor(manager: TabManager, controller: Controller) {
         this.#manager = manager;
         this.controller = controller;
         this.slot = null;
         this.changeHandler = new ChangeHandler();
+    }
+
+    public getManager() {
+        return this.#manager;
     }
 
     public getChangeHandler() {

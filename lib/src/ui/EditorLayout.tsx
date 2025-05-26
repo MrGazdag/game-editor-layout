@@ -48,11 +48,11 @@ export default class EditorLayout extends Component<Props, State> {
                 <SharedEditorLayoutManager.Provider value={this.props.manager}>
                     <MenuBarRenderer ref={this.topBarRef} manager={this.props.manager} renderer={this} icon={this.props.editorIcon ?? ""}/>
                     <div className="content">
-                        <TabSlotContainerRenderer tab={this.props.manager.getLeftSideBar()} />
+                        <TabSlotContainerRenderer tab={this.props.manager.getTabManager().getLeftSideBar()} />
                         <div className="main_editors">
-                            <TabSlotContainerRenderer tab={this.props.manager.getCenterSideBar()}/>
+                            <TabSlotContainerRenderer tab={this.props.manager.getTabManager().getCenterSideBar()}/>
                         </div>
-                        <TabSlotContainerRenderer tab={this.props.manager.getRightSideBar()} />
+                        <TabSlotContainerRenderer tab={this.props.manager.getTabManager().getRightSideBar()} />
                     </div>
                     <div className="bottombar"></div>
                     {contextMenus.map((m,i)=><ContextMenuRenderer menu={m} key={i} renderer={this}/>)}

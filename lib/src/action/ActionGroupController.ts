@@ -14,6 +14,11 @@ export default class ActionGroupController extends Controller<ActionGroupData> {
         this.getChangeHandler().apply({...this.data});
     }
 
+    public set(...actions: EditorAction[]) {
+        this.data.actions = actions;
+        this.getChangeHandler().apply({...this.data});
+    }
+
     public getActions() {
         return this.data.actions;
     }

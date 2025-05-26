@@ -1,21 +1,36 @@
-import {SidebarTabPosition} from "./SidebarTabPosition";
-import EditorLayoutManager from "../EditorLayoutManager";
 import SidebarTabController from "./SidebarTabController";
 import TabEntry from "./TabEntry";
+import TabManager from "./TabManager";
+import {SidebarTabPosition} from "./SidebarTabPosition";
+import TabSlotContainer from "./TabSlotContainer";
 
 export default class SidebarTabEntry extends TabEntry<SidebarTabController> {
-	private position: SidebarTabPosition;
-
-	constructor(manager: EditorLayoutManager, controller: SidebarTabController) {
+	constructor(manager: TabManager, controller: SidebarTabController) {
 		super(manager, controller);
-		this.position = this.controller.getPreferredPosition();
 	}
 
 	getId() {
 		return this.controller.getId();
 	}
 
-	getPosition() {
-		return this.position;
+	show() {
+		let slot = this.getSlot();
+		if (slot !== null) {
+			// Tab is already visible, focus it
+			// TODO properly focus tab
+			slot.setSelectedTab(this);
+		} else {
+			let preferred = this.controller.getPreferredPosition();
+			let sidebar: TabSlotContainer;
+			switch (preferred) {
+				case SidebarTabPosition.LEFT:
+					sidebar = this.getManager().getLeftSideBar();
+					break;
+				case SidebarTabPosition.RIGHT:
+					sidebar = this.getManager().getRightSideBar();
+					break;
+			}
+			sidebar.createSlot(this)?.setOpen(true);
+		}
 	}
 }

@@ -5,7 +5,8 @@ import TextInput from "./customComponents/TextInput";
 import AllIconRenderer from "./customComponents/AllIconRenderer";
 
 export function registerLeftSideTabs(manager: EditorLayoutManager) {
-	let tools = manager.createSidebarTabEntry({
+	let tabManager = manager.getTabManager();
+	let tools = tabManager.createSidebarTabEntry({
 		id: "tools",
 		name: "Tools",
 		icon: "screwdriver-wrench-solid",
@@ -16,7 +17,7 @@ export function registerLeftSideTabs(manager: EditorLayoutManager) {
 			}}/>
 		}
 	});
-	let settings = manager.createSidebarTabEntry({
+	let settings = tabManager.createSidebarTabEntry({
 		id: "settings",
 		name: "Settings",
 		preferredPosition: SidebarTabPosition.LEFT,
@@ -24,13 +25,14 @@ export function registerLeftSideTabs(manager: EditorLayoutManager) {
 			return <div>beállok mingyá</div>;
 		}
 	});
-	let container = manager.getLeftSideBar();
+	let container = tabManager.getLeftSideBar();
 	container.createSlot(tools);
 	container.createSlot(settings);
 }
 
 export function registerRightSideTabs(manager: EditorLayoutManager) {
-	let allIcons = manager.createSidebarTabEntry({
+	let tabManager = manager.getTabManager();
+	let allIcons = tabManager.createSidebarTabEntry({
 		id: "all_icons",
 		name: "All Icons",
 		preferredPosition: SidebarTabPosition.RIGHT,
@@ -39,7 +41,7 @@ export function registerRightSideTabs(manager: EditorLayoutManager) {
 			return <AllIconRenderer/>;
 		}
 	});
-	let colors = manager.createSidebarTabEntry({
+	let colors = tabManager.createSidebarTabEntry({
 		id: "colors",
 		name: "Colors",
 		preferredPosition: SidebarTabPosition.RIGHT,
@@ -54,7 +56,7 @@ export function registerRightSideTabs(manager: EditorLayoutManager) {
 			</div>;
 		}
 	});
-	let videoPlayer = manager.createSidebarTabEntry({
+	let videoPlayer = tabManager.createSidebarTabEntry({
 		id: "video_player",
 		name: "Video Player",
 		preferredPosition: SidebarTabPosition.RIGHT,
@@ -66,10 +68,10 @@ export function registerRightSideTabs(manager: EditorLayoutManager) {
 			               allowFullScreen></iframe>
 		}
 	});
-	let container = manager.getRightSideBar();
+	let container = tabManager.getRightSideBar();
 	container.createSlot(allIcons);
 	//container.createSlot(allIcons);
 	//container.createSlot(colors);
-	container = manager.getCenterSideBar();
+	container = tabManager.getCenterSideBar();
 	container.createSlot(colors, videoPlayer);
 }

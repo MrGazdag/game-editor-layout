@@ -10,6 +10,7 @@ import {registerActions, registerMenuBar} from "./menuBarActions";
 import {loadSvgIcons} from "./IconTypes";
 import {registerLeftSideTabs, registerRightSideTabs} from "./leftSideTabs";
 import React from "react";
+import MenuBarWindowExtension from "game-editor-layout/extensions/MenuBarWindowExtension";
 
 window.onerror = function(message, source, lineno, colno, error) {
     document.body.innerHTML += `<div style="position:fixed;bottom:0;left:0;background:red;color:white;padding:10px;z-index:9999">
@@ -26,6 +27,8 @@ registerActions(manager);
 //left
 registerLeftSideTabs(manager);
 registerRightSideTabs(manager);
+
+MenuBarWindowExtension.enable(manager);
 
 const root = createRoot(document.getElementById("root")!);
 root.render(
