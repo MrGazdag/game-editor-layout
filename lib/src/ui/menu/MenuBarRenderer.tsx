@@ -15,7 +15,7 @@ export default class MenuBarRenderer extends Component<Props, State> {
     private openMenu(t: MenuBarEntry, e: React.MouseEvent<HTMLDivElement>) {
         e.stopPropagation();
         let rect = e.currentTarget.getBoundingClientRect();
-        let contextMenu = new ContextMenu("Menu Bar", rect.left, rect.bottom, t.getActions(), ActionSource.MENU_BAR);
+        let contextMenu = new ContextMenu(null, "Menu Bar", rect.left, rect.bottom, t.getActions(), ActionSource.MENU_BAR);
         this.props.renderer.showContextMenu(contextMenu);
         this.setState({
             ...this.state,

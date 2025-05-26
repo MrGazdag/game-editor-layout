@@ -61,6 +61,8 @@ export default class ContextMenuRenderer extends Component<Props, any> {
         if (!menu.isOpen()) return;
         if (menu.getSource() == ActionSource.CONTEXT_MENU) className += " _context";
         if (menu.getSource() == ActionSource.MENU_BAR) className += " _top";
+
+        if (menu.getParent() != null) className += " _sub";
         requestAnimationFrame(()=>{
             this.recalculatePos();
         });

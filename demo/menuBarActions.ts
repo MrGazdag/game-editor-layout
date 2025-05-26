@@ -1,6 +1,7 @@
 import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
 import Keybind from "game-editor-layout/keybinds/Keybind";
 import ActionController from "game-editor-layout/action/ActionController";
+import EditorAction from "game-editor-layout/action/EditorAction";
 
 export function registerMenuBar(manager: EditorLayoutManager) {
     let menuBar = manager.getMenuBarManager();
@@ -102,6 +103,25 @@ export function registerActions(manager: EditorLayoutManager) {
             name: "Dynamic Action - " + getTime()
         });
     }, 1000);
+
+    viewBar.addAction(actions.createAction({
+        id: "nothing",
+        name: "Nothing action",
+        icon: "arrow-up"
+    }));
+    viewBar.addAction(actions.createAction({
+        id: "submenu",
+        name: "Sub Menu",
+        icon: "arrow-down",
+        subMenu: [
+            EditorAction.inline("One", ()=>{alert("sub 1!")}),
+            EditorAction.inline({
+                name: "Disabled Two",
+                action: ()=>{alert("sub 2!")},
+                enabled: false
+            }),
+        ]
+    }));
     
 }
 function getTime() {

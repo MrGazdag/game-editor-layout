@@ -9,13 +9,17 @@ export default abstract class DynamicComponent<T extends {getChangeHandler(): Ch
         super(props);
         this.key = k;
         this.changeHandler = ()=>{
-            this.setState({
-                renderCount: this.state.renderCount+1
-            });
+            this.rerender();
         };
         this.state = {
             renderCount: 0
         };
+    }
+
+    public rerender() {
+        this.setState({
+            renderCount: this.state.renderCount+1
+        });
     }
 
     private getValue() {

@@ -4,23 +4,26 @@
     flex-direction: row;
     align-items: center;
 
+    padding: 0.5em;
+    font-size: 0.9rem;
+
     > ._icon {
-        height: 1rem;
-        width: 1rem;
-        min-width: 1rem;
-        margin-right: 0.5rem;
+        height: 1em;
+        width: 1em;
+        min-width: 1em;
+        margin-right: 0.5em;
     }
     > ._name {
-        font-size: 1rem;
+        font-size: 1em;
 
         display: flex;
         align-items: center;
         flex-grow: 1;
-        padding-right: 0.5rem;
-        min-width: 8rem;
+        padding-right: 0.5em;
+        min-width: 8em;
     }
     > ._binds {
-        font-size: 0.8rem;
+        font-size: 0.8em;
         display: flex;
         align-items: center;
         min-width: max-content;
@@ -36,10 +39,23 @@
             }
         }
     }
-    padding: 0.5em;
-    font-size: 1rem;
+    > ._sub_icon {
+        height: 1em;
+        width: 1em;
+        min-width: 1em;
+    }
 
-    &:hover {
+    &._disabled {
+        > ._icon {
+            filter: grayscale(1);
+            opacity: 70%;
+        }
+        > ._name {
+            opacity: 70%;
+        }
+    }
+
+    &._hovered {
         cursor: pointer;
         background-color: var(--light-bubble);
         border-radius: 2px;

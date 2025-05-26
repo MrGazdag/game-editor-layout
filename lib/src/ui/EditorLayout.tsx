@@ -10,6 +10,7 @@ import TabSlotContainerRenderer from "./tab/TabSlotContainerRenderer";
 
 export default class EditorLayout extends Component<Props, State> {
     private contextMenuClickHandler: (e: MouseEvent)=>void;
+    private menuUpdate: (m: ContextMenu)=>void;
     private topBarRef: React.RefObject<MenuBarRenderer>;
     constructor(props: Props) {
         super(props);
@@ -18,6 +19,13 @@ export default class EditorLayout extends Component<Props, State> {
             this.showContextMenu(undefined);
         };
         this.topBarRef = React.createRef();
+        this.menuUpdate = (m)=>{
+            let sub = m.getSubMenu();
+            if (sub !== null) {
+                sub.getChangeHandler().add(this.menuUpdate);
+            }
+            this.forceUpdate();
+        };
     }
 
     componentDidMount() {
@@ -29,6 +37,12 @@ export default class EditorLayout extends Component<Props, State> {
     }
 
     render() {
+        let contextMenus = [];
+        let menu = this.state.contextMenu ?? null;
+        while (menu != null) {
+            contextMenus.push(menu);
+            menu = menu.getSubMenu();
+        }
         return <div className="editor_layout">
             <SharedEditorLayout.Provider value={this}>
                 <SharedEditorLayoutManager.Provider value={this.props.manager}>
@@ -41,8 +55,7 @@ export default class EditorLayout extends Component<Props, State> {
                         <TabSlotContainerRenderer tab={this.props.manager.getRightSideBar()} />
                     </div>
                     <div className="bottombar"></div>
-                    {this.state.contextMenu ?
-                        <ContextMenuRenderer renderer={this} menu={this.state.contextMenu}/> : null}
+                    {contextMenus.map((m,i)=><ContextMenuRenderer menu={m} key={i} renderer={this}/>)}
                 </SharedEditorLayoutManager.Provider>
             </SharedEditorLayout.Provider>
         </div>;
@@ -57,6 +70,7 @@ export default class EditorLayout extends Component<Props, State> {
         }
 
         contextMenu?.setOpen(true);
+        contextMenu?.getChangeHandler().add(this.menuUpdate);
         this.setState({
             ...this.state,
             contextMenu: contextMenu

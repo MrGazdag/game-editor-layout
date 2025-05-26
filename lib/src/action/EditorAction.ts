@@ -47,6 +47,18 @@ export default class EditorAction {
         return this.#action.getIcon();
     }
 
+    public isEnabled() {
+        return this.#action.isEnabled();
+    }
+
+    public hasAction() {
+        return this.#action.hasAction();
+    }
+
+    public getSubMenu() {
+        return this.#action.getSubMenu();
+    }
+
     public runAction(source?: ActionSource): void {
         this.#action.runAction(source ?? ActionSource.CUSTOM).then(); //suppress warning
     }

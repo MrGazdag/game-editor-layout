@@ -21,7 +21,7 @@ export default class ContextMenuInitiator extends Component<Props,any> {
         if (this.parent && mode == ContextMenuMode.ADDITIVE) {
             this.parent.openContextMenu(e, actions);
         } else {
-            this.layout.showContextMenu(new ContextMenu("Context Menu", e.clientX, e.clientY, actions, ActionSource.CONTEXT_MENU));
+            this.layout.showContextMenu(new ContextMenu(null, "Context Menu", e.clientX, e.clientY, actions, ActionSource.CONTEXT_MENU));
         }
     }
 
