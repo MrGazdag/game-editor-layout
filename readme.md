@@ -4,16 +4,16 @@
 An Editor Layout Manager for React
 
 ## Features
-[x] Sidebar Tabs
-[x] Menu Bar
-[x] Context Menus
-[x] Keybinds
-[ ] Nested Context Menus
-[ ] Context Menu Groups
-[ ] Resizable Tabs
-[ ] Splittable Tabs
-[ ] Moving Tabs
-[ ] Editor Tabs
-[ ] Modals
-[ ] Status Bar
+- [x] Sidebar Tabs
+- [x] Menu Bar
+- [x] Context Menus
+- [x] Keybinds
+- [x] Nested Context Menus
+- [ ] Context Menu Groups
+- [ ] Resizable Tabs
+- [ ] Splittable Tabs
+- [ ] Moving Tabs
+- [ ] Editor Tabs
+- [ ] Modals
+- [ ] Status Bar
 
