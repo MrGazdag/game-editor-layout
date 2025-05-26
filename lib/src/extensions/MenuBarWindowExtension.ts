@@ -9,7 +9,13 @@ export default class MenuBarWindowExtension {
         let sidebarTabs = manager.getTabManager().getSidebarTabs();
         sidebarTabs.sort((a,b)=>a.getName().localeCompare(b.getName()));
 
-        controller.set(...sidebarTabs.map(t=>EditorAction.inline(t.getName(), ()=> t.show())));
+        // TODO listen for updates on tab changes, maybe don't rebuild the entire list
+        //      every time something changes? better event handlers?
+        controller.set(...sidebarTabs.map(t=>EditorAction.inline({
+            name: t.getName(),
+            icon: t.getIcon(),
+            action: ()=>t.show()
+        })));
     }
     public static create(manager: EditorLayoutManager) {
         let controller = new ActionGroupController();
