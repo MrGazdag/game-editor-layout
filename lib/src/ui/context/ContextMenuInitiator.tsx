@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import ContextMenu from "../../context/ContextMenu";
+import ContextMenu, {ContextMenuPosition} from "../../context/ContextMenu";
 import EditorLayout, {SharedEditorLayout} from "../EditorLayout";
 import ContextMenuMode from "../../context/ContextMenuMode";
 import EditorAction, {ActionEntryInput} from "../../action/EditorAction";
@@ -21,7 +21,8 @@ export default class ContextMenuInitiator extends Component<Props,any> {
         if (this.parent && mode == ContextMenuMode.ADDITIVE) {
             this.parent.openContextMenu(e, actions);
         } else {
-            this.layout.showContextMenu(new ContextMenu(null, "Context Menu", e.clientX, e.clientY, actions, ActionSource.CONTEXT_MENU));
+            let pos: ContextMenuPosition = {horizontal: e.clientX, vertical: e.clientY, align: "left"};
+            this.layout.showContextMenu(new ContextMenu(null, "Context Menu", [pos], actions, ActionSource.CONTEXT_MENU));
         }
     }
 

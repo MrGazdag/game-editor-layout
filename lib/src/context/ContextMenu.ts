@@ -6,19 +6,17 @@ import ActionGroup from "../action/ActionGroup";
 export default class ContextMenu {
     private readonly parent: ContextMenu | null;
     private readonly name: string;
-    private readonly posX: number;
-    private readonly posY: number;
+    private readonly positionCandidates: ContextMenuPosition[];
     private readonly entries: ActionEntry[];
     private readonly source: ActionSource;
     private open: boolean;
     private subMenu: ContextMenu | null;
     private changeHandler: ChangeHandler<ContextMenu>;
 
-    constructor(parent: ContextMenu | null, name: string, posX: number, posY: number, entries: ActionEntryInput[], source: ActionSource) {
+    constructor(parent: ContextMenu | null, name: string, positions: ContextMenuPosition[], entries: ActionEntryInput[], source: ActionSource) {
         this.parent = parent;
         this.name = name;
-        this.posX = posX;
-        this.posY = posY;
+        this.positionCandidates = positions;
         this.entries = EditorAction.flattenGroups(entries);
         this.source = source;
         this.open = false;
@@ -38,12 +36,8 @@ export default class ContextMenu {
         return this.name;
     }
 
-    getPosX() {
-        return this.posX;
-    }
-
-    getPosY() {
-        return this.posY;
+    getPositionCandidates() {
+        return this.positionCandidates;
     }
 
     getEntries() {
@@ -81,4 +75,9 @@ export default class ContextMenu {
     getSubMenu() {
         return this.subMenu;
     }
+}
+export interface ContextMenuPosition {
+    horizontal: number,
+    vertical: number,
+    align: "left" | "right"
 }

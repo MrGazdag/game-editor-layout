@@ -67,8 +67,9 @@
 		}
 
 		> ._close {
-			width: 1.3em;
-			height: 1.3em;
+			width: 1.0em;
+			height: 1.0em;
+			margin-right: 0.3em;
 			//it will be an svg icon so temp
 			display: flex;
 			justify-content: center;
@@ -84,6 +85,7 @@
 	> ._content {
 		display: flex;
 		flex-direction: column;
+		flex-shrink: 0;
 		width: 100%;
 		height: max-content;
 		max-height: 30vh;

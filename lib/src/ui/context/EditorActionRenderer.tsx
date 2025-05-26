@@ -2,7 +2,7 @@ import React, {MouseEvent, RefObject} from "react";
 import EditorAction from "../../action/EditorAction";
 import Icon from "../common/Icon";
 import DynamicComponent from "../common/DynamicComponent";
-import ContextMenu from "../../context/ContextMenu";
+import ContextMenu, {ContextMenuPosition} from "../../context/ContextMenu";
 import {SharedEditorLayout} from "../EditorLayout";
 
 export default class EditorActionRenderer extends DynamicComponent<EditorAction, Props> {
@@ -35,13 +35,16 @@ export default class EditorActionRenderer extends DynamicComponent<EditorAction,
         }, 200);
     }
     private openSubMenu() {
+        if (!this.ref.current) return;
         let subMenu = this.props.action.getSubMenu();
         if (subMenu) {
-            let div = this.ref.current!;
+            let div = this.ref.current;
             let rect = div.getBoundingClientRect();
-            let borderLeft = 16*0.1; // 0.1rem border
+            let borderSide = 16*0.1; // 0.1rem border
             let borderTop = 16*0.4; // 0.1rem border + 0.4rem padding
-            this.subMenu = new ContextMenu(this.props.menu, this.props.menu.getName(), rect.right-borderLeft, rect.top-borderTop, subMenu, this.props.menu.getSource());
+            let posRight: ContextMenuPosition = {horizontal: rect.right - borderSide, vertical: rect.top-borderTop, align: "left"};
+            let posLeft: ContextMenuPosition = {horizontal: rect.left + borderSide, vertical: rect.top-borderTop, align: "right"};
+            this.subMenu = new ContextMenu(this.props.menu, this.props.menu.getName(), [posRight, posLeft], subMenu, this.props.menu.getSource());
             this.subMenu.getChangeHandler().add(menu=>{
                 if (!menu.isOpen()) {
                     this.subMenu = null;
@@ -68,7 +71,9 @@ export default class EditorActionRenderer extends DynamicComponent<EditorAction,
                 return <div ref={this.ref} className={className} onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
-                    renderer.showContextMenu(undefined);
+                    if (action.getSubMenu() == null || action.hasAction()) {
+                        renderer.showContextMenu(undefined);
+                    }
                     if (action.isEnabled() && action.hasAction()) {
                         action.runAction(this.props.menu.getSource());
                     }

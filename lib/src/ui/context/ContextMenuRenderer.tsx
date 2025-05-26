@@ -27,32 +27,48 @@ export default class ContextMenuRenderer extends Component<Props, any> {
 
     recalculatePos() {
         if (!this.ref.current) return;
+        console.log("recalculate");
 
         let menu = this.props.menu;
-        let x = menu.getPosX();
-        let y = menu.getPosY();
+        let pos = menu.getPositionCandidates();
+        for (let i = 0; i < pos.length; i++) {
+            let candidate = pos[i];
 
-        // Reset height clipping (for top bar)
-        this.ref.current!.style.maxHeight = "none";
-        let clip = this.ref.current.getBoundingClientRect();
-        let w = clip.width;
-        let h = clip.height;
-        // TODO scroll?
-        let iw = window.innerWidth;
-        let ih = window.innerHeight;
+            let x = candidate.horizontal;
+            let y = candidate.vertical;
 
-        if (x + w > iw) {
-            x = Math.max(iw - w, 0);
-            this.ref.current.style.left = x + "px";
-        }
-        if (y + h > ih) {
-            if (menu.getSource() == ActionSource.MENU_BAR) {
-                // Cannot move further up, limit height
-                this.ref.current.style.maxHeight = (ih - y) + "px";
-            } else {
-                y = Math.max(ih - h, 0);
-                this.ref.current.style.top = y + "px";
+            // Reset height clipping (for top bar)
+            this.ref.current!.style.maxHeight = "none";
+            let clip = this.ref.current.getBoundingClientRect();
+            let w = clip.width;
+            let h = clip.height;
+
+            if (candidate.align === "right") {
+                x -= w;
             }
+            // TODO scroll?
+            let iw = window.innerWidth;
+            let ih = window.innerHeight;
+
+            if (x + w > iw) {
+                if (i < pos.length-1) {
+                    // Pick the next position candidate if this does not fit
+                    continue;
+                }
+                x = Math.max(iw - w, 0);
+            }
+            if (y + h > ih) {
+                if (menu.getSource() == ActionSource.MENU_BAR && menu.getParent() == null) {
+                    // Cannot move further up, limit height
+                    this.ref.current.style.maxHeight = (ih - y) + "px";
+                } else {
+                    y = Math.max(ih - h, 0);
+                }
+            }
+            this.ref.current.style.left = x + "px";
+            this.ref.current.style.top = y + "px";
+            console.log("candidate " + i + " picked: ", candidate);
+            break;
         }
     }
 
@@ -69,7 +85,6 @@ export default class ContextMenuRenderer extends Component<Props, any> {
         });
 
         let content: React.ReactNode[] = [];
-        console.log(menu.getEntries());
         for (let index = 0; index < menu.getEntries().length; index++){
             let prev = index == 0 ? null : menu.getEntries()[index-1];
             let entry = menu.getEntries()[index];
@@ -86,7 +101,7 @@ export default class ContextMenuRenderer extends Component<Props, any> {
                 content.push(<EditorActionRenderer key={index} action={entry} menu={menu}/>);
             }
         }
-        return <div ref={this.ref} className={className} style={{top: menu.getPosY(), left: menu.getPosX()}}>
+        return <div ref={this.ref} className={className} style={{top: menu.getPositionCandidates()[0].vertical, left: menu.getPositionCandidates()[0].horizontal}}>
             {content}
         </div>;
     }

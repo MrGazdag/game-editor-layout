@@ -48,7 +48,7 @@ export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
                 {alwaysOpen ? null
                     : <div className="_close" onClick={() => {
                         slot.getParent().removeSlot(slot);
-                    }}>X</div>}
+                    }}><Icon icon={"x"}/></div>}
             </div>
             {open ? <div className="_content">
                 {slot.getSelectedTab().render()}

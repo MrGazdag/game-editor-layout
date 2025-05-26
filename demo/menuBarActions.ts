@@ -142,6 +142,31 @@ export function registerActions(manager: EditorLayoutManager) {
                 action: ()=>{alert("sub 2!")},
                 enabled: false
             }),
+            EditorAction.inline("Nothing Three"),
+            EditorAction.inline({
+                name: "Long Sub Menu Test 1",
+                action: ()=>{alert("long sub 1")},
+                subMenu: [EditorAction.inline("Dummy"),EditorAction.inline({
+                    name: "Long Sub Menu Test 2",
+                    action: ()=>{alert("long sub 2")},
+                    subMenu: [EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline({
+                        name: "Long Sub Menu Test 3",
+                        action: ()=>{alert("long sub 3")},
+                        subMenu: [EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline({
+                            name: "Long Sub Menu Test 4",
+                            action: ()=>{alert("long sub 4")},
+                            subMenu: [EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline({
+                                name: "Long Sub Menu Test 5",
+                                action: ()=>{alert("long sub 5")},
+                                subMenu: [EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline({
+                                    name: "Long Sub Menu Test 6",
+                                    action: ()=>{alert("long sub 6")},
+                                }),],
+                            }),EditorAction.inline("Dummy"),],
+                        }),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),],
+                    }),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),],
+                }),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),],
+            }),
         ]
     }));
     

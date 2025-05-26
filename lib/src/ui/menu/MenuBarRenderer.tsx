@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import EditorLayoutManager from "../../EditorLayoutManager";
 import EditorLayout from "../EditorLayout";
-import ContextMenu from "../../context/ContextMenu";
+import ContextMenu, {ContextMenuPosition} from "../../context/ContextMenu";
 import ActionSource from "../../action/ActionSource";
 import Icon from "../common/Icon";
 import MenuBarEntry from "../../menubar/MenuBarEntry";
@@ -15,7 +15,8 @@ export default class MenuBarRenderer extends Component<Props, State> {
     private openMenu(t: MenuBarEntry, e: React.MouseEvent<HTMLDivElement>) {
         e.stopPropagation();
         let rect = e.currentTarget.getBoundingClientRect();
-        let contextMenu = new ContextMenu(null, "Menu Bar", rect.left, rect.bottom, t.getEntries(), ActionSource.MENU_BAR);
+        let pos: ContextMenuPosition = {horizontal: rect.left, vertical: rect.bottom, align: "left"};
+        let contextMenu = new ContextMenu(null, "Menu Bar", [pos], t.getEntries(), ActionSource.MENU_BAR);
         this.props.renderer.showContextMenu(contextMenu);
         this.setState({
             ...this.state,

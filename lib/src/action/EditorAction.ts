@@ -75,13 +75,13 @@ export default class EditorAction {
     }
 
     public static inline(action: ActionHandle): EditorAction;
-    public static inline(name: string, action: ActionHandle): EditorAction;
+    public static inline(name: string, action?: ActionHandle): EditorAction;
     public static inline(options: InlineActionInitData): EditorAction
     public static inline(param0: ActionHandle|InlineActionInitData|string, param1?: ActionHandle): EditorAction {
         let controller: ActionController;
-        if (typeof param1 === "function") {
+        if (typeof param0 === "string") {
             controller = new ActionController({
-                name: param0 as string,
+                name: param0,
                 action: param1,
             });
         } else if (typeof param0 === "function") {
