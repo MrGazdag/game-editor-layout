@@ -105,7 +105,9 @@ export default class EditorAction {
             if (entry instanceof EditorAction || entry instanceof ActionGroup) {
                 return entry;
             } else {
-                return new ActionGroup(new ActionGroupController(...entry));
+                return new ActionGroup(new ActionGroupController({
+                    actions: entry
+                }));
             }
         });
     }

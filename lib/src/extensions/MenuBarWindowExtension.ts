@@ -38,7 +38,7 @@ export default class MenuBarWindowExtension {
 
             tab.getChangeHandler().add(result.handler);
             controller.add(result.entry);
-            controller.sort();
+            controller.setSort();
             map.set(tab, result);
         }
 

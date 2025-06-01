@@ -19,7 +19,6 @@ export function registerClock(handler: (icon: string, time: string)=>void) {
         let iconIndex = Math.floor(date.getTime()/interval)%clocks.length;
         let icon = clocks[iconIndex];
         let time = getTimeString(date);
-        console.log(date, iconIndex, icon, time);
         handler(icon, time);
     }, interval);
 }

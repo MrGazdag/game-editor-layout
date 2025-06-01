@@ -1,20 +1,42 @@
 import Controller from "../utils/Controller";
 import EditorAction from "./EditorAction";
+import Comparator from "../utils/Comparator";
 
 export default class ActionGroupController extends Controller<ActionGroupData> {
-    constructor(...actions: EditorAction[]) {
+    constructor(data: ActionGroupData) {
         super({
-            actions: actions
-        }, {});
+            actions: [],
+            sort: defaultComparator
+        }, data);
     }
 
     public add(...actions: EditorAction[]) {
-        this.data.actions.push(...actions);
-        this.getChangeHandler().apply({...this.data});
+        if (actions.length == 0) return;
+
+        let changed = false;
+        if (this.data.sort) {
+            for (let action of actions) {
+                // Find target index
+                let index = Comparator.binarySearch(this.data.actions, action, this.data.sort);
+                if (index > 0) continue; // Already in list
+                index = -index-1;
+
+                // Add element at index
+                this.data.actions.splice(index, 0, action);
+                changed = true;
+            }
+        } else {
+            changed = true;
+            this.data.actions.push(...actions);
+        }
+
+        if (changed) this.getChangeHandler().apply({...this.data});
     }
 
     public set(...actions: EditorAction[]) {
-        this.data.actions = actions;
+        let copy = [...actions];
+        if (this.data.sort) copy.sort(this.data.sort);
+        this.data.actions = copy;
         this.getChangeHandler().apply({...this.data});
     }
 
@@ -23,17 +45,28 @@ export default class ActionGroupController extends Controller<ActionGroupData> {
     }
 
     public remove(...actions: EditorAction[]) {
+        let changed = false;
         for (let action of actions) {
-            let index = this.data.actions.indexOf(action);
+            let index;
+            if (this.data.sort) {
+                // Use faster binary search with known sort
+                index = Comparator.binarySearch(this.data.actions, action, this.data.sort);
+            } else {
+                // Insertion order, so just use the builtin
+                index = this.data.actions.indexOf(action);
+            }
+
             if (index > -1) {
                 this.data.actions.splice(index, 1);
+                changed = true;
             }
         }
-        this.getChangeHandler().apply({...this.data});
+        if (changed) this.getChangeHandler().apply({...this.data});
     }
 
-    sort(comparator: (a: EditorAction, b: EditorAction) => number = defaultComparator) {
-        this.data.actions.sort(comparator);
+    setSort(comparator: ((a: EditorAction, b: EditorAction) => number) | null = defaultComparator) {
+        this.data.sort = comparator;
+        if (comparator) this.data.actions.sort(comparator);
         this.getChangeHandler().apply({...this.data});
     }
 }
@@ -44,12 +77,19 @@ const defaultComparator = (a: EditorAction, b: EditorAction)=>{
     if (id1 == null && id2 != null) return  1;
     if (id1 == null && id2 == null) {
         // Both actions inline, sort by name
-        return a.getName().localeCompare(b.getName());
+        return Comparator.naturalCompare(a.getName(), b.getName());
     }
     // Both actions are registered, sort by id
-    return id1!.localeCompare(id2!);
+    return Comparator.naturalCompare(id1!, id2!);
 }
 
 interface ActionGroupData {
-    actions: EditorAction[]
+    actions: EditorAction[],
+    /**
+     * Represents the sort order of this action group. By default, the entries
+     * are sorted ID first (inline actions are put at the end), and then by name.
+     *
+     * `null` represents insertion-order sorting.
+     */
+    sort: Comparator<EditorAction> | null
 }
