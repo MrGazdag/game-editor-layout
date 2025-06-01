@@ -8,7 +8,6 @@ import SidebarTabEntry from "../tab/SidebarTabEntry";
 export default class MenuBarWindowExtension {
     private static updateList(controller: ActionGroupController, manager: EditorLayoutManager, map: Map<SidebarTabEntry,Entry>) {
         let sidebarTabs = manager.getTabManager().getSidebarTabs();
-        sidebarTabs.sort((a,b)=>a.getName().localeCompare(b.getName()));
         let oldKeys = [...map.keys()];
         for (let oldKey of oldKeys) {
             if (!sidebarTabs.includes(oldKey)) {
@@ -22,6 +21,7 @@ export default class MenuBarWindowExtension {
             if (map.has(tab)) continue;
 
             let actionController = new ActionController({
+                id: "open_tab/" + tab.getId(),
                 name: tab.getName(),
                 icon: tab.getIcon(),
                 action: ()=>tab.show()

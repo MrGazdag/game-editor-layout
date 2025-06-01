@@ -3,7 +3,7 @@ import EditorAction from "./EditorAction";
 import Comparator from "../utils/Comparator";
 
 export default class ActionGroupController extends Controller<ActionGroupData> {
-    constructor(data: ActionGroupData) {
+    constructor(data?: Partial<ActionGroupData>) {
         super({
             actions: [],
             sort: defaultComparator
