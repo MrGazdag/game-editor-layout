@@ -2,6 +2,7 @@ import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
 import Keybind from "game-editor-layout/keybinds/Keybind";
 import ActionController from "game-editor-layout/action/ActionController";
 import EditorAction from "game-editor-layout/action/EditorAction";
+import {registerClock} from "./clock";
 
 export function registerMenuBar(manager: EditorLayoutManager) {
     let menuBar = manager.getMenuBarManager();
@@ -114,17 +115,21 @@ export function registerActions(manager: EditorLayoutManager) {
     //testBar.addAction(testAction);
     let controller = new ActionController({
         id: "time",
-        name: "Dynamic Action - " + getTime(),
+        name: "Dynamic Action",
         action: ()=>{
-            alert("The time is: " + getTime());
+            alert("The time has not been set yet.");
         }
     });
     viewBar.addEntry(actions.createAction(controller));
-    setInterval(()=>{
+    registerClock((icon,time)=>{
         controller.updateData({
-            name: "Dynamic Action - " + getTime()
-        });
-    }, 1000);
+            name: "Dynamic Action - " + time,
+            icon: icon,
+            action: ()=>{
+                alert("The time is: " + time);
+            }
+        })
+    });
 
     viewBar.addEntry(actions.createAction({
         id: "nothing",
@@ -161,21 +166,17 @@ export function registerActions(manager: EditorLayoutManager) {
                                 subMenu: [EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline({
                                     name: "Long Sub Menu Test 6",
                                     action: ()=>{alert("long sub 6")},
-                                }),],
-                            }),EditorAction.inline("Dummy"),],
-                        }),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),],
-                    }),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),],
-                }),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),],
+                                    subMenu: [EditorAction.inline("Dummy"), EditorAction.inline("Dummy"), EditorAction.inline("Dummy"), EditorAction.inline("Dummy"), EditorAction.inline("Dummy"), EditorAction.inline("Dummy"), EditorAction.inline({
+                                        name: "Long Sub Menu Test 7",
+                                        action: ()=>{alert("long sub 7")},
+                                    })]
+                                }),EditorAction.inline("Dummy")],
+                            }),EditorAction.inline("Dummy"),EditorAction.inline("Dummy")],
+                        }),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy")],
+                    }),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy")],
+                }),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy"),EditorAction.inline("Dummy")],
             }),
         ]
     }));
     
-}
-function getTime() {
-    let date = new Date();
-    return (date.getHours()+"").padStart(2, "0")
-         + ":" +
-         (date.getMinutes()+"").padStart(2, "0")
-         + ":" +
-         (date.getSeconds()+"").padStart(2, "0");
 }

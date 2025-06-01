@@ -4,8 +4,6 @@ import EditorAction from "./EditorAction";
 
 export default class ActionController extends Controller<ActionData> {
     private readonly id: string | undefined;
-    private readonly callback: ActionHandle | undefined;
-
     constructor(options: ActionInitData | InlineActionInitData) {
         super(DefaultActionData, {
             // The name defaults to the ID
@@ -13,7 +11,6 @@ export default class ActionController extends Controller<ActionData> {
             ...options
         });
         this.id = "id" in options ? options.id : undefined;
-        this.callback = options.action;
     }
 
     getId() {
@@ -41,13 +38,13 @@ export default class ActionController extends Controller<ActionData> {
     }
 
     hasAction() {
-        return this.callback != null;
+        return this.data.action != null;
     }
 
     runAction(source: ActionSource): Promise<void> {
-        if (this.callback == null) return Promise.resolve();
+        if (this.data.action == null) return Promise.resolve();
 
-        let p = this.callback(source);
+        let p = this.data.action(source);
 
         if (p === undefined) return Promise.resolve();
         return p;
@@ -66,11 +63,11 @@ export interface ActionData {
     icon: string | null,
     enabled: boolean,
     subMenu: EditorAction[] | null
+    action?: ActionHandle
 }
 export interface ActionInitData extends InlineActionInitData {
     id: string,
 }
 export interface InlineActionInitData extends Partial<ActionData> {
-    action?: ActionHandle
 }
 export type ActionHandle = (source: ActionSource)=>void|Promise<void>;

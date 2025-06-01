@@ -1,9 +1,8 @@
 import React from "react";
 import TabSlot from "../../tab/TabSlot";
 import Icon from "../common/Icon";
-import ContextMenuInitiator from "../context/ContextMenuInitiator";
-import EditorAction from "../../action/EditorAction";
 import DynamicComponent from "../common/DynamicComponent";
+import TabTitleRenderer from "./TabTitleRenderer";
 
 export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
     constructor(props: Props) {
@@ -24,25 +23,7 @@ export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
                 }
                 <div className="_entries">
                     {slot.getTabs().map((tab) => {
-                        let className = "_control_bar";
-                        if (slot.getSelectedTab() == tab) className += " _selected";
-
-                        return <ContextMenuInitiator key={tab.getId()} menuProvider={()=>{
-                            return [EditorAction.inline("Close Tab", ()=>{
-                                tab.getSlot()!.removeTab(tab);
-                            })];
-                        }}>
-                            <div className={className} onClick={() => {
-                                if (slot.getSelectedTab() == tab) {
-                                    slot.setOpen(!slot.isOpen());
-                                } else {
-                                    slot.setSelectedTab(tab);
-                                }
-                            }}>
-                                {tab.getIcon() ? <Icon icon={tab.getIcon()!}/> : null}
-                                <div className="_name">{tab.getName()}</div>
-                            </div>
-                        </ContextMenuInitiator>;
+                        return <TabTitleRenderer tab={tab} key={tab.getId()}/>
                     })}
                 </div>
                 {alwaysOpen ? null

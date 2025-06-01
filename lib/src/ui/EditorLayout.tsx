@@ -3,13 +3,12 @@ import EditorLayoutManager from "../EditorLayoutManager";
 import ContextMenuRenderer from "./context/ContextMenuRenderer";
 import ContextMenu from "../context/ContextMenu";
 import MenuBarRenderer from "./menu/MenuBarRenderer";
-import ContextMenuInitiator from "./context/ContextMenuInitiator";
 import ActionSource from "../action/ActionSource";
-import EditorAction from "../action/EditorAction";
 import TabSlotContainerRenderer from "./tab/TabSlotContainerRenderer";
 
 export default class EditorLayout extends Component<Props, State> {
     private contextMenuClickHandler: (e: MouseEvent)=>void;
+    private blurHandler: (e: Event)=>void;
     private menuUpdate: (m: ContextMenu)=>void;
     private topBarRef: React.RefObject<MenuBarRenderer>;
     constructor(props: Props) {
@@ -26,14 +25,19 @@ export default class EditorLayout extends Component<Props, State> {
             }
             this.forceUpdate();
         };
+        this.blurHandler = (e)=>{
+            this.showContextMenu(undefined);
+        };
     }
 
     componentDidMount() {
         addEventListener("click", this.contextMenuClickHandler);
+        addEventListener("blur", this.blurHandler);
     }
 
     componentWillUnmount() {
         removeEventListener("click", this.contextMenuClickHandler);
+        removeEventListener("blur", this.blurHandler);
     }
 
     render() {
@@ -80,7 +84,8 @@ export default class EditorLayout extends Component<Props, State> {
 
 interface Props {
     manager: EditorLayoutManager,
-    editorIcon?: string
+    editorIcon?: string,
+    dev?: boolean
 }
 
 interface State {

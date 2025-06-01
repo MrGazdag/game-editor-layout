@@ -1,8 +1,10 @@
 import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
-import { SidebarTabPosition } from "game-editor-layout/tab/SidebarTabPosition";
+import {SidebarTabPosition} from "game-editor-layout/tab/SidebarTabPosition";
 import React from "react";
 import TextInput from "./customComponents/TextInput";
 import AllIconRenderer from "./customComponents/AllIconRenderer";
+import SidebarTabController from "game-editor-layout/tab/SidebarTabController";
+import {registerClock} from "./clock";
 
 export function registerLeftSideTabs(manager: EditorLayoutManager) {
 	let tabManager = manager.getTabManager();
@@ -56,17 +58,24 @@ export function registerRightSideTabs(manager: EditorLayoutManager) {
 			</div>;
 		}
 	});
-	let videoPlayer = tabManager.createSidebarTabEntry({
+	let controller = new SidebarTabController({
 		id: "video_player",
 		name: "Video Player",
 		preferredPosition: SidebarTabPosition.RIGHT,
 		renderer: ()=> {
 			return <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dEQOo5lpb0M?si=3KtTdIhO9n7I4Qy3"
-			               title="YouTube video player"
-			               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-			               referrerPolicy="strict-origin-when-cross-origin"
-			               allowFullScreen></iframe>
+						   title="YouTube video player"
+						   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						   referrerPolicy="strict-origin-when-cross-origin"
+						   allowFullScreen></iframe>
 		}
+	});
+	let videoPlayer = tabManager.createSidebarTabEntry(controller);
+	registerClock((icon,time)=>{
+		controller.updateData({
+			name: "Video Player - " + time,
+			icon: icon
+		});
 	});
 	let container = tabManager.getRightSideBar();
 	container.createSlot(allIcons);

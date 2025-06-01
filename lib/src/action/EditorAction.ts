@@ -76,8 +76,9 @@ export default class EditorAction {
 
     public static inline(action: ActionHandle): EditorAction;
     public static inline(name: string, action?: ActionHandle): EditorAction;
-    public static inline(options: InlineActionInitData): EditorAction
-    public static inline(param0: ActionHandle|InlineActionInitData|string, param1?: ActionHandle): EditorAction {
+    public static inline(options: InlineActionInitData): EditorAction;
+    public static inline(controller: ActionController): EditorAction;
+    public static inline(param0: ActionHandle|InlineActionInitData|string|ActionController, param1?: ActionHandle): EditorAction {
         let controller: ActionController;
         if (typeof param0 === "string") {
             controller = new ActionController({
@@ -88,6 +89,8 @@ export default class EditorAction {
             controller = new ActionController({
                 action: param0
             });
+        } else if (param0 instanceof ActionController) {
+            controller = param0;
         } else {
             controller = new ActionController(param0 as InlineActionInitData);
         }

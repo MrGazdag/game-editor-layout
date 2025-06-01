@@ -1,7 +1,6 @@
-import EditorLayoutManager from "../EditorLayoutManager";
 import TabController from "./TabController";
 import TabSlot from "./TabSlot";
-import ChangeHandler, {ChangeHandlerFunction} from "../utils/ChangeHandler";
+import ChangeHandler from "../utils/ChangeHandler";
 import TabManager from "./TabManager";
 
 export default class TabEntry<Controller extends TabController=any> {
@@ -15,6 +14,9 @@ export default class TabEntry<Controller extends TabController=any> {
         this.controller = controller;
         this.slot = null;
         this.changeHandler = new ChangeHandler();
+        this.controller.getChangeHandler().add(()=>{
+            this.changeHandler.apply(this);
+        });
     }
 
     public getManager() {
