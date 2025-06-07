@@ -26,7 +26,7 @@ export default class EditorLayout extends Component<Props, State> {
             this.forceUpdate();
         };
         this.blurHandler = (e)=>{
-            this.showContextMenu(undefined);
+            if (!this.props.dev) this.showContextMenu(undefined);
         };
     }
 

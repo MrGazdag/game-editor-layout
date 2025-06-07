@@ -37,6 +37,6 @@ MenuBarWindowExtension.enable(manager);
 const root = createRoot(document.getElementById("root")!);
 root.render(
     <StrictMode>
-        <EditorLayout manager={manager} editorIcon={"test-logo"}/>
+        <EditorLayout manager={manager} editorIcon={"test-logo"} dev={true}/>
     </StrictMode>
 );

@@ -99,7 +99,10 @@ export default class EditorActionRenderer extends DynamicComponent<EditorAction,
                     <span className="_binds">{action.getKeybinds().map((e,i)=>{
                         return <span className={e.isUnsafe() ? "_unsafe" : ""} key={i}>{e.toString()}</span>
                     })}</span>
-                    {action.getSubMenu() != null ? <Icon className="_sub_icon" icon={"chevron-right-solid"}/> : null}
+                    {action.getSubMenu() != null ? <Icon className="_sub_icon" onClick={e=>{
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }} icon={"chevron-right-solid"}/> : null}
                 </div>;
             }}
         </SharedEditorLayout.Consumer>;
