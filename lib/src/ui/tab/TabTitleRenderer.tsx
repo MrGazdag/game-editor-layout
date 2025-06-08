@@ -18,6 +18,11 @@ export default class TabTitleRenderer extends DynamicComponent<TabEntry, Props> 
         return <ContextMenuInitiator menuProvider={()=>{
             return [EditorAction.inline("Close Tab", ()=>{
                 tab.getSlot()!.removeTab(tab);
+            }), EditorAction.inline("Move Tab to new Slot", ()=>{
+                let slot = tab.getSlot()!;
+                if (slot.getTabs().length == 1) return;
+                let container = slot.getParent();
+                container.createSlot(tab);
             })];
         }}>
             <div className={className} onClick={() => {

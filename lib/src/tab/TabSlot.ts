@@ -2,15 +2,15 @@ import TabEntry from "./TabEntry";
 import TabSlotContainer from "./TabSlotContainer";
 import ChangeHandler from "../utils/ChangeHandler";
 
-export default class TabSlot {
-    private readonly parent: TabSlotContainer;
+export default class TabSlot<out T extends TabEntry=TabEntry> {
+    private readonly parent: TabSlotContainer<T>;
     private readonly id: number;
-    private readonly tabs: TabEntry[];
-    private selectedTab: TabEntry;
+    private readonly tabs: T[];
+    private selectedTab: T;
     private open: boolean;
-    private changeHandler: ChangeHandler<TabSlot>;
+    private readonly changeHandler: ChangeHandler<TabSlot>;
 
-    constructor(parent: TabSlotContainer, id: number, tabs: TabEntry[]) {
+    constructor(parent: TabSlotContainer<T>, id: number, tabs: T[]) {
         this.parent = parent;
         this.id = id;
         this.tabs = [...tabs];
@@ -48,7 +48,7 @@ export default class TabSlot {
         return this.selectedTab;
     }
 
-    setSelectedTab(tab: TabEntry) {
+    setSelectedTab(tab: T) {
         if (tab.getSlot() != this) return;
         this.selectedTab = tab;
         this.open = true;
@@ -59,7 +59,7 @@ export default class TabSlot {
         return [...this.tabs];
     }
 
-    addTab(tab: TabEntry) {
+    addTab(tab: T) {
         if (this.hasTab(tab)) return;
 
         this.tabs.push(tab);
@@ -67,11 +67,11 @@ export default class TabSlot {
         this.changeHandler.apply(this);
     }
 
-    hasTab(tab: TabEntry) {
+    hasTab(tab: T) {
         return this.tabs.includes(tab);
     }
 
-    removeTab(tab: TabEntry) {
+    removeTab(tab: T) {
         let index = this.tabs.indexOf(tab);
         if (index > -1) {
             this.tabs.splice(index, 1);

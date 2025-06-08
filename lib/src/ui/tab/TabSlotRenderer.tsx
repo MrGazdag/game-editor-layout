@@ -23,7 +23,7 @@ export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
                 }
                 <div className="_entries">
                     {slot.getTabs().map((tab) => {
-                        return <TabTitleRenderer tab={tab} key={tab.getId()}/>
+                        return <TabTitleRenderer tab={tab} key={tab.getUniqueIdentifier()}/>
                     })}
                 </div>
                 {alwaysOpen ? null

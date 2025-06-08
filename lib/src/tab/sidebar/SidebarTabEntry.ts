@@ -1,15 +1,21 @@
 import SidebarTabController from "./SidebarTabController";
-import TabEntry from "./TabEntry";
-import TabManager from "./TabManager";
+import TabEntry from "../TabEntry";
+import TabManager from "../TabManager";
 import {SidebarTabPosition} from "./SidebarTabPosition";
-import TabSlotContainer from "./TabSlotContainer";
+import TabSlotContainer from "../TabSlotContainer";
 
 export default class SidebarTabEntry extends TabEntry<SidebarTabController> {
+	private readonly manager: TabManager;
 	constructor(manager: TabManager, controller: SidebarTabController) {
-		super(manager, controller);
+		super(controller);
+		this.manager = manager;
 	}
 
-	getId() {
+	public getManager() {
+		return this.manager;
+	}
+
+	getUniqueIdentifier() {
 		return this.controller.getId();
 	}
 
@@ -24,10 +30,10 @@ export default class SidebarTabEntry extends TabEntry<SidebarTabController> {
 			let sidebar: TabSlotContainer;
 			switch (preferred) {
 				case SidebarTabPosition.LEFT:
-					sidebar = this.getManager().getLeftSideBar();
+					sidebar = this.manager.getLeftSideBar();
 					break;
 				case SidebarTabPosition.RIGHT:
-					sidebar = this.getManager().getRightSideBar();
+					sidebar = this.manager.getRightSideBar();
 					break;
 			}
 			sidebar.createSlot(this)?.setOpen(true);

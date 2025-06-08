@@ -11,6 +11,8 @@ export default class EditorLayout extends Component<Props, State> {
     private blurHandler: (e: Event)=>void;
     private menuUpdate: (m: ContextMenu)=>void;
     private topBarRef: React.RefObject<MenuBarRenderer>;
+    private dragContexts: Map<string,any>;
+    private sessionId: string;
     constructor(props: Props) {
         super(props);
         this.state = {};
@@ -28,6 +30,8 @@ export default class EditorLayout extends Component<Props, State> {
         this.blurHandler = (e)=>{
             if (!this.props.dev) this.showContextMenu(undefined);
         };
+        this.dragContexts = new Map();
+        this.sessionId = crypto.randomUUID();
     }
 
     componentDidMount() {
@@ -63,6 +67,38 @@ export default class EditorLayout extends Component<Props, State> {
                 </SharedEditorLayoutManager.Provider>
             </SharedEditorLayout.Provider>
         </div>;
+    }
+
+    private getDragTypePrefix() {
+        return "game-editor-layout:" + this.sessionId + "/drag:";
+    }
+
+    setDraggableContext<T>(target: T, e: React.DragEvent) {
+        let id = crypto.randomUUID();
+        this.dragContexts.set(id, target);
+        e.dataTransfer.setData(this.getDragTypePrefix() + id, "Yes");
+    }
+
+    getDraggableContext<T>(e: React.DragEvent): T | undefined {
+        for (let type of e.dataTransfer.types) {
+            if (type.startsWith(this.getDragTypePrefix())) {
+                let key = type.substring(this.getDragTypePrefix().length);
+                let result = this.dragContexts.get(key);
+                if (result !== undefined) return result;
+            }
+        }
+        return undefined;
+    }
+
+    clearDraggableContext<T>(e: React.DragEvent) {
+        for (let type of e.dataTransfer.types) {
+            if (type.startsWith(this.getDragTypePrefix())) {
+                let key = type.substring(this.getDragTypePrefix().length);
+                if (this.dragContexts.has(key)) {
+                    this.dragContexts.delete(key);
+                }
+            }
+        }
     }
 
     showContextMenu(contextMenu: ContextMenu | undefined) {

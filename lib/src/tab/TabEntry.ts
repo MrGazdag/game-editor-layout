@@ -1,16 +1,13 @@
 import TabController from "./TabController";
 import TabSlot from "./TabSlot";
 import ChangeHandler from "../utils/ChangeHandler";
-import TabManager from "./TabManager";
 
-export default class TabEntry<Controller extends TabController=any> {
-    #manager: TabManager;
+export default abstract class TabEntry<Controller extends TabController=any> {
     protected readonly controller: Controller;
-    private slot: TabSlot | null;
-    private changeHandler: ChangeHandler<TabEntry<Controller>>;
+    private readonly changeHandler: ChangeHandler<TabEntry<Controller>>;
+    private slot: TabSlot<typeof this> | null;
 
-    constructor(manager: TabManager, controller: Controller) {
-        this.#manager = manager;
+    constructor(controller: Controller) {
         this.controller = controller;
         this.slot = null;
         this.changeHandler = new ChangeHandler();
@@ -19,19 +16,22 @@ export default class TabEntry<Controller extends TabController=any> {
         });
     }
 
-    public getManager() {
-        return this.#manager;
-    }
-
     public getChangeHandler() {
         return this.changeHandler;
     }
 
-    public getId() {
-        return this.controller.getId();
+    public getUniqueIdentifier() {
+        return this.controller.getUniqueIdentifier();
     }
 
-    setSlot(slot: TabSlot | null) {
+    setSlot(slot: TabSlot<typeof this> | null) {
+        if (this.slot == slot) return;
+
+        if (this.slot) {
+            let oldSlot = this.slot;
+            this.slot = null;
+            oldSlot.removeTab(this);
+        }
         this.slot = slot;
         if (slot != null && !slot.hasTab(this)) {
             slot.addTab(this);

@@ -1,5 +1,5 @@
-import SidebarTabEntry from "./SidebarTabEntry";
-import SidebarTabController, {SidebarInitData} from "./SidebarTabController";
+import SidebarTabEntry from "./sidebar/SidebarTabEntry";
+import SidebarTabController, {SidebarInitData} from "./sidebar/SidebarTabController";
 import EditorLayoutManager from "../EditorLayoutManager";
 import ChangeHandler from "../utils/ChangeHandler";
 import TabSlotContainer from "./TabSlotContainer";
@@ -9,9 +9,9 @@ export default class TabManager {
     private readonly sideBarTabEntries: Map<string,SidebarTabEntry>;
     private readonly changeHandler: ChangeHandler<TabManager>;
 
-    private readonly leftSideBar: TabSlotContainer;
-    private readonly centerTabs: TabSlotContainer;
-    private readonly rightSideBar: TabSlotContainer;
+    private readonly leftSideBar: TabSlotContainer<SidebarTabEntry>;
+    private readonly centerTabs: TabSlotContainer<SidebarTabEntry>; // TODO change this
+    private readonly rightSideBar: TabSlotContainer<SidebarTabEntry>;
 
     constructor(parent: EditorLayoutManager) {
         this.parent = parent;
@@ -41,7 +41,7 @@ export default class TabManager {
             controller = new SidebarTabController(param);
         }
         let entry = new SidebarTabEntry(this, controller);
-        this.sideBarTabEntries.set(entry.getId(), entry);
+        this.sideBarTabEntries.set(entry.getUniqueIdentifier(), entry);
         this.changeHandler.apply(this);
         return entry;
     }

@@ -1,10 +1,10 @@
 import EditorLayoutManager from "game-editor-layout/EditorLayoutManager";
-import {SidebarTabPosition} from "game-editor-layout/tab/SidebarTabPosition";
 import React from "react";
 import TextInput from "./customComponents/TextInput";
 import AllIconRenderer from "./customComponents/AllIconRenderer";
-import SidebarTabController from "game-editor-layout/tab/SidebarTabController";
 import {registerClock} from "./clock";
+import {SidebarTabPosition} from "game-editor-layout/tab/sidebar/SidebarTabPosition";
+import SidebarTabController from "game-editor-layout/tab/sidebar/SidebarTabController";
 
 export function registerLeftSideTabs(manager: EditorLayoutManager) {
 	let tabManager = manager.getTabManager();

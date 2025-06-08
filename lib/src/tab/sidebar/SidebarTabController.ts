@@ -1,7 +1,5 @@
-import Controller from "../utils/Controller";
 import {SidebarTabPosition} from "./SidebarTabPosition";
-import React from "react";
-import TabController, {TabData, TabInitData} from "./TabController";
+import TabController, {TabData, TabInitData} from "../TabController";
 
 export default class SidebarTabController extends TabController {
     private readonly id: string;
@@ -10,7 +8,7 @@ export default class SidebarTabController extends TabController {
     constructor(options: SidebarInitData) {
         super(DefaultSidebarTabData, {
             // The name defaults to the ID
-            ...(options.id !== null ? {name: options.id}: null),
+            ...(options.name === null && options.id !== null ? {name: options.id}: null),
             ...options
         });
         this.id = options.id;
@@ -18,6 +16,10 @@ export default class SidebarTabController extends TabController {
     }
 
     getId() {
+        return this.id;
+    }
+
+    getUniqueIdentifier(): string {
         return this.id;
     }
 

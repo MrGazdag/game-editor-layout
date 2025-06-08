@@ -3,7 +3,7 @@ import ActionGroup from "../action/ActionGroup";
 import ActionGroupController from "../action/ActionGroupController";
 import EditorAction from "../action/EditorAction";
 import ActionController from "../action/ActionController";
-import SidebarTabEntry from "../tab/SidebarTabEntry";
+import SidebarTabEntry from "../tab/sidebar/SidebarTabEntry";
 
 export default class MenuBarWindowExtension {
     private static updateList(controller: ActionGroupController, manager: EditorLayoutManager, map: Map<SidebarTabEntry,Entry>) {
@@ -21,7 +21,7 @@ export default class MenuBarWindowExtension {
             if (map.has(tab)) continue;
 
             let actionController = new ActionController({
-                id: "open_tab/" + tab.getId(),
+                id: "open_tab/" + tab.getUniqueIdentifier(),
                 name: tab.getName(),
                 icon: tab.getIcon(),
                 action: ()=>tab.show()
