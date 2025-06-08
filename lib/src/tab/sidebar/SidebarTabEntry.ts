@@ -15,10 +15,6 @@ export default class SidebarTabEntry extends TabEntry<SidebarTabController> {
 		return this.manager;
 	}
 
-	getUniqueIdentifier() {
-		return this.controller.getId();
-	}
-
 	show() {
 		let slot = this.getSlot();
 		if (slot !== null) {

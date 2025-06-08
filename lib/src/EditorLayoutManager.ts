@@ -1,7 +1,7 @@
 import KeybindManager from "./keybinds/KeybindManager";
 import ActionManager from "./action/ActionManager";
 import MenuBarManager from "./menubar/MenuBarManager";
-import TabManager from "./tab/TabManager";
+import TabManager, {TabManagerOptions} from "./tab/TabManager";
 import WindowManager from "./window/WindowManager";
 
 export default class EditorLayoutManager {
@@ -10,11 +10,11 @@ export default class EditorLayoutManager {
     private readonly keybindManager: KeybindManager;
     private readonly tabManager: TabManager;
     private readonly windowManager: WindowManager;
-    constructor() {
+    constructor(options?: Options) {
         this.actionManager = new ActionManager(this);
         this.menuBarManager = new MenuBarManager(this);
         this.keybindManager = new KeybindManager(this);
-        this.tabManager = new TabManager(this);
+        this.tabManager = new TabManager(this, options?.tab);
         this.windowManager = new WindowManager(this);
     }
 
@@ -38,4 +38,7 @@ export default class EditorLayoutManager {
     getWindowManager() {
         return this.windowManager;
     }
+}
+interface Options {
+    tab?: TabManagerOptions
 }

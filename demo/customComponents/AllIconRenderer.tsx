@@ -1,9 +1,8 @@
-import React from "react";
-import {Component} from "react";
-import IconTypes from "../IconTypes";
+import React, {Component} from "react";
 import Icon from "game-editor-layout/ui/common/Icon";
+import TabManager from "game-editor-layout/tab/TabManager";
 
-export default class AllIconRenderer extends Component<any, any> {
+export default class AllIconRenderer extends Component<Props, any> {
 	private readonly icons: string[] = [
 		"arrow-down",
 		"arrow-up",
@@ -15,15 +14,20 @@ export default class AllIconRenderer extends Component<any, any> {
 		"x"
 	];
 
-	constructor(props: any) {
+	constructor(props: Props) {
 		super(props);
 		this.state = {}
 	}
 
 	render() {
-		//icon + undefined because it uses className but it was null
+		//icon + undefined because it uses className, but it was null
 		return <div className={"_all_icons"}>
-			{this.icons.map(icon => <Icon icon={icon} className={"_entry"}/>)}
+			{this.icons.map(icon => <Icon icon={icon} key={icon} onClick={()=>{
+				this.props.manager.openEditorTab("test-icon-tabs://" + icon);
+			}} className={"_entry"}/>)}
 		</div>
 	}
+}
+interface Props {
+	manager: TabManager
 }

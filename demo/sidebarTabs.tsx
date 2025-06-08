@@ -28,8 +28,7 @@ export function registerLeftSideTabs(manager: EditorLayoutManager) {
 		}
 	});
 	let container = tabManager.getLeftSideBar();
-	container.createSlot(tools);
-	container.createSlot(settings);
+	container.createSlot(tools, settings);
 }
 
 export function registerRightSideTabs(manager: EditorLayoutManager) {
@@ -40,7 +39,7 @@ export function registerRightSideTabs(manager: EditorLayoutManager) {
 		preferredPosition: SidebarTabPosition.RIGHT,
 
 		renderer: ()=>{
-			return <AllIconRenderer/>;
+			return <AllIconRenderer manager={tabManager}/>;
 		}
 	});
 	let colors = tabManager.createSidebarTabEntry({
@@ -81,6 +80,5 @@ export function registerRightSideTabs(manager: EditorLayoutManager) {
 	container.createSlot(allIcons);
 	//container.createSlot(allIcons);
 	//container.createSlot(colors);
-	container = tabManager.getCenterSideBar();
 	container.createSlot(colors, videoPlayer);
 }

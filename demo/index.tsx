@@ -8,7 +8,7 @@ import EditorLayout from "game-editor-layout/ui/EditorLayout";
 import "./index.scss";
 import {registerActions, registerMenuBar} from "./menuBarActions";
 import {loadSvgIcons} from "./IconTypes";
-import {registerLeftSideTabs, registerRightSideTabs} from "./leftSideTabs";
+import {registerLeftSideTabs, registerRightSideTabs} from "./sidebarTabs";
 import MenuBarWindowExtension from "game-editor-layout/extensions/MenuBarWindowExtension";
 
 // For debugging purposes where the devtools is not possible

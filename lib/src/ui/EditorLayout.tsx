@@ -58,7 +58,7 @@ export default class EditorLayout extends Component<Props, State> {
                     <div className="content">
                         <TabSlotContainerRenderer tab={this.props.manager.getTabManager().getLeftSideBar()} />
                         <div className="main_editors">
-                            <TabSlotContainerRenderer tab={this.props.manager.getTabManager().getCenterSideBar()}/>
+                            <TabSlotContainerRenderer tab={this.props.manager.getTabManager().getCenterTabs()}/>
                         </div>
                         <TabSlotContainerRenderer tab={this.props.manager.getTabManager().getRightSideBar()} />
                     </div>

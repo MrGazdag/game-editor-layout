@@ -8,16 +8,20 @@ export default class TabSlotContainer<out T extends TabEntry<any> = TabEntry<any
     private readonly type: TabType;
     private readonly id: string;
     private readonly slots: TabSlot<T>[];
-    private readonly alwaysOpen: boolean;
     private readonly changeHandler: ChangeHandler<TabSlotContainer>;
+
+    private readonly alwaysOpen: boolean;
+    private readonly multiSlot: boolean;
+
     private open: boolean;
 
-    constructor(id: string, type: TabType, alwaysOpen: boolean) {
+    constructor(id: string, type: TabType, options?: TabSlotContainerOptions) {
         this.id = id;
         this.type = type;
         this.slots = [];
-        this.alwaysOpen = alwaysOpen;
-        this.open = alwaysOpen;
+        this.alwaysOpen = options?.alwaysOpen ?? true;
+        this.multiSlot = options?.multiSlot ?? true;
+        this.open = this.alwaysOpen;
         this.changeHandler = new ChangeHandler();
     }
 
@@ -37,8 +41,18 @@ export default class TabSlotContainer<out T extends TabEntry<any> = TabEntry<any
         return this.alwaysOpen;
     }
 
+    isMultiSlot() {
+        return this.multiSlot;
+    }
+
     createSlot(...tabs: T[]) {
         if (tabs.length == 0) return;
+        if (!this.multiSlot && this.slots.length > 0) {
+            for (let tab of tabs) {
+                this.slots[0].addTab(tab);
+            }
+            return this.slots[0];
+        }
 
         let id = TabSlotContainer.slotIdCounter++;
         let slot = new TabSlot(this, id, tabs);
@@ -64,4 +78,8 @@ export default class TabSlotContainer<out T extends TabEntry<any> = TabEntry<any
             this.changeHandler.apply(this);
         }
     }
+}
+interface TabSlotContainerOptions {
+    alwaysOpen?: boolean,
+    multiSlot?: boolean
 }
