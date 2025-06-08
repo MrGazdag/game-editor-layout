@@ -18,6 +18,6 @@ export default class EditorTabEntry extends TabEntry<EditorTabController> {
 	}
 
 	show() {
-		this.manager.showEditorTab(this.getURI());
+		this.manager.openEditorTab(this.getURI());
 	}
 }
