@@ -57,4 +57,8 @@ export default abstract class TabEntry<Controller extends TabController=any> {
     render() {
         return this.controller.render();
     }
+
+    close() {
+        this.slot?.removeTab(this);
+    }
 }

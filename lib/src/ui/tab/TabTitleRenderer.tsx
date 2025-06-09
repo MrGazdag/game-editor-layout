@@ -4,7 +4,6 @@ import ContextMenuInitiator from "../context/ContextMenuInitiator";
 import EditorAction from "../../action/EditorAction";
 import Icon from "../common/Icon";
 import React from "react";
-import EditorTabEntry from "../../tab/editor/EditorTabEntry";
 
 export default class TabTitleRenderer extends DynamicComponent<TabEntry, Props> {
     constructor(props: Props) {
@@ -18,10 +17,7 @@ export default class TabTitleRenderer extends DynamicComponent<TabEntry, Props> 
 
         return <ContextMenuInitiator menuProvider={()=>{
             return [EditorAction.inline("Close Tab", ()=>{
-                tab.getSlot()!.removeTab(tab);
-                if (tab instanceof EditorTabEntry) {
-                    tab.getManager().closeEditorTab(tab);
-                }
+                tab.close();
             }), EditorAction.inline("Move Tab to new Slot", ()=>{
                 let slot = tab.getSlot()!;
                 if (slot.getTabs().length == 1) return;
@@ -29,11 +25,15 @@ export default class TabTitleRenderer extends DynamicComponent<TabEntry, Props> 
                 container.createSlot(tab);
             })];
         }}>
-            <div className={className} onClick={() => {
+            <div className={className} onClick={(e) => {
                 if (slot.getSelectedTab() == tab) {
                     slot.setOpen(!slot.isOpen());
                 } else {
                     slot.setSelectedTab(tab);
+                }
+            }} onMouseUp={(e) => {
+                if (e.button == 1) {
+                    tab.close();
                 }
             }}>
                 {tab.getIcon() ? <Icon icon={tab.getIcon()!}/> : null}
