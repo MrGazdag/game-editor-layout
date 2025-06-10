@@ -1,4 +1,6 @@
 .editor_layout .tab_slot {
+	border: 1px solid var(--light-bubble-border);
+	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
 
@@ -19,8 +21,8 @@
 			text-align: center;
 			align-items: center;
 			color: white;
-			width: 1.5em;
-			height: 1.5em;
+			min-width: 1.5em;
+			min-height: 1.5em;
 			> .icon {
 				display: flex;
 				width: 0.8em;
@@ -32,44 +34,19 @@
 			display: flex;
 			flex-direction: row;
 			flex-grow: 1;
+			overflow: auto;
+			scrollbar-width: none;
 
 			> .context_menu_initiator {
 				width: fit-content;
-				> ._control_bar {
-					border-radius: 5px 5px 0 0;
-					width: fit-content;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					height: fit-content;
-					padding: 0.2em 0.4em;
-					gap: 0.4em;
-					> .icon {
-						display: flex;
-						justify-content: center;
-						text-align: center;
-						align-items: center;
-						color: white;
-						width: 0.9em;
-						height: 0.9em;
-					}
-					> ._name {
-					}
-					&._selected {
-						background-color: var(--red);
-						&:hover {background-color: var(--dark-red);}
-					}
-					&:not(._selected) {
-						background-color: var(--light-bubble);
-						&:hover {background-color: var(--light-bubble-border);}
-					}
-				}
 			}
 		}
 
 		> ._close {
-			width: 1.0em;
-			height: 1.0em;
+			min-width: 1.0em;
+			min-height: 1.0em;
+			width: 1em;
+			height: 1em;
 			margin-right: 0.3em;
 			//it will be an svg icon so temp
 			display: flex;
@@ -84,6 +61,8 @@
 	}
 
 	> ._content {
+		flex-grow: 1;
+
 		display: flex;
 		flex-direction: column;
 		flex-shrink: 0;

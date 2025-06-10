@@ -27,8 +27,10 @@ export function registerLeftSideTabs(manager: EditorLayoutManager) {
 			return <div>beállok mingyá</div>;
 		}
 	});
-	let container = tabManager.getLeftSideBar();
-	container.createSlot(tools, settings);
+
+	let window = manager.getWindowManager().getCurrentWindow();
+	let sidebar = window.getSidebarTabContainerOrFallback(SidebarTabPosition.LEFT);
+	sidebar.addTabs(tools, settings);
 }
 
 export function registerRightSideTabs(manager: EditorLayoutManager) {
@@ -76,9 +78,8 @@ export function registerRightSideTabs(manager: EditorLayoutManager) {
 			icon: icon
 		});
 	});
-	let container = tabManager.getRightSideBar();
-	container.createSlot(allIcons);
-	//container.createSlot(allIcons);
-	//container.createSlot(colors);
-	container.createSlot(colors, videoPlayer);
+
+	let window = manager.getWindowManager().getCurrentWindow();
+	let sidebar = window.getSidebarTabContainerOrFallback(SidebarTabPosition.RIGHT);
+	sidebar.addTabs(allIcons, colors, videoPlayer);
 }

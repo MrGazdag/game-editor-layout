@@ -5,6 +5,7 @@ import ContextMenu from "../context/ContextMenu";
 import MenuBarRenderer from "./menu/MenuBarRenderer";
 import ActionSource from "../action/ActionSource";
 import TabSlotContainerRenderer from "./tab/TabSlotContainerRenderer";
+import {SidebarTabPosition} from "../tab/sidebar/SidebarTabPosition";
 
 export default class EditorLayout extends Component<Props, State> {
     private contextMenuClickHandler: (e: MouseEvent)=>void;
@@ -51,16 +52,20 @@ export default class EditorLayout extends Component<Props, State> {
             contextMenus.push(menu);
             menu = menu.getSubMenu();
         }
+
+        let window = this.props.manager.getWindowManager().getCurrentWindow();
+        let leftSidebar = window.getSidebarTabContainer(SidebarTabPosition.LEFT);
+        let rightSidebar = window.getSidebarTabContainer(SidebarTabPosition.RIGHT);
         return <div className="editor_layout">
             <SharedEditorLayout.Provider value={this}>
                 <SharedEditorLayoutManager.Provider value={this.props.manager}>
                     <MenuBarRenderer ref={this.topBarRef} manager={this.props.manager} renderer={this} icon={this.props.editorIcon ?? ""}/>
                     <div className="content">
-                        <TabSlotContainerRenderer tab={this.props.manager.getTabManager().getLeftSideBar()} />
+                        {leftSidebar ? <TabSlotContainerRenderer tab={leftSidebar}/> : undefined}
                         <div className="main_editors">
-                            <TabSlotContainerRenderer tab={this.props.manager.getTabManager().getCenterTabs()}/>
+                            <TabSlotContainerRenderer tab={window.getEditorTabContainer()}/>
                         </div>
-                        <TabSlotContainerRenderer tab={this.props.manager.getTabManager().getRightSideBar()} />
+                        {rightSidebar ? <TabSlotContainerRenderer tab={rightSidebar}/> : undefined}
                     </div>
                     <div className="bottombar"></div>
                     {contextMenus.map((m,i)=><ContextMenuRenderer menu={m} key={i} renderer={this}/>)}

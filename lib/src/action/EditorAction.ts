@@ -104,12 +104,14 @@ export default class EditorAction {
         return entries.map(entry=>{
             if (entry instanceof EditorAction || entry instanceof ActionGroup) {
                 return entry;
-            } else {
+            } else if (entry.length > 0) {
                 return new ActionGroup(new ActionGroupController({
                     actions: entry
                 }));
+            } else {
+                return null;
             }
-        });
+        }).filter(e=>e !== null);
     }
 }
 export type ActionEntry = EditorAction | ActionGroup;

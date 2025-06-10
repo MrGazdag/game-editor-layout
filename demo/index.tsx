@@ -10,6 +10,9 @@ import {registerActions, registerMenuBar} from "./menuBarActions";
 import {loadSvgIcons} from "./IconTypes";
 import {registerLeftSideTabs, registerRightSideTabs} from "./sidebarTabs";
 import MenuBarWindowExtension from "game-editor-layout/extensions/MenuBarWindowExtension";
+import EditorTabEntry from "game-editor-layout/tab/editor/EditorTabEntry";
+import EditorTabController from "game-editor-layout/tab/editor/EditorTabController";
+import Icon from "game-editor-layout/ui/common/Icon";
 
 // For debugging purposes where the devtools is not possible
 window.onerror = function(message, source, lineno, colno, error) {
@@ -18,7 +21,24 @@ window.onerror = function(message, source, lineno, colno, error) {
     </div>`;
 };
 
-let manager = new EditorLayoutManager();
+let manager = new EditorLayoutManager({
+    tab: {
+        editorTabOpener: (m,uri)=>{
+            if (uri.startsWith("test-icon-tabs://")) {
+                let icon = uri.substring("test-icon-tabs://".length);
+                return new EditorTabEntry(m, new EditorTabController({
+                    uri: uri,
+                    icon: icon,
+                    name: "Icon: " + icon,
+                    renderer: ()=>{
+                        return <div><Icon icon={icon}/></div>
+                    }
+                }));
+            }
+            return null;
+        }
+    }
+});
 
 loadSvgIcons();
 //top

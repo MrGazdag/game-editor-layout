@@ -1,0 +1,17 @@
+.editor_layout .tab_slot_group {
+	flex-grow: 1;
+
+	display: flex;
+	&._vertical {
+		flex-direction: column;
+		> * {
+			width: 100%;
+		}
+	}
+	&:not(._vertical) {
+		flex-direction: row;
+		> * {
+			height: 100%;
+		}
+	}
+}

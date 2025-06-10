@@ -2,59 +2,38 @@ import SidebarTabEntry from "./sidebar/SidebarTabEntry";
 import SidebarTabController, {SidebarInitData} from "./sidebar/SidebarTabController";
 import EditorLayoutManager from "../EditorLayoutManager";
 import ChangeHandler from "../utils/ChangeHandler";
-import TabSlotContainer from "./TabSlotContainer";
-import TabType from "./TabType";
+import {TabSlotContainerOptions} from "./TabSlotContainer";
 import EditorTabEntry from "./editor/EditorTabEntry";
 import EditorTabController from "./editor/EditorTabController";
 import React from "react";
+import {SidebarTabPosition} from "./sidebar/SidebarTabPosition";
 
 export default class TabManager {
     private readonly parent: EditorLayoutManager;
     private readonly sideBarTabEntries: Map<string,SidebarTabEntry>;
     private readonly changeHandler: ChangeHandler<TabManager>;
 
-    private readonly leftSideBar: TabSlotContainer<SidebarTabEntry>;
-    private readonly centerTabs: TabSlotContainer<EditorTabEntry>; // TODO change this
-    private readonly rightSideBar: TabSlotContainer<SidebarTabEntry>;
-
     private readonly openEditorTabs: Map<string,EditorTabEntry>;
 
     private readonly opener: EditorTabOpener;
+    private readonly allowedSidebarPositions: SidebarTabPosition[];
 
     constructor(parent: EditorLayoutManager, options?: TabManagerOptions) {
         this.parent = parent;
         this.sideBarTabEntries = new Map();
         this.changeHandler = new ChangeHandler();
 
-        this.leftSideBar = new TabSlotContainer("left", TabType.SIDEBAR, {
-            alwaysOpen: false,
-            multiSlot: true
-        });
-        this.centerTabs = new TabSlotContainer("center", TabType.EDITOR, {
-            alwaysOpen: true,
-            multiSlot: false
-        });
-        this.rightSideBar = new TabSlotContainer("right", TabType.SIDEBAR, {
-            alwaysOpen: false,
-            multiSlot: true
-        });
         this.openEditorTabs = new Map();
-        this.opener = options?.editorTabOpener ?? (uri => {
-            return new EditorTabEntry(this, new EditorTabController({
-                name: "Unknown Tab",
-                uri: uri,
-                renderer: ()=>{
-                    return <div style={{display: "flex", alignItems: "center", justifyContent: "center", flexGrow: "1", flexDirection: "column"}}>
-                        <span>Unknown Editor Tab with URI</span>
-                        <span>{uri}</span>
-                    </div>
-                }
-            }))
-        });
+        this.opener = options?.editorTabOpener ?? (()=>null);
+        this.allowedSidebarPositions = options?.allowedSidebarPositions ?? [SidebarTabPosition.LEFT, SidebarTabPosition.RIGHT];
     }
 
     getChangeHandler() {
         return this.changeHandler;
+    }
+
+    getAllowedSidebarPositions() {
+        return this.allowedSidebarPositions;
     }
 
     getParent() {
@@ -84,26 +63,12 @@ export default class TabManager {
         return [...this.sideBarTabEntries.values()];
     }
 
-    getLeftSideBar() {
-        return this.leftSideBar;
-    }
-
-    getCenterTabs() {
-        return this.centerTabs;
-    }
-
-    getRightSideBar() {
-        return this.rightSideBar;
-    }
-
     // TODO i don't like the hackiness of the three methods below, maybe do some cleanup
     private openNewEditorTab(tab: EditorTabEntry) {
         this.openEditorTabs.set(tab.getURI(), tab);
-        let slot = this.centerTabs.getSlots()[0];
-        if (slot) tab.setSlot(slot);
-        else slot = this.centerTabs.createSlot(tab)!;
-
-        slot.setSelectedTab(tab);
+        let defaultWindow = this.getParent().getWindowManager().getDefaultWindow();
+        defaultWindow.getEditorTabContainer().addTabs(tab);
+        tab.getSlot()!.setSelectedTab(tab);
     }
     openEditorTab(param: string | EditorTabEntry | EditorTabController) {
         if (typeof param === "string") {
@@ -112,7 +77,8 @@ export default class TabManager {
                 let slot = tab.getSlot()!;
                 slot.setSelectedTab(tab);
             } else {
-                let tab = this.opener(param);
+                let tab = this.opener(this, param);
+                if (tab == null) tab = this.renderFallbackEditorTab(param);
                 this.openNewEditorTab(tab);
             }
         } else if (param instanceof EditorTabController) {
@@ -141,8 +107,24 @@ export default class TabManager {
         this.openEditorTabs.delete(uri);
         tab.setSlot(null);
     }
+
+    private renderFallbackEditorTab(uri: string) {
+        return new EditorTabEntry(this, new EditorTabController({
+            name: "Unknown Tab",
+            uri: uri,
+            renderer: ()=>{
+                return <div style={{display: "flex", alignItems: "center", justifyContent: "center", flexGrow: "1", flexDirection: "column"}}>
+                    <span>Unknown Editor Tab with URI</span>
+                    <span>{uri}</span>
+                </div>
+            }
+        }))
+    }
 }
-type EditorTabOpener = (uri: string)=>EditorTabEntry;
+type EditorTabOpener = (manager: TabManager, uri: string)=>EditorTabEntry | null;
 export interface TabManagerOptions {
-    editorTabOpener: EditorTabOpener;
+    editorTabOpener?: EditorTabOpener;
+    allowedSidebarPositions?: SidebarTabPosition[],
+    sidebarPreset?: TabSlotContainerOptions,
+    editorPreset?: TabSlotContainerOptions
 }

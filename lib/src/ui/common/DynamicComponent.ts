@@ -5,7 +5,7 @@ export default abstract class DynamicComponent<T extends {getChangeHandler(): Ch
     private readonly changeHandler: ChangeHandlerFunction<T>;
     private readonly key: keyof Props;
 
-    protected constructor(props: Props, k: keyof Props) {
+    protected constructor(props: Props, k: {[K in keyof Props]: Props[K] extends T ? K : never}[keyof Props]) {
         super(props);
         this.key = k;
         this.changeHandler = ()=>{

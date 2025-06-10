@@ -1,4 +1,4 @@
 export enum SidebarTabPosition {
-	LEFT,
-	RIGHT
+	LEFT = "left",
+	RIGHT = "right"
 }

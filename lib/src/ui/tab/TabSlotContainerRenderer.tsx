@@ -1,7 +1,7 @@
 import React from "react";
 import TabSlotContainer from "../../tab/TabSlotContainer";
-import TabSlotRenderer from "./TabSlotRenderer";
 import DynamicComponent from "../common/DynamicComponent";
+import TabSlotGroupRenderer from "./TabSlotGroupRenderer";
 
 export default class TabSlotContainerRenderer extends DynamicComponent<TabSlotContainer, Props> {
     constructor(props: Props) {
@@ -9,8 +9,8 @@ export default class TabSlotContainerRenderer extends DynamicComponent<TabSlotCo
     }
 
     renderData(container: TabSlotContainer) {
-        return <div className={`tab_slot_container ${container.getId()}`}>
-            {container.getSlots().map(slot => <TabSlotRenderer key={slot.getId()} slot={slot}/>)}
+        return <div className={`tab_slot_container`}>
+            {TabSlotGroupRenderer.renderEntry(container.getRootEntry(), "root")}
         </div>;
     }
 }

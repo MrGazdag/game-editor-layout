@@ -1,8 +1,6 @@
 import SidebarTabController from "./SidebarTabController";
 import TabEntry from "../TabEntry";
 import TabManager from "../TabManager";
-import {SidebarTabPosition} from "./SidebarTabPosition";
-import TabSlotContainer from "../TabSlotContainer";
 
 export default class SidebarTabEntry extends TabEntry<SidebarTabController> {
 	private readonly manager: TabManager;
@@ -23,16 +21,10 @@ export default class SidebarTabEntry extends TabEntry<SidebarTabController> {
 			slot.setSelectedTab(this);
 		} else {
 			let preferred = this.controller.getPreferredPosition();
-			let sidebar: TabSlotContainer;
-			switch (preferred) {
-				case SidebarTabPosition.LEFT:
-					sidebar = this.manager.getLeftSideBar();
-					break;
-				case SidebarTabPosition.RIGHT:
-					sidebar = this.manager.getRightSideBar();
-					break;
-			}
-			sidebar.createSlot(this)?.setOpen(true);
+			let defaultWindow = this.manager.getParent().getWindowManager().getDefaultWindow();
+			let sidebar = defaultWindow.getSidebarTabContainerOrFallback(preferred);
+			sidebar.addTabs(this);
+			this.getSlot()!.setSelectedTab(this);
 		}
 	}
 }

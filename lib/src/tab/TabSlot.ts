@@ -1,24 +1,26 @@
 import TabEntry from "./TabEntry";
 import TabSlotContainer from "./TabSlotContainer";
 import ChangeHandler from "../utils/ChangeHandler";
+import TabSlotGroup from "./TabSlotGroup";
 
 export default class TabSlot<out T extends TabEntry=TabEntry> {
-    private readonly parent: TabSlotContainer<T>;
-    private readonly id: number;
+    private readonly container: TabSlotContainer<T>;
     private readonly tabs: T[];
-    private selectedTab: T;
+
+    private group: TabSlotGroup<T> | null;
+    private selectedTab: T | null;
     private open: boolean;
     private readonly changeHandler: ChangeHandler<TabSlot>;
 
-    constructor(parent: TabSlotContainer<T>, id: number, tabs: T[]) {
-        this.parent = parent;
-        this.id = id;
+    constructor(parent: TabSlotContainer<T>, tabs: T[]) {
+        this.container = parent;
+        this.group = null;
         this.tabs = [...tabs];
         for (let tab of tabs) {
             tab.setSlot(this);
         }
-        this.selectedTab = tabs[0];
-        this.open = parent.isAlwaysOpen();
+        this.selectedTab = tabs.length == 0 ? null : tabs[0];
+        this.open = parent.hasUncollapsableSlots();
         this.changeHandler = new ChangeHandler();
     }
 
@@ -26,20 +28,24 @@ export default class TabSlot<out T extends TabEntry=TabEntry> {
         return this.changeHandler;
     }
 
-    getParent() {
-        return this.parent;
+    getContainer() {
+        return this.container;
     }
 
-    getId() {
-        return this.id;
+    getGroup() {
+        return this.group;
+    }
+
+    setGroup(group: TabSlotGroup<T> | null) {
+        this.group = group;
     }
 
     isOpen() {
-        return this.parent.isAlwaysOpen() || this.open;
+        return this.container.hasUncollapsableSlots() || this.open;
     }
 
     setOpen(open: boolean) {
-        if (this.parent.isAlwaysOpen()) return;
+        if (this.container.hasUncollapsableSlots()) return;
         this.open = open;
         this.changeHandler.apply(this);
     }
@@ -79,9 +85,13 @@ export default class TabSlot<out T extends TabEntry=TabEntry> {
 
             if (this.tabs.length == 0) {
                 // Auto close when no more tabs are left
-                this.parent.removeSlot(this);
+                if (this.group) TabSlotGroup.removeEmptyGroups(this.group);
             } else if (this.selectedTab == tab) {
-                this.selectedTab = this.tabs[index - 1];
+                if (this.tabs.length == 0) {
+                    this.selectedTab = null;
+                } else {
+                    this.selectedTab = this.tabs[index - 1];
+                }
             }
             this.changeHandler.apply(this);
         }
@@ -93,5 +103,6 @@ export default class TabSlot<out T extends TabEntry=TabEntry> {
         for (let tab of tabs) {
             tab.setSlot(null);
         }
+        if (this.group) TabSlotGroup.removeEmptyGroups(this.group);
     }
 }

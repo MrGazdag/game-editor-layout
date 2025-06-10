@@ -10,12 +10,12 @@ export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
     }
 
     renderData(slot: TabSlot) {
-        let alwaysOpen = slot.getParent().isAlwaysOpen();
-        let open = alwaysOpen || slot.isOpen();
-        return <div className="tab_slot">
+        let cannotCollapse = slot.getContainer().hasUncollapsableSlots();
+        let open = cannotCollapse || slot.isOpen();
+        return <div className="tab_slot" style={{flexGrow: this.props.growOverride}}>
             <div className="_control_bar_row">
                 {
-                    alwaysOpen ? null : <div className="_opener" onClick={() => {
+                    cannotCollapse ? null : <div className="_opener" onClick={() => {
                         slot.setOpen(!slot.isOpen());
                     }}>
                         <Icon icon={open ? "chevron-down-solid" : "chevron-right-solid"}/>
@@ -26,13 +26,13 @@ export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
                         return <TabTitleRenderer tab={tab} key={tab.getUniqueIdentifier()}/>
                     })}
                 </div>
-                {alwaysOpen ? null
+                {cannotCollapse ? null
                     : <div className="_close" onClick={() => {
-                        slot.getParent().removeSlot(slot);
+                        slot.closeAll();
                     }}><Icon icon={"x"}/></div>}
             </div>
             {open ? <div className="_content">
-                {slot.getSelectedTab().render()}
+                {slot.getSelectedTab()?.render()}
             </div> : null}
         </div>;
     }
@@ -40,4 +40,5 @@ export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
 
 interface Props {
     slot: TabSlot,
+    growOverride?: number
 }

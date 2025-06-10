@@ -1,7 +1,12 @@
 .editor_layout > .content .tab_slot_container {
 	background-color: var(--primary-darker);
 	color: var(--text);
-	min-width: 15rem;
+	min-width: 19rem;
+	display: flex;
+	flex-shrink: 0;
+	flex-basis: 0;
+
+	border: 1px solid var(--light-bubble-border);
 
 	justify-content: flex-start;
 }

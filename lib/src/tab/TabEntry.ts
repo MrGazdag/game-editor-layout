@@ -61,4 +61,6 @@ export default abstract class TabEntry<Controller extends TabController=any> {
     close() {
         this.slot?.removeTab(this);
     }
+
+    abstract show(): void;
 }

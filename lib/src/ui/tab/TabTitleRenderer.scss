@@ -1,0 +1,30 @@
+.editor_layout .tab_title {
+	border-radius: 5px 5px 0 0;
+	width: fit-content;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: fit-content;
+	padding: 0.2em 0.4em;
+	gap: 0.4em;
+	> .icon {
+		display: flex;
+		justify-content: center;
+		text-align: center;
+		align-items: center;
+		color: white;
+		width: 0.9em;
+		height: 0.9em;
+	}
+	> ._name {
+		width: max-content;
+	}
+	&._selected {
+		background-color: var(--red);
+		&:hover {background-color: var(--dark-red);}
+	}
+	&:not(._selected) {
+		background-color: var(--light-bubble);
+		&:hover {background-color: var(--light-bubble-border);}
+	}
+}

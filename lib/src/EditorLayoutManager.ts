@@ -40,5 +40,5 @@ export default class EditorLayoutManager {
     }
 }
 interface Options {
-    tab?: TabManagerOptions
+    tab?: TabManagerOptions,
 }

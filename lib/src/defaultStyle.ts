@@ -4,5 +4,7 @@ import "./ui/context/ContextMenuRenderer.scss";
 import "./ui/context/EditorActionRenderer.scss";
 import "./ui/menu/MenuBarRenderer.scss";
 import "./ui/tab/TabSlotContainerRenderer.scss";
+import "./ui/tab/TabSlotGroupRenderer.scss";
 import "./ui/tab/TabSlotRenderer.scss";
+import "./ui/tab/TabTitleRenderer.scss";
 import "./ui/common/Icon.scss";

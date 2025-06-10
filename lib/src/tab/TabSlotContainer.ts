@@ -2,27 +2,32 @@ import TabSlot from "./TabSlot";
 import TabEntry from "./TabEntry";
 import ChangeHandler from "../utils/ChangeHandler";
 import TabType from "./TabType";
+import {SidebarTabPosition} from "./sidebar/SidebarTabPosition";
+import TabSlotGroup, {TabSlotGroupEntry} from "./TabSlotGroup";
 
 export default class TabSlotContainer<out T extends TabEntry<any> = TabEntry<any>> {
-    private static slotIdCounter: number = 0;
-    private readonly type: TabType;
+    private readonly tabType: TabType;
     private readonly id: string;
-    private readonly slots: TabSlot<T>[];
     private readonly changeHandler: ChangeHandler<TabSlotContainer>;
 
-    private readonly alwaysOpen: boolean;
+    private readonly uncollapsableSlots: boolean;
     private readonly multiSlot: boolean;
+    private readonly position: SidebarTabPosition | null;
 
+    private rootEntry: TabSlotGroupEntry<T>;
     private open: boolean;
 
-    constructor(id: string, type: TabType, options?: TabSlotContainerOptions) {
+    constructor(id: string, tabType: TabType, options?: TabSlotContainerOptions) {
         this.id = id;
-        this.type = type;
-        this.slots = [];
-        this.alwaysOpen = options?.alwaysOpen ?? true;
-        this.multiSlot = options?.multiSlot ?? true;
-        this.open = this.alwaysOpen;
+        this.tabType = tabType;
+        this.rootEntry = new TabSlot(this, []);
         this.changeHandler = new ChangeHandler();
+
+        this.uncollapsableSlots = options?.uncollapsableSlots ?? true;
+        this.multiSlot = options?.multiSlot ?? true;
+        this.position = options?.position ?? null;
+
+        this.open = true; // TODO
     }
 
     getChangeHandler() {
@@ -33,53 +38,45 @@ export default class TabSlotContainer<out T extends TabEntry<any> = TabEntry<any
         return this.id;
     }
 
-    getType() {
-        return this.type;
+    getTabType() {
+        return this.tabType;
     }
 
-    isAlwaysOpen() {
-        return this.alwaysOpen;
+    hasUncollapsableSlots() {
+        return this.uncollapsableSlots;
     }
 
     isMultiSlot() {
         return this.multiSlot;
     }
 
-    createSlot(...tabs: T[]) {
-        if (tabs.length == 0) return;
-        if (!this.multiSlot && this.slots.length > 0) {
-            for (let tab of tabs) {
-                this.slots[0].addTab(tab);
-            }
-            return this.slots[0];
-        }
-
-        let id = TabSlotContainer.slotIdCounter++;
-        let slot = new TabSlot(this, id, tabs);
-        this.slots.push(slot);
-
-        this.changeHandler.apply(this);
-        return slot;
-    }
-
-    getSlots() {
-        return [...this.slots];
-    }
-
     isOpen() {
-
+        return this.open;
     }
 
-    removeSlot(slot: TabSlot<T>) {
-        let index = this.slots.indexOf(slot);
-        if (index > -1) {
-            this.slots.splice(index, 1);
-            slot.closeAll();
-            this.changeHandler.apply(this);
+    getRootEntry(): TabSlotGroupEntry<T> {
+        return this.rootEntry;
+    }
+
+    setRootEntry(entry: TabSlotGroupEntry<T>) {
+        this.rootEntry = entry;
+        this.changeHandler.apply(this);
+    }
+
+    addTabs(...tabs: T[]) {
+        if (tabs.length == 0) return;
+        let entry: TabSlotGroupEntry<T> = this.rootEntry;
+        // Find first slot
+        while (entry instanceof TabSlotGroup) {
+            entry = entry.getFirst();
+        }
+        for (let tab of tabs) {
+            entry.addTab(tab);
         }
     }
 }
-interface TabSlotContainerOptions {
-    alwaysOpen?: boolean,
-    multiSlot?: boolean
+export interface TabSlotContainerOptions {
+    uncollapsableSlots?: boolean,
+    multiSlot?: boolean,
+    position?: SidebarTabPosition,
 }
