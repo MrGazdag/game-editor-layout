@@ -36,6 +36,7 @@
 			flex-grow: 1;
 			overflow: auto;
 			scrollbar-width: none;
+			scroll-behavior: smooth;
 
 			> .context_menu_initiator {
 				width: fit-content;

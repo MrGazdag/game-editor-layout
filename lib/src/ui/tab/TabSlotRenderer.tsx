@@ -21,7 +21,10 @@ export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
                         <Icon icon={open ? "chevron-down-solid" : "chevron-right-solid"}/>
                     </div>
                 }
-                <div className="_entries">
+                <div className="_entries" onWheel={e=>{
+                    // noinspection JSSuspiciousNameCombination
+                    e.currentTarget.scrollLeft += e.deltaY;
+                }}>
                     {slot.getTabs().map((tab) => {
                         return <TabTitleRenderer tab={tab} key={tab.getUniqueIdentifier()}/>
                     })}
@@ -31,7 +34,7 @@ export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
                         slot.closeAll();
                     }}><Icon icon={"x"}/></div>}
             </div>
-            {open ? <div className="_content">
+            {open ? <div className="_content" key={slot.getSelectedTab() !== null ? "content" : "empty"}>
                 {slot.getSelectedTab()?.render()}
             </div> : null}
         </div>;

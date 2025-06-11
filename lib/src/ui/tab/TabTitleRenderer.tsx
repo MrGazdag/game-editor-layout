@@ -7,14 +7,35 @@ import React from "react";
 import TabSlotGroup from "../../tab/TabSlotGroup";
 
 export default class TabTitleRenderer extends DynamicComponent<TabEntry, Props> {
+    private readonly ref: React.RefObject<HTMLDivElement>;
+    private wasSelected: boolean;
     constructor(props: Props) {
         super(props, "tab");
+        this.ref = React.createRef();
+        this.wasSelected = false;
     }
     protected renderData(tab: TabEntry) {
         let slot = tab.getSlot();
         if (!slot) return null;
         let className = "tab_title";
-        if (slot.getSelectedTab() == tab) className += " _selected";
+
+        let isSelected = slot.getSelectedTab() == tab;
+        if (isSelected) className += " _selected";
+
+        if (!this.wasSelected && isSelected) {
+            if (this.ref.current) {
+                this.ref.current.scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                requestAnimationFrame(()=>{
+                    this.ref.current!.scrollIntoView({
+                        behavior: "smooth"
+                    });
+                });
+            }
+        }
+        this.wasSelected = isSelected;
 
         return <ContextMenuInitiator menuProvider={()=>{
             let actions: ActionEntryInput[] = [];
@@ -59,7 +80,7 @@ export default class TabTitleRenderer extends DynamicComponent<TabEntry, Props> 
             actions.push(groupActions);
             return actions;
         }}>
-            <div className={className} onClick={(e) => {
+            <div className={className} ref={this.ref} onClick={(e) => {
                 if (slot.getSelectedTab() == tab) {
                     slot.setOpen(!slot.isOpen());
                 } else {
@@ -67,6 +88,7 @@ export default class TabTitleRenderer extends DynamicComponent<TabEntry, Props> 
                 }
             }} onMouseUp={(e) => {
                 if (e.button == 1) {
+                    e.preventDefault();
                     tab.close();
                 }
             }}>
