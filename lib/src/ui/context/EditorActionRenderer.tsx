@@ -3,7 +3,7 @@ import EditorAction from "../../action/EditorAction";
 import Icon from "../common/Icon";
 import DynamicComponent from "../common/DynamicComponent";
 import ContextMenu, {ContextMenuPosition} from "../../context/ContextMenu";
-import {SharedEditorLayout} from "../EditorLayout";
+import {SharedEditorLayoutRenderer} from "../EditorLayoutRenderer";
 
 export default class EditorActionRenderer extends DynamicComponent<EditorAction, Props> {
     /**
@@ -66,7 +66,7 @@ export default class EditorActionRenderer extends DynamicComponent<EditorAction,
         }
 
         let icon = action.getIcon();
-        return <SharedEditorLayout.Consumer>
+        return <SharedEditorLayoutRenderer.Consumer>
             {renderer=>{
                 return <div ref={this.ref} className={className} onClick={e => {
                     e.preventDefault();
@@ -105,7 +105,7 @@ export default class EditorActionRenderer extends DynamicComponent<EditorAction,
                     }} icon={"chevron-right-solid"}/> : null}
                 </div>;
             }}
-        </SharedEditorLayout.Consumer>;
+        </SharedEditorLayoutRenderer.Consumer>;
     }
 }
 interface Props {

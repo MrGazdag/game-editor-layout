@@ -1,12 +1,12 @@
 import React, {Component} from "react";
 import ContextMenu, {ContextMenuPosition} from "../../context/ContextMenu";
-import EditorLayout, {SharedEditorLayout} from "../EditorLayout";
+import EditorLayoutRenderer, {SharedEditorLayoutRenderer} from "../EditorLayoutRenderer";
 import ContextMenuMode from "../../context/ContextMenuMode";
-import EditorAction, {ActionEntryInput} from "../../action/EditorAction";
+import {ActionEntryInput} from "../../action/EditorAction";
 import ActionSource from "../../action/ActionSource";
 
 export default class ContextMenuInitiator extends Component<Props,any> {
-    private layout!: EditorLayout;
+    private layout!: EditorLayoutRenderer;
     private parent: ContextMenuInitiator | null;
     constructor(props: Props) {
         super(props);
@@ -27,7 +27,7 @@ export default class ContextMenuInitiator extends Component<Props,any> {
     }
 
     render() {
-        return <SharedEditorLayout.Consumer>
+        return <SharedEditorLayoutRenderer.Consumer>
             {layout => {
                 this.layout = layout;
                 return <ParentContextMenu.Consumer>
@@ -45,7 +45,7 @@ export default class ContextMenuInitiator extends Component<Props,any> {
                     }}
                 </ParentContextMenu.Consumer>;
             }}
-        </SharedEditorLayout.Consumer>
+        </SharedEditorLayoutRenderer.Consumer>
     }
 }
 

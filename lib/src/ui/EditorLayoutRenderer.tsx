@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import EditorLayoutManager from "../EditorLayoutManager";
 import ContextMenuRenderer from "./context/ContextMenuRenderer";
 import ContextMenu from "../context/ContextMenu";
@@ -7,7 +7,7 @@ import ActionSource from "../action/ActionSource";
 import TabSlotContainerRenderer from "./tab/TabSlotContainerRenderer";
 import {SidebarTabPosition} from "../tab/sidebar/SidebarTabPosition";
 
-export default class EditorLayout extends Component<Props, State> {
+export default class EditorLayoutRenderer extends PureComponent<Props, State> {
     private contextMenuClickHandler: (e: MouseEvent)=>void;
     private blurHandler: (e: Event)=>void;
     private menuUpdate: (m: ContextMenu)=>void;
@@ -57,9 +57,9 @@ export default class EditorLayout extends Component<Props, State> {
         let leftSidebar = window.getSidebarTabContainer(SidebarTabPosition.LEFT);
         let rightSidebar = window.getSidebarTabContainer(SidebarTabPosition.RIGHT);
         return <div className="editor_layout">
-            <SharedEditorLayout.Provider value={this}>
+            <SharedEditorLayoutRenderer.Provider value={this}>
                 <SharedEditorLayoutManager.Provider value={this.props.manager}>
-                    <MenuBarRenderer ref={this.topBarRef} manager={this.props.manager} renderer={this} icon={this.props.editorIcon ?? ""}/>
+                    <MenuBarRenderer ref={this.topBarRef} icon={this.props.editorIcon ?? ""}/>
                     <div className="content">
                         {leftSidebar ? <TabSlotContainerRenderer tab={leftSidebar}/> : undefined}
                         <div className="main_editors">
@@ -70,7 +70,7 @@ export default class EditorLayout extends Component<Props, State> {
                     <div className="bottombar"></div>
                     {contextMenus.map((m,i)=><ContextMenuRenderer menu={m} key={i} renderer={this}/>)}
                 </SharedEditorLayoutManager.Provider>
-            </SharedEditorLayout.Provider>
+            </SharedEditorLayoutRenderer.Provider>
         </div>;
     }
 
@@ -133,5 +133,5 @@ interface State {
     contextMenu?: ContextMenu
 }
 
-export const SharedEditorLayout = React.createContext<EditorLayout>(null as any);
+export const SharedEditorLayoutRenderer = React.createContext<EditorLayoutRenderer>(null as any);
 export const SharedEditorLayoutManager = React.createContext<EditorLayoutManager>(null as any);

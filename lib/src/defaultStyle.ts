@@ -1,4 +1,4 @@
-import "./ui/EditorLayout.scss";
+import "./ui/EditorLayoutRenderer.scss";
 import "./ui/context/ContextMenuInitiator.scss";
 import "./ui/context/ContextMenuRenderer.scss";
 import "./ui/context/EditorActionRenderer.scss";

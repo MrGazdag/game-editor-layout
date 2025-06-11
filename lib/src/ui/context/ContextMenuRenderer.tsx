@@ -1,7 +1,6 @@
 import React, {Component, RefObject} from "react";
 import ContextMenu from "../../context/ContextMenu";
-import EditorLayout from "../EditorLayout";
-import Icon from "../common/Icon";
+import EditorLayoutRenderer from "../EditorLayoutRenderer";
 import ActionSource from "../../action/ActionSource";
 import EditorActionRenderer from "./EditorActionRenderer";
 import ActionGroup from "../../action/ActionGroup";
@@ -106,5 +105,5 @@ export default class ContextMenuRenderer extends Component<Props, any> {
 }
 interface Props {
     menu: ContextMenu,
-    renderer: EditorLayout
+    renderer: EditorLayoutRenderer
 }

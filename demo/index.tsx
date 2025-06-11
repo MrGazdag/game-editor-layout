@@ -4,7 +4,6 @@ import React, {StrictMode} from "react";
 import "game-editor-layout/defaultStyle";
 import "game-editor-layout/defaultTheme";
 import "game-editor-layout/defaultIcons";
-import EditorLayout from "game-editor-layout/ui/EditorLayout";
 import "./index.scss";
 import {registerActions, registerMenuBar} from "./menuBarActions";
 import {loadSvgIcons} from "./IconTypes";
@@ -13,6 +12,7 @@ import MenuBarWindowExtension from "game-editor-layout/extensions/MenuBarWindowE
 import EditorTabEntry from "game-editor-layout/tab/editor/EditorTabEntry";
 import EditorTabController from "game-editor-layout/tab/editor/EditorTabController";
 import Icon from "game-editor-layout/ui/common/Icon";
+import EditorLayoutRenderer from "game-editor-layout/ui/EditorLayoutRenderer";
 
 // For debugging purposes where the devtools is not possible
 window.onerror = function(message, source, lineno, colno, error) {
@@ -57,6 +57,6 @@ MenuBarWindowExtension.enable(manager);
 const root = createRoot(document.getElementById("root")!);
 root.render(
     <StrictMode>
-        <EditorLayout manager={manager} editorIcon={"test-logo"} dev={true}/>
+        <EditorLayoutRenderer manager={manager} editorIcon={"test-logo"} dev={true}/>
     </StrictMode>
 );
