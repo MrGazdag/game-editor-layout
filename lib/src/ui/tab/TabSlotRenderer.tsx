@@ -21,13 +21,28 @@ export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
                         <Icon icon={open ? "chevron-down-solid" : "chevron-right-solid"}/>
                     </div>
                 }
-                <div className="_entries" onWheel={e=>{
-                    // noinspection JSSuspiciousNameCombination
-                    e.currentTarget.scrollLeft += e.deltaY;
-                }}>
-                    {slot.getTabs().map((tab) => {
-                        return <TabTitleRenderer tab={tab} key={tab.getUniqueIdentifier()}/>
-                    })}
+                <div className="_entries">
+                    <div className="_inner" onWheel={e=>{
+                        // noinspection JSSuspiciousNameCombination
+                        e.currentTarget.scrollLeft += e.deltaY;
+                    }} onScroll={e=>{
+                        let div = e.currentTarget;
+
+                        let parent = div.parentElement!;
+                        let barWidth = parseFloat(getComputedStyle(parent, "::before").width);
+
+                        let maxScroll= div.scrollWidth - div.clientWidth;
+                        let distanceRight = maxScroll - div.scrollLeft;
+
+                        let barLeftOpacity = Math.min(Math.max(0, div.scrollLeft / barWidth), 1);
+                        let barRightOpacity = Math.min(Math.max(0, distanceRight / barWidth), 1);
+                        parent.style.setProperty("--opacity-left-fader", ""+barLeftOpacity)
+                        parent.style.setProperty("--opacity-right-fader", ""+barRightOpacity)
+                    }}>
+                        {slot.getTabs().map((tab) => {
+                            return <TabTitleRenderer tab={tab} key={tab.getUniqueIdentifier()}/>
+                        })}
+                    </div>
                 </div>
                 {cannotCollapse ? null
                     : <div className="_close" onClick={() => {

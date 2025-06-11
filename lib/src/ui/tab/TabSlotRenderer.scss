@@ -31,15 +31,60 @@
 		}
 
 		> ._entries {
-			display: flex;
-			flex-direction: row;
 			flex-grow: 1;
-			overflow: auto;
-			scrollbar-width: none;
-			scroll-behavior: smooth;
+			position: relative;
 
-			> .context_menu_initiator {
-				width: fit-content;
+			overflow: hidden;
+			display: flex;
+
+			z-index: 0;
+
+			--opacity-left-fader: 0;
+			--opacity-right-fader: 0;
+
+			&::before {
+				content: '';
+				background: linear-gradient(to left, transparent, var(--primary-darker));
+				pointer-events: none;
+
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				width: 1.2em;
+				z-index: 1;
+
+				transition: opacity 0.1s ease;
+				opacity: var(--opacity-left-fader);
+			}
+			&::after {
+				content: '';
+				background: linear-gradient(to right, transparent, var(--primary-darker));
+				pointer-events: none;
+
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				width: 1.2em;
+				z-index: 1;
+
+				transition: opacity 0.1s ease;
+				opacity: var(--opacity-right-fader);
+			}
+			> ._inner {
+				flex-grow: 1;
+
+				z-index: 0;
+				display: flex;
+				flex-direction: row;
+
+				overflow: auto;
+				scrollbar-width: none;
+				scroll-behavior: smooth;
+				> .context_menu_initiator {
+					width: fit-content;
+				}
 			}
 		}
 
