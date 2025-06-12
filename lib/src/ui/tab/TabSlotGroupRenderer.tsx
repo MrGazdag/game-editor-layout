@@ -27,7 +27,7 @@ export default class TabSlotGroupRenderer extends DynamicComponent<TabSlotGroup,
             firstPos = 0;
             secondPos = 0;
         }
-        return <div className={"tab_slot_group " + (group.isVertical() ? "_vertical" : "_horizontal")} style={{flexGrow: this.props.growOverride}}>
+        return <div className={"tab_slot_group " + (group.isVertical() ? "_vertical" : "")} style={{flexGrow: this.props.growOverride}}>
             {TabSlotGroupRenderer.renderEntry(first,  "first", firstPos)}
             {TabSlotGroupRenderer.renderEntry(second, "second",secondPos)}
         </div>;
