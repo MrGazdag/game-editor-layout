@@ -10,7 +10,7 @@ export default class TabSlotContainerRenderer extends DynamicComponent<TabSlotCo
 
     renderData(container: TabSlotContainer) {
         return <div className={`tab_slot_container`}>
-            {TabSlotGroupRenderer.renderEntry(container.getRootEntry(), "root")}
+            {TabSlotGroupRenderer.renderEntry(container.getRootEntry(), "root", false)}
         </div>;
     }
 }

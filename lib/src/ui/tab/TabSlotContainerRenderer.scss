@@ -9,4 +9,9 @@
 	border: 1px solid var(--light-bubble-border);
 
 	justify-content: flex-start;
+
+	> * {
+		width: 100%;
+		height: 100%;
+	}
 }

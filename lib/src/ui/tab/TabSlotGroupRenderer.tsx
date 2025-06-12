@@ -27,19 +27,29 @@ export default class TabSlotGroupRenderer extends DynamicComponent<TabSlotGroup,
             firstPos = 0;
             secondPos = 0;
         }
-        return <div className={"tab_slot_group " + (group.isVertical() ? "_vertical" : "")} style={{flexGrow: this.props.growOverride}}>
-            {TabSlotGroupRenderer.renderEntry(first,  "first", firstPos)}
-            {TabSlotGroupRenderer.renderEntry(second, "second",secondPos)}
+        return <div className={"tab_slot_group " + (group.isVertical() ? "_vertical" : "")} style={{
+            minWidth: this.props.widthOverride,
+            width:    this.props.widthOverride,
+            maxWidth: this.props.widthOverride,
+
+            minHeight: this.props.heightOverride,
+            height:    this.props.heightOverride,
+            maxHeight: this.props.heightOverride
+        }}>
+            {TabSlotGroupRenderer.renderEntry(first,  "first",  group.isVertical(), firstPos)}
+            {TabSlotGroupRenderer.renderEntry(second, "second", group.isVertical(), secondPos)}
         </div>;
     }
 
-    static renderEntry(entry: TabSlotGroupEntry, key: string, growOverride?: number) {
+    static renderEntry(entry: TabSlotGroupEntry, key: string, vertical: boolean, growOverride?: number) {
+        let percent = growOverride === undefined ? undefined : (growOverride * 100) + "%";
         return entry instanceof TabSlotGroup
-            ? <TabSlotGroupRenderer group={entry} key={key+"-group"} growOverride={growOverride}/>
-            : <TabSlotRenderer       slot={entry} key={key+"-slot"} growOverride={growOverride}/>
+            ? <TabSlotGroupRenderer group={entry} key={key+"-group"} widthOverride={vertical ? undefined : percent} heightOverride={vertical ? percent : undefined}/>
+            : <TabSlotRenderer       slot={entry} key={key+"-slot"} widthOverride={vertical ? undefined : percent} heightOverride={vertical ? percent : undefined}/>
     }
 }
 interface Props {
     group: TabSlotGroup,
-    growOverride?: number
+    widthOverride?: string
+    heightOverride?: string
 }

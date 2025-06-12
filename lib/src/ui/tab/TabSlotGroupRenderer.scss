@@ -1,7 +1,9 @@
 .editor_layout .tab_slot_group {
-	flex-grow: 1;
+	//flex-grow: 1;
+	display: inline-flex;
 
-	display: flex;
+	//display: flex;
+	position: relative;
 	&._vertical {
 		flex-direction: column;
 		> * {
@@ -9,7 +11,7 @@
 		}
 	}
 	&:not(._vertical) {
-		width: 100%;
+		//width: 100%;
 		flex-direction: row;
 		> * {
 			height: 100%;
