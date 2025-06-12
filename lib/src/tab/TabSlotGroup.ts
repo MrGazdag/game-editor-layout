@@ -13,6 +13,7 @@ export default class TabSlotGroup<out T extends TabEntry=TabEntry> {
     private splitPos: number;
     private first: TabSlotGroupEntry<T>;
     private second: TabSlotGroupEntry<T>;
+    private wasOpen: boolean;
     private readonly changeHandler: ChangeHandler<TabSlotGroup>;
 
     constructor(container: TabSlotContainer<T>, id: number, vertical: boolean, first: TabSlotGroupEntry<T>, second: TabSlotGroupEntry<T>) {
@@ -24,6 +25,8 @@ export default class TabSlotGroup<out T extends TabEntry=TabEntry> {
         this.splitPos = 0.5;
         this.first = first;
         this.second = second;
+
+        this.wasOpen = this.isOpen();
 
         this.changeHandler = new ChangeHandler();
     }
@@ -61,6 +64,7 @@ export default class TabSlotGroup<out T extends TabEntry=TabEntry> {
         if (first) this.first = first;
         if (second) this.second = second;
 
+        this.wasOpen = this.isOpen();
         this.changeHandler.apply(this);
     }
 
@@ -84,6 +88,13 @@ export default class TabSlotGroup<out T extends TabEntry=TabEntry> {
 
     isOpen(): boolean {
         return this.first.isOpen() || this.second.isOpen();
+    }
+    updateOpen() {
+        let open = this.isOpen();
+        if (this.wasOpen !== open) {
+            this.wasOpen = open;
+            this.changeHandler.apply(this);
+        }
     }
 
     static splitSlot<T extends TabEntry>(slot: TabSlot<T>, vertical: boolean, insertBefore: boolean, entry: T) {

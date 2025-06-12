@@ -4,13 +4,42 @@ import DynamicComponent from "../common/DynamicComponent";
 import TabSlotGroup, {TabSlotGroupEntry} from "../../tab/TabSlotGroup";
 
 export default class TabSlotGroupRenderer extends DynamicComponent<TabSlotGroup, Props> {
+    private first: TabSlotGroupEntry | null;
+    private second: TabSlotGroupEntry | null;
     constructor(props: Props) {
         super(props,"group");
+        this.first = null;
+        this.second = null;
+    }
+
+    componentDidMount() {
+        super.componentDidMount();
+        this.first = this.props.group.getFirst();
+        this.first.getChangeHandler().add(this.changeHandler);
+        this.second = this.props.group.getSecond();
+        this.second.getChangeHandler().add(this.changeHandler);
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+        this.first?.getChangeHandler().remove(this.changeHandler);
+        this.second?.getChangeHandler().remove(this.changeHandler);
     }
 
     renderData(group: TabSlotGroup) {
         let first = group.getFirst();
         let second = group.getSecond();
+
+        if (this.first !== first) {
+            this.first?.getChangeHandler().remove(this.changeHandler);
+            this.first = first;
+            this.first.getChangeHandler().add(this.changeHandler);
+        }
+        if (this.second !== second) {
+            this.second?.getChangeHandler().remove(this.changeHandler);
+            this.second = second;
+            this.second.getChangeHandler().add(this.changeHandler);
+        }
 
         let split = group.getSplitPos();
 

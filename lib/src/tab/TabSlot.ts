@@ -47,6 +47,7 @@ export default class TabSlot<out T extends TabEntry=TabEntry> {
     setOpen(open: boolean) {
         if (this.container.hasUncollapsableSlots()) return;
         this.open = open;
+        this.group?.updateOpen();
         this.changeHandler.apply(this);
     }
 

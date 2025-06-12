@@ -1,8 +1,8 @@
-import ChangeHandler, {ChangeHandlerFunction} from "../../utils/ChangeHandler";
+import ChangeHandler from "../../utils/ChangeHandler";
 import React, {Component} from "react";
 
 export default abstract class DynamicComponent<T extends {getChangeHandler(): ChangeHandler<T>}, Props> extends Component<Props, State> {
-    private readonly changeHandler: ChangeHandlerFunction<T>;
+    protected readonly changeHandler: ()=>void;
     private readonly key: keyof Props;
 
     protected constructor(props: Props, k: {[K in keyof Props]: Props[K] extends T ? K : never}[keyof Props]) {
