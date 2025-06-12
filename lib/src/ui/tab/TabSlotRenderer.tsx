@@ -30,11 +30,9 @@ export default class TabSlotRenderer extends DynamicComponent<TabSlot, Props> {
         let cannotCollapse = slot.getContainer().hasUncollapsableSlots();
         let open = cannotCollapse || slot.isOpen();
         return <div className="tab_slot" style={{
-            minWidth: this.props.widthOverride,
             width:    this.props.widthOverride,
             maxWidth: this.props.widthOverride,
 
-            minHeight: this.props.heightOverride,
             height:    this.props.heightOverride,
             maxHeight: this.props.heightOverride
         }}>

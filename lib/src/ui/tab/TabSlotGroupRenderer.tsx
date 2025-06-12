@@ -57,11 +57,9 @@ export default class TabSlotGroupRenderer extends DynamicComponent<TabSlotGroup,
             secondPos = 0;
         }
         return <div className={"tab_slot_group " + (group.isVertical() ? "_vertical" : "")} style={{
-            minWidth: this.props.widthOverride,
             width:    this.props.widthOverride,
             maxWidth: this.props.widthOverride,
 
-            minHeight: this.props.heightOverride,
             height:    this.props.heightOverride,
             maxHeight: this.props.heightOverride
         }}>
