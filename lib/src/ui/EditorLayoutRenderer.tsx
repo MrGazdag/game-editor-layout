@@ -60,14 +60,14 @@ export default class EditorLayoutRenderer extends PureComponent<Props, State> {
             <SharedEditorLayoutRenderer.Provider value={this}>
                 <SharedEditorLayoutManager.Provider value={this.props.manager}>
                     <MenuBarRenderer ref={this.topBarRef} icon={this.props.editorIcon ?? ""}/>
-                    <div className="content">
+                    <div className="_content">
                         {leftSidebar ? <TabSlotContainerRenderer tab={leftSidebar}/> : undefined}
-                        <div className="main_editors">
+                        <div className="_main_editors">
                             <TabSlotContainerRenderer tab={window.getEditorTabContainer()}/>
                         </div>
                         {rightSidebar ? <TabSlotContainerRenderer tab={rightSidebar}/> : undefined}
                     </div>
-                    <div className="bottombar"></div>
+                    <div className="_bottombar"></div>
                     {contextMenus.map((m,i)=><ContextMenuRenderer menu={m} key={i} renderer={this}/>)}
                 </SharedEditorLayoutManager.Provider>
             </SharedEditorLayoutRenderer.Provider>
